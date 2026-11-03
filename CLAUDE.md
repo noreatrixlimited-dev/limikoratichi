@@ -25,26 +25,26 @@ robotic `espeak` voice.
 
 ## State (2026-11-03)
 Done and tested: director system, 59 style frames (2D + three.js 3D), character rig + reference sheets, timeline
-toolkit + animate.cjs, English voice (Kokoro, offline), voice timings/cues/captions/mixing, Telugu captions font,
-bilingual rain example. English rain video: `frames/previews/rain-en.mp4`.
+toolkit + animate.cjs, English voice (Kokoro, offline), **native Telugu voice (Indic Parler-TTS: Lalitha, Prakash)**,
+voice timings/cues/captions/mixing, Telugu captions font, bilingual rain example.
+Previews: `frames/previews/rain-en.mp4`, `frames/previews/rain-te.mp4` (native Telugu voice).
 
-**Open task: native Telugu voice.** Code is ready (`parler` = AI4Bharat Indic Parler-TTS, Apache-2.0;
-`indicf5` = AI4Bharat IndicF5, MIT, voice from a reference clip). Both models are gated on Hugging Face.
-Environment setup by the user: network access allows `huggingface.co` and `*.hf.co`; a network secret adds
-`Authorization: Bearer <token>` to huggingface.co requests (or `HF_TOKEN` env). In the last session the gated
-download still returned 401 (the secret was saved after that session started).
+Telugu voice notes
+- `parler` renders on CPU at roughly 8–10× real time (a 20 s narration ≈ 5–7 min). The model loads once per script.
+- Neural TTS sometimes stops early; `voice.py` cleans text (`…` → comma) and `voice_parler.py` retries short outputs.
+- Verify Telugu output by transcribing it: the wav2vec2 Telugu ASR model (Apache-2.0, ~45% WER, so judge
+  meaning, not spelling) lives in `~/.cache/limiko-voice/models/` (clone from huggingface.co/anuragshas/wav2vec2-large-xlsr-53-telugu).
+- `indicf5` (voice from a reference clip) is installed in its own venv (`venv-f5`, transformers 5.x; parler's
+  `venv-te` pins 4.46). Not yet tested end to end. Reference voices: only ones we have rights to (user, consenting
+  artist, or a synthetic Parler voice).
 
-## Next steps for the Telugu voice
-1. Test access (expect 200, not 401):
-   `curl -s -o /dev/null -w '%{http_code}\n' -L https://huggingface.co/ai4bharat/indic-parler-tts/resolve/main/config.json`
-   If 401: tell the user to check the network secret (Header `Authorization`, Prefix `Bearer`, Value `hf_…`),
-   that the same account accepted the terms of ai4bharat/indic-parler-tts and ai4bharat/IndicF5, and stop.
-2. Install: `cd .claude/skills/limiko-studio && bash scripts/voice-setup.sh && bash scripts/voice-setup.sh --telugu`
-   (frames: `cd frames && npm install` for three.js). Large downloads; run in the background.
-3. Render: `python3 scripts/voice.py render voice-examples/rain.te.md --out voice-examples/out/rain-te`
-   then `python3 scripts/voice.py mix --voice voice-examples/out/rain-te/voice.wav --out voice-examples/out/rain-te/voice.m4a --lufs -16`
-   (English too: same with `rain.en.md` / `rain-en`).
-4. Video (from the repo root): `node .claude/skills/limiko-studio/frames/animate.cjs .claude/skills/limiko-studio/frames/examples/rain-te.js --out <out>.mp4`
-5. Check pronunciation and pace (CPU rendering is slow); adjust `style=`/`speed=`/`{say}` in `rain.te.md`.
-   Replace `frames/previews/rain-te-draft-voice.mp4` with the native version (compress: `-crf 30`), commit, push,
-   and send the video to the user.
+Environment: network allows `huggingface.co` and `*.hf.co`; a network secret adds `Authorization: Bearer <token>`
+to huggingface.co (account accepted the terms of ai4bharat/indic-parler-tts and ai4bharat/IndicF5).
+
+## Setting up a fresh session
+1. `cd .claude/skills/limiko-studio && bash scripts/voice-setup.sh && bash scripts/voice-setup.sh --telugu`
+   and `cd frames && npm install`. Large downloads; run in the background.
+2. Check access if Telugu fails: `curl -s -o /dev/null -w '%{http_code}\n' -L https://huggingface.co/ai4bharat/indic-parler-tts/resolve/main/config.json` (200 = ok).
+3. Narration: `python3 scripts/voice.py render voice-examples/rain.te.md --out voice-examples/out/rain-te`, then
+   `python3 scripts/voice.py mix --voice voice-examples/out/rain-te/voice.wav --out voice-examples/out/rain-te/voice.m4a --lufs -16`.
+4. Video (from the repo root): `node .claude/skills/limiko-studio/frames/animate.cjs .claude/skills/limiko-studio/frames/examples/rain-te.js --out <out>.mp4`.

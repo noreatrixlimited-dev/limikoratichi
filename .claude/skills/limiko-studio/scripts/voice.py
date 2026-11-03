@@ -226,6 +226,13 @@ VENV_F5 = CACHE / "venv-f5" / "bin" / "python"   # indicf5 (own dependencies)
 PACE = [(0.88, "slow"), (0.97, "slightly slow"), (1.04, "moderate"), (1.12, "slightly fast"), (9, "fast")]
 
 
+def speakable(text):
+    """Neural TTS stops early on a trailing ellipsis or dash: turn them into a comma, end with a full stop."""
+    t = re.sub(r"\s*(…|\.\.\.|—|–)\s*", ", ", text).strip()
+    t = re.sub(r",\s*$", "", t)
+    return t if re.search(r"[.!?।]$", t) else t + "."
+
+
 def parler_description(voice, speed, style, lang):
     voice = voice or ("Lalitha" if lang == "te" else "Mary")
     pace = next(w for lim, w in PACE if float(speed) <= lim)
@@ -353,8 +360,9 @@ def render(script, out_dir):
                 if key not in seen:
                     seen.add(key)
                     import hashlib
-                    jid = hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12]
-                    jobs.append({"id": jid, "key": key, "text": sg["spoken"], "description": parler_description(voice, speed, style, lang)})
+                    txt, desc = speakable(sg["spoken"]), parler_description(voice, speed, style, lang)
+                    jid = hashlib.sha1(json.dumps([txt, desc], ensure_ascii=False).encode()).hexdigest()[:12]  # cache = what is spoken
+                    jobs.append({"id": jid, "key": key, "text": txt, "description": desc})
     parler_prefetch([{k: v for k, v in j.items()} for j in jobs], out / ".parler-cache")
     f5jobs, f5seen = [], set()
     for L in lines:
@@ -372,7 +380,7 @@ def render(script, out_dir):
                     f5seen.add(key)
                     import hashlib
                     f5jobs.append({"id": hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12], "key": key,
-                                   "text": sg["spoken"], "ref": refp, "ref_text": reft})
+                                   "text": speakable(sg["spoken"]), "ref": refp, "ref_text": reft})
     indicf5_prefetch(f5jobs, out / ".indicf5-cache")
     for li, L in enumerate(lines):
         cast = meta["cast"].get(L["who"], {})
@@ -409,6 +417,9 @@ def render(script, out_dir):
                 else:
                     a = trim(ENGINES[engine](sgm["spoken"], voice, speed, lang))
                 dur = len(a) / SR
+                _, wts = word_units(sgm["shown"], lang)
+                if dur < 0.06 * sum(wts):
+                    print(f"  ! line {L['n']}: {dur:.2f}s is too short for \"{sgm['shown'][:40]}\" (failed generation?): re-render or rephrase", file=sys.stderr)
                 pieces.append(a)
                 entry["segments"].append({"start": round(t, 3), "end": round(t + dur, 3), "text": sgm["shown"]})
                 seg_words(entry, sgm["shown"], t, dur, lang, words_flat, sgm["cues"], timeline)

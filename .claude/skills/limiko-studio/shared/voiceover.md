@@ -6,7 +6,7 @@ the scene is driven by the voice's cues, so it re-times itself to each language 
 
 Tools: `../scripts/voice.py` (render, check, mix, voices) and `../scripts/voice-setup.sh` (once per machine).
 Working example in both languages: `../voice-examples/rain.en.md`, `../voice-examples/rain.te.md` →
-`../frames/examples/rain.js` → previews `../frames/previews/rain-en.mp4`, `rain-te-draft-voice.mp4`.
+`../frames/examples/rain.js` → previews `../frames/previews/rain-en.mp4`, `rain-te.mp4`.
 
 ## 1. Engines
 

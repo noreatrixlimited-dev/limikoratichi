@@ -38,6 +38,16 @@ def main():
             audio = model.generate(input_ids=d.input_ids, attention_mask=d.attention_mask,
                                    prompt_input_ids=p.input_ids, prompt_attention_mask=p.attention_mask)
         a = audio.cpu().numpy().squeeze()
+        units = max(1, len(j["text"].replace(" ", "")) // 3)  # rough syllable count
+        tries = 1
+        while len(a) / sr < 0.08 * units and tries < 3:      # failed generation (stopped early): new seed
+            torch.manual_seed(1000 + tries)
+            with torch.no_grad():
+                audio = model.generate(input_ids=d.input_ids, attention_mask=d.attention_mask,
+                                       prompt_input_ids=p.input_ids, prompt_attention_mask=p.attention_mask)
+            a = audio.cpu().numpy().squeeze(); tries += 1
+        if tries > 1:
+            print(f"  parler: {j['id']} retried ({tries} tries) → {len(a) / sr:.1f}s", file=sys.stderr)
         sf.write(out / f"{j['id']}.wav", a, sr)
         print(f"  parler: {j['id']} {len(a) / sr:.1f}s audio in {time.time() - t1:.0f}s", file=sys.stderr)
 
