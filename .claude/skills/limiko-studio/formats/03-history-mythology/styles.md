@@ -39,3 +39,5 @@ Match the style to the culture and era of the story. Drawn in code with `../../s
 - One culture per film; costumes, weapons and architecture match the era.
 - Gods and heroes keep their traditional colours and attributes in every shot.
 - Grain, paper or stone texture on every frame keeps the world "old".
+
+Previews of every style: `../../frames/previews/history.jpg`.

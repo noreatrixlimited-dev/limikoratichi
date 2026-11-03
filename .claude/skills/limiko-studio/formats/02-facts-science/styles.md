@@ -19,6 +19,9 @@ Drawn in code with `../../shared/building.md`. 🟢 easy · 🟡 medium · 🔴 
 | `paper-collage` 🟡 | Cut-out photos and paper textures, torn edges, tape | Pieces slide and layer, stop-motion steps | Paper rustles, lo-fi beat | Culture, society, explainers |
 | `glass-tech` 🔴 | Clear glass and chrome objects, studio light | Slow turntable, caustics shift | Airy synth | Tech facts, product science |
 | `miniature-city` 🔴 | Tilt-shift miniature, toy colours | Time-lapse traffic, slow pans | Ticking, light orchestral | Cities, "one day in…" |
+| `cutaway-3d` 🔴 | 3D model sliced open (clipping plane), glowing internals, layer labels | Camera orbits, internals animate (magma rises, valves open), labels pin on | Rumble, bubbling, ding per label | Volcanoes, the body, engines: any "what happens inside" |
+
+Previews of every style: `../../frames/previews/facts.jpg`.
 
 ## Facts look rules
 - One accent colour for "the important thing"; everything else neutral.

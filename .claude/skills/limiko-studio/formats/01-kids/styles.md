@@ -21,3 +21,5 @@ Drawn in code with `../../shared/building.md`. 🟢 easy · 🟡 medium · 🔴 
 - Palette: 4–6 saturated, friendly colours plus cream or soft white; avoid pure black backgrounds.
 - Shapes: round, chunky, big eyes with a highlight; faces readable at phone size.
 - Text: rounded sans, ≥ 6% of frame height, one word highlighted in the accent colour.
+
+Previews of every style: `../../frames/previews/kids.jpg`.

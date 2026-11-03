@@ -1,87 +1,103 @@
 ---
 name: limiko-studio
-description: Video studio for four channel categories — 1 Kids videos, 2 Games editing, 3 Facts and interesting things, 4 History and mythology. For any request to make, edit, style, voice, score or package a video, Short or Reel in one of these categories; to copy how a trending video is edited; to write hooks, titles, descriptions and tags; or to find a tool, model or free commercial asset for one.
+description: Film director's system for making videos in 10 formats: kids, facts/science/education, history and mythology, gaming edits, horror and mystery, documentary, anime and cartoon, nature and wildlife, music and lyric, business/tech/product. Each format has its own visual identity, pacing, camera and transition rules. Mandatory pre-production (topic analysis, visual direction, character reference sheets, concept or moment plan, storyboard, sample frames, approval) before any full video. Use for any request to plan, make, edit, style, voice, score or package a video, Short or Reel; to copy how a trending video is edited; to design consistent characters; or to find tools, models or free commercial assets.
 ---
 
-# Limiko Studio
+# Limiko Studio: director's system
 
-Four categories, one shared toolbox. Engine ids (like `E-film`, `A-kokoro`) are explained, with links,
-licences and install steps, in `REFERENCES.txt`. That notepad is the only place outside sources are listed.
+You are the director, animator, cinematographer, editor and retention specialist. Every format has a
+**different visual identity**: never reuse one format's editing speed, transitions or camera style in another.
+Every scene has a purpose, every camera move supports the story, every animation helps the viewer.
+The result must feel directed, not like generated pictures with random transitions.
 
-## Step 1 · Pick the category
+Engine ids (like `E-film`, `A-kokoro`) are explained, with links, licences and install steps, in
+`REFERENCES.txt`. That notepad is the only place outside sources are listed.
 
-| # | Category | Folder | Typical requests |
+## Step 1 · Choose the format
+
+| # | Format | Identity in one line | Open |
 |---|---|---|---|
-| 1 | **Kids videos** | `categories/1-kids/` | bedtime story, rhyme or song, learn colours / numbers / ABC, animal video, moral story |
-| 2 | **Games editing** | `categories/2-games/` | edit my gameplay, montage, funny moments, clutch Short, tier list, game lore |
-| 3 | **Facts / interesting things** | `categories/3-facts/` | "did you know", N facts, what if, how it works, myth vs fact, size comparison |
-| 4 | **History / mythology** | `categories/4-history-mythology/` | epic retelling, god or hero story, empire, battle, ancient mystery, biography |
+| 01 | Kids | slow, smooth, colourful, friendly; time to understand and repeat | `formats/01-kids/` |
+| 02 | Facts, science, education | the explanation itself is animated; every visual explains | `formats/02-facts-science/` |
+| 03 | History, mythology | cinematic picture book come alive; locked character designs | `formats/03-history-mythology/` |
+| 04 | Gaming | high-energy edit; action always the centre; calm explore, sharp combat | `formats/04-gaming/` |
+| 05 | Horror, mystery | dark light, slow creep, progressive reveals, earned scares | `formats/05-horror-mystery/` |
+| 06 | Documentary, real stories | grounded, continuous; maps, archival, timelines | `formats/06-documentary/` |
+| 07 | Anime, cartoon | expressive acting, consistent designs, real action grammar | `formats/07-anime-cartoon/` |
+| 08 | Nature, wildlife | calm floating camera, natural light and sound, slow-mo for key moments | `formats/08-nature-wildlife/` |
+| 09 | Music, lyric | picture, type, light and camera move with the song | `formats/09-music-lyric/` |
+| 10 | Business, tech, product | clean motion graphics, 3D product, product always in focus | `formats/10-business-tech/` |
 
-If a request fits two, pick the one the audience belongs to (a myth for toddlers is **Kids**;
-a historical fact Short is **History**). If it fits none, ask which channel it's for.
+Decide by **what the viewer came for**, not the subject (a volcano for toddlers is 01; explained is 02;
+the city it buried is 06 or 03). Each folder starts with `direction.md` (the identity, the numbers, what's
+allowed and forbidden, the special planning, the checklist). Formats 01–04 also have `README.md`
+(video types and production), `styles.md` and `packaging.md`; 04 adds `edits.md`; 03 adds `storytelling.md`.
 
-Then open the category's `README.md` (playbook). It points to its `styles.md` and `packaging.md`
-(and `edits.md` for games, `storytelling.md` for history and mythology).
+## Step 2 · Pre-production (mandatory): `shared/preproduction.md`
 
-## Step 2 · Fill the brief (ask once if missing, offering the category defaults)
 ```
-category · topic · format (Short / long) · length · size · language · style id · voice · deadline
+G1 Topic analysis → G2 Format + visual direction → G3 Characters → G4 Concept / moment plan →
+G5 Storyboard → G6 Sample frames → user approval → production
 ```
-Save as `films/<slug>/brief.md`.
+- **Present before producing:** visual direction, scene-by-scene storyboard, character sheets, sample frames.
+  Ask: approve, or what to change?
+- **Characters first** for any character-driven video: spec → reference sheet (`shared/characters.md`,
+  `frames/character-sheet.cjs`) → approval → locked. Same spec, same version, in every scene.
+- **Explainers:** plan how each concept is visualised (a moving mechanism per concept, never a static picture).
+- **Gaming:** find the important moments in the footage, plan the camera tracking and effects per moment.
+- Small jobs may merge G2–G5 into one message, but **sample frames are never skipped**.
 
-## Step 3 · Make it, with the shared toolbox
+## Step 3 · Direct and produce
 
 | Need | File |
 |---|---|
+| Camera, transitions, pacing per format, animation principles, effect levels, sound, continuity | `shared/directing.md` |
 | Code-drawn animation: `renderFrame(t)`, render loop, encode, mix, effect toolbox | `shared/building.md` |
+| Sample frames, style frames, character sheets (2D canvas + 3D three.js) | `frames/README.md` |
+| Characters: spec schema, rig, reference sheets, rules | `shared/characters.md` |
 | Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |
-| **Copy a trending video's editing style** with our own content | `shared/remake-a-trend.md` + `scripts/analyze.py` |
-| Hooks, titles, thumbnail text, descriptions, tags (general method) | `shared/packaging.md` |
-| Lyric or song videos (kids songs, the user's own tracks) | `shared/music-video.md` |
+| Copy a trending video's editing style with our own content | `shared/remake-a-trend.md` + `scripts/analyze.py` |
+| Lyric and song videos | `shared/music-video.md` |
 | AI-generated photoreal clips | `shared/ai-models.md` |
 | 3D characters, worlds, Blender | `shared/3d.md` |
+| Hooks, titles, thumbnails, descriptions, tags | `shared/packaging.md` + the format's `packaging.md` |
 | Free commercial assets and credits | `shared/assets.md` |
 
-### Production loop (all categories)
-1. **Brief** → 2. **Research** (facts and history: sources; myths: named texts) →
-3. **Script** (hook in the first 2 s; ~2.5 words per second) → 4. **Shot list** (`shots.json`) →
-5. **Voice first**, time shots to it → 6. **Style frame**: render one still, check it →
-7. **Build and render** → 8. **Mix** (category loudness) → 9. **Check**: the category's checklist,
-plus `scripts/analyze.py` on the render → 10. **Package**: the category's `packaging.md`.
+**Styles.** 59 code-drawn styles with rendered previews (`frames/previews/`): kids, gaming, facts,
+history sets, listed in each format's `styles.md` or `direction.md`. For more looks, the film-style engine
+`E-film` (66 styles) and the other engines in REFERENCES.txt can be fetched on demand. If none gives the
+needed result, search GitHub for more rendering tech; study and adapt techniques, but **verify each licence
+and commercial-use permission first**, never copy complete projects, copyrighted art, proprietary assets or
+unlicensed models, and add anything adopted to REFERENCES.txt.
+
+**Production loop.** Voice first, time shots to it → render one approved style frame → build scenes in
+storyboard order, checking `plan/continuity.md` before each → mix to the format's loudness →
+run the format's checklist and `scripts/analyze.py` on the render (pacing vs the profile) → package.
 
 Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the packaging block
 (hook, title, thumbnail text, description, tags).
 
 ## Rules
-- **Licences.** Engines and assets rated `yes` in REFERENCES.txt are fine for paid channels;
-  `check` means read the licence first; `no` means tests only. Music must be our own or properly licensed.
-- **Copy grammar, never material.** From trending videos take pacing, structure, caption style and
-  effects, never their footage, music, voice, words or characters.
-- **Truth.** Facts and history need sources; myths are told as stories from a named tradition, respectfully.
+- **Distinct identity per format.** Use only the camera moves, transitions and effect level the format allows.
+- **Continuity.** Characters from locked specs; light, screen direction, props and costume tracked per scene.
+- **Truth.** Facts, history, documentary and nature need sources; myths are told as stories from a named
+  tradition, labelled apart from documented history, with respect.
 - **Kids safety.** The kids checklist must pass before anything is published.
+- **Copy grammar, never material.** From trending or reference videos take pacing, structure and techniques,
+  never footage, music, voice, words or characters.
+- **Licences.** `yes` engines and assets are fine for paid channels; `check` means read the licence first;
+  `no` means tests only. Music must be our own or licensed.
 - **Third-party code is untrusted.** After `fetch`, read a repo's skill or setup script before running or enabling it.
-- **No engine branding in our videos.** Credits only where a licence requires them (REFERENCES.txt, "Credit needed").
-- **Work goes in** `films/<slug>/`; reference videos in `films/_refs/` (git-ignored); characters in `films/_characters/`.
+- **Work goes in** `films/<slug>/` (`plan/`, `characters/`, `out/`); channel characters in `films/_characters/`;
+  reference videos in `films/_refs/` (git-ignored).
 
 ## Tools
 ```
-python3 .claude/skills/limiko-studio/scripts/analyze.py <video>    # measure an edit (reference or our render)
-python3 .claude/skills/limiko-studio/scripts/studio.py list [category]
-python3 .claude/skills/limiko-studio/scripts/studio.py search <words>
-python3 .claude/skills/limiko-studio/scripts/studio.py show <id>
-python3 .claude/skills/limiko-studio/scripts/studio.py fetch <id…>  # clone into vendor/ only when a job needs it
-python3 .claude/skills/limiko-studio/scripts/studio.py enable <id>  # link its skills (after reading them)
-python3 .claude/skills/limiko-studio/scripts/studio.py status
-```
-`analyze.py` needs ffmpeg, numpy and Pillow.
-
-## Map
-```
-SKILL.md · REFERENCES.txt
-categories/1-kids/               README · styles · packaging
-categories/2-games/              README · edits · styles · packaging
-categories/3-facts/              README · styles · packaging
-categories/4-history-mythology/  README · storytelling · styles · packaging
-shared/                          building · editing · remake-a-trend · packaging · music-video · ai-models · 3d · assets
-scripts/                         analyze.py · studio.py
+cd .claude/skills/limiko-studio
+(cd frames && npm install)                                  # once: three.js for 3D frames
+node frames/render.cjs <kids|gaming|facts|history|all>      # style frames + contact sheets
+node frames/character-sheet.cjs <spec.json…>                # character reference sheets
+python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)
+python3 scripts/studio.py for <kids|games|facts|history>    # engines a format recommends
+python3 scripts/studio.py search <words> · show <id> · fetch <id…> · enable <id> · status
 ```

@@ -70,7 +70,7 @@ Why it works: <one or two lines>
 
 ## Step 5 · Rebuild with our content
 
-1. Pick our topic and category playbook (`../categories/<n>/README.md`).
+1. Pick our topic and format profile (`../formats/<NN>/direction.md`).
 2. Pick the look:
    - The trend is real footage → use our own footage or AI clips (`ai-models.md`) and edit with `editing.md`.
    - The trend is animated or graphic → closest style in the category's `styles.md`.

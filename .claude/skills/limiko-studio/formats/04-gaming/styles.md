@@ -19,3 +19,5 @@ For intros, overlays, tier boards, lore and explained videos (drawn in code, `..
 ## Overlay kit (reuse across videos)
 Kill counter · combo meter · "WAIT FOR IT" banner · rank badge · health bar mock · subscribe end card.
 Build them once as HTML components, render with transparency (PNG sequence, alpha) and overlay in ffmpeg.
+
+Previews of every style: `../../frames/previews/gaming.jpg`.

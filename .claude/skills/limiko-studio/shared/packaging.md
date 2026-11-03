@@ -55,7 +55,7 @@ Rules: one idea, under 10 words on screen, no logo or intro before it, motion in
 #<maintag> #<secondtag> #<shorts if Short>
 ```
 - First 150 characters show in search: make them count.
-- Category pages add specific patterns: `../categories/<n>/packaging.md`.
+- Category pages add specific patterns: `../formats/<NN>/packaging.md`.
 
 ## 5. Tags
 1. 1 exact main phrase (what someone types).

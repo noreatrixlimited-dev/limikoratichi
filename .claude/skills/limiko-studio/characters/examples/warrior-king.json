@@ -1,0 +1,14 @@
+{
+  "id": "warrior-king", "version": 1, "name": "The Warrior King", "role": "history · medieval South India (generic)",
+  "age": "40s",
+  "build": { "heads": 7, "width": 1.1, "head": "square" },
+  "colors": { "skin": "#b87a4b", "hair": "#1a1410", "eyes": "#1a1410", "top": "#7a1f1f", "bottom": "#e8dcc0",
+              "shoes": "#5a3a20", "accent": "#d4a017", "line": "#1a1410", "blush": "#c46a5a" },
+  "face": { "eyes": "almond", "eyeSize": 0.95, "brows": "bold", "nose": "small", "mouth": "neutral", "marks": ["mustache", "tilak"] },
+  "hair": { "style": "bun" }, "ears": "human",
+  "outfit": { "top": "armor", "bottom": "dhoti", "cape": "#4a1010" },
+  "accessories": ["crown", "sword", "shield", "necklace", "earrings"],
+  "personality": "stern, just, protective of his people",
+  "voice": "deep, measured, commanding",
+  "signature": "hand on sword hilt; stands square to the camera"
+}

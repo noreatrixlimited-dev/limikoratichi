@@ -6,7 +6,7 @@ For kids songs and rhymes (category 1) and the user's own tracks. Styles: `kinet
 |---|---|
 | Length | full song; a 15–30 s hook clip for Shorts |
 | Size | 1920×1080 full · 1080×1920 hook clip |
-| Styles | kids: any `categories/1-kids/styles.md` style · hype: `kinetic-type`, `neon-arcade`, `anime-impact` · epic or devotional: `ink-river`, `wave-print`, `stained-window`, `kalamkari-scroll`, `temple-relief` |
+| Styles | kids: any `../formats/01-kids/styles.md` style · hype: `kinetic-type`, `neon-arcade`, `anime-impact` · epic or devotional: `ink-river`, `wave-print`, `stained-window`, `kalamkari-scroll`, `temple-relief` |
 
 ## Procedure
 1. **Inputs**: the final audio and the lyrics as text.
