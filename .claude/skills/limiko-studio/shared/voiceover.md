@@ -12,13 +12,17 @@ Working example in both languages: `../voice-examples/rain.en.md`, `../voice-exa
 
 | | English | Telugu |
 |---|---|---|
-| **Default** | `kokoro`: local, offline, Apache-2.0; native US (`af_`, `am_`) and UK (`bf_`, `bm_`) voices | `recorded` (native speaker), or `google` / `azure` cloud voices |
+| **Default** | `kokoro`: local, offline, Apache-2.0; native US (`af_`, `am_`) and UK (`bf_`, `bm_`) voices | `parler`: AI4Bharat Indic Parler-TTS, local, Apache-2.0; speakers **Lalitha** (F), **Prakash** (M), Kiran (M), tone set with `style=` |
+| Best quality | | `recorded` (native voice artist or the user) |
 | Cloud | `google` (en-US / en-GB Neural2, Chirp HD), `azure` (en-US / en-GB Neural) | `google` te-IN (Standard A/B, Chirp HD if enabled), `azure` te-IN-ShrutiNeural (F), te-IN-MohanNeural (M) |
-| Open model, own machine | n/a (Kokoro covers it) | `A-indicparler` (AI4Bharat Indic Parler-TTS, Apache-2.0): run where Hugging Face is reachable, then use the files with `recorded` |
 | Draft only | n/a | `espeak`: robotic, for timing and animatics. **Never publish** |
 
 Setup notes
 - **Kokoro:** `bash scripts/voice-setup.sh` builds it from npm + PyPI (works where model hosts are blocked).
+- **Parler (Telugu):** needs `huggingface.co` reachable and a Hugging Face token in `HF_TOKEN` from an account that accepted
+  the terms at huggingface.co/ai4bharat/indic-parler-tts (free, automatic). Then `bash scripts/voice-setup.sh --telugu`.
+  On CPU it is slow (expect several times longer than real time); a GPU machine is fast. Speakers are named in the
+  description: `voice: Lalitha`, `style: warm, gentle and cheerful`, `speed:` maps to slow / moderate / fast pace.
 - **Google:** the `gcloud` CLI is preinstalled in cloud sessions. Sign in (`gcloud auth login` or a service account), set
   `GOOGLE_CLOUD_PROJECT`, and enable the Text-to-Speech API. Commercial use is covered by Google Cloud's terms.
 - **Azure:** set `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION`, and allow `*.tts.speech.microsoft.com` in the
@@ -26,9 +30,9 @@ Setup notes
 - **Not allowed:** browser "read aloud" services (for example Edge online TTS) for published videos, because their terms
   don't cover it. Cloned voices are allowed only of people who gave written consent (the user's own voice, a hired artist).
 
-Choosing for Telugu: for a channel's main narrator, **a native Telugu voice artist (or the user) recording
-the script** sounds best and builds a recognisable channel voice. Use cloud voices for volume and speed; use the
-open model when the budget is zero and a machine with a GPU or Colab is available.
+Choosing for Telugu: `parler` is the free, commercial-safe default. For a channel's main narrator, **a native Telugu
+voice artist (or the user) recording the script** still sounds best and builds a recognisable channel voice. Cloud
+voices are the fast option when a project or key is available.
 
 ## 2. Casting
 

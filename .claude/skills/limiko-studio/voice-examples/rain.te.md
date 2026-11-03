@@ -1,10 +1,11 @@
 ---
 lang: te
-engine: espeak           # DRAFT ONLY here. For publishing: engine google (te-IN) / azure (te-IN-ShrutiNeural) / recorded
-voice: te
-speed: 0.9
+engine: parler           # AI4Bharat Indic Parler-TTS: native Telugu, local (needs HF_TOKEN + voice-setup.sh --telugu)
+voice: Lalitha           # kids narrator
+style: warm, gentle and cheerful
+speed: 0.9               # → "slow" pace in the voice description
 gap: 0.4
-cast pip: speed=1.0
+cast pip: voice=Prakash style="bright, playful and curious" speed=1.05
 ---
 # 01 Kids · "వర్షం ఎలా పడుతుంది?" · opening
 [narrator] నమస్కారం పిల్లలూ! {pause 0.4} ఈ రోజు మనం ఒక చిన్న ప్రశ్న అడుగుదాం.

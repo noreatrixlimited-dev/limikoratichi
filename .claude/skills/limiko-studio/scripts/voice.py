@@ -26,6 +26,9 @@ Engines:
     google   Google Cloud Text-to-Speech (en-US, en-GB, te-IN). Uses `gcloud auth print-access-token`;
              set GOOGLE_CLOUD_PROJECT. Commercial use under Google Cloud terms.
     azure    Azure AI Speech (te-IN-ShrutiNeural / te-IN-MohanNeural, en-*). Env AZURE_SPEECH_KEY, AZURE_SPEECH_REGION.
+    parler   AI4Bharat Indic Parler-TTS (Apache-2.0): native Telugu (and English), runs locally on CPU (slow) or GPU.
+             voice = speaker name (Telugu: Lalitha, Prakash, Kiran …); style= tone words. Needs HF_TOKEN with the
+             model's terms accepted, and scripts/voice-setup.sh --telugu once.
     espeak   espeak-ng, robotic. Timing drafts and animatics only, never for publishing.
     recorded Lines from files (`file=` per line): human voice artists, the user's own voice.
 """
@@ -46,6 +49,7 @@ except ImportError:
 SR = 24000
 
 TELUGU_VOICES = {
+    "parler": ["Lalitha (female, recommended)", "Prakash (male, recommended)", "Kiran (male)", "+ style=warm|calm|expressive|deep|cheerful"],
     "google": ["te-IN-Standard-A (female)", "te-IN-Standard-B (male)", "te-IN-Chirp3-HD-* (if enabled in your project)"],
     "azure": ["te-IN-ShrutiNeural (female)", "te-IN-MohanNeural (male)"],
     "espeak": ["te (draft only)"],
@@ -100,8 +104,13 @@ def parse_script(path):
 
 
 def kv(s):
+    import shlex
     out = {}
-    for tok in s.split():
+    try:
+        toks = shlex.split(s)
+    except ValueError:
+        toks = s.split()
+    for tok in toks:
         if "=" in tok:
             a, b = tok.split("=", 1)
             out[a] = float(b) if re.fullmatch(r"-?\d+(\.\d+)?", b) else b
@@ -208,7 +217,44 @@ def eng_recorded(path):
     return trim(resample(a.mean(axis=1), sr))
 
 
-ENGINES = {"kokoro": eng_kokoro, "espeak": eng_espeak, "google": eng_google, "azure": eng_azure}
+_parler_cache = {}
+VENV_TE = CACHE / "venv-te" / "bin" / "python"
+PACE = [(0.88, "slow"), (0.97, "slightly slow"), (1.04, "moderate"), (1.12, "slightly fast"), (9, "fast")]
+
+
+def parler_description(voice, speed, style, lang):
+    voice = voice or ("Lalitha" if lang == "te" else "Mary")
+    pace = next(w for lim, w in PACE if float(speed) <= lim)
+    tone = style or "warm, clear and expressive"
+    return (f"{voice} speaks in a {tone} tone at a {pace} pace. "
+            "The recording is of very high quality, with the speaker's voice sounding clear and very close up, with no background noise.")
+
+
+def parler_prefetch(jobs, work):
+    """Render all parler segments in one batch (the model loads once)."""
+    if not jobs:
+        return
+    if not VENV_TE.exists():
+        sys.exit("parler engine not installed: run scripts/voice-setup.sh --telugu")
+    if not (os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")):
+        sys.exit("parler engine: set HF_TOKEN (a Hugging Face token whose account accepted ai4bharat/indic-parler-tts terms)")
+    work.mkdir(parents=True, exist_ok=True)
+    jf = work / "jobs.json"
+    jf.write_text(json.dumps(jobs, ensure_ascii=False), encoding="utf-8")
+    subprocess.run([str(VENV_TE), str(Path(__file__).with_name("voice_parler.py")), str(jf), str(work)], check=True)
+    for j in jobs:
+        a, sr = sf.read(work / f"{j['id']}.wav", dtype="float32")
+        _parler_cache[j["key"]] = resample(a, sr)
+
+
+def eng_parler(text, voice, speed, lang, style=None):
+    key = (text, voice, float(speed), style)
+    if key not in _parler_cache:
+        sys.exit("internal: parler segment was not prefetched")
+    return _parler_cache[key]
+
+
+ENGINES = {"parler": eng_parler, "kokoro": eng_kokoro, "espeak": eng_espeak, "google": eng_google, "azure": eng_azure}
 
 # ---------------------------------------------------------------- audio helpers
 def resample(a, sr):
@@ -257,6 +303,24 @@ def render(script, out_dir):
     pieces, t = [], 0.0
     timeline = {"lang": lang, "engine": meta["engine"], "lines": [], "cues": {}}
     words_flat = []
+    # batch pass for engines that load a big model once (parler)
+    jobs, seen = [], set()
+    for L in lines:
+        cast = meta["cast"].get(L["who"], {})
+        if L["opts"].get("engine", cast.get("engine", meta["engine"])) != "parler" or "file" in L["opts"]:
+            continue
+        voice = L["opts"].get("voice", cast.get("voice", meta["voice"]))
+        speed = float(L["opts"].get("speed", cast.get("speed", meta["speed"])))
+        style = L["opts"].get("style", cast.get("style", meta.get("style")))
+        for sg in L["segments"]:
+            if sg.get("spoken"):
+                key = (sg["spoken"], voice, speed, style)
+                if key not in seen:
+                    seen.add(key)
+                    import hashlib
+                    jid = hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12]
+                    jobs.append({"id": jid, "key": key, "text": sg["spoken"], "description": parler_description(voice, speed, style, lang)})
+    parler_prefetch([{k: v for k, v in j.items()} for j in jobs], out / ".parler-cache")
     for li, L in enumerate(lines):
         cast = meta["cast"].get(L["who"], {})
         engine = L["opts"].get("engine", cast.get("engine", meta["engine"]))
@@ -283,7 +347,10 @@ def render(script, out_dir):
                     sys.exit(f"line {L['n']}: unknown engine {engine}")
                 if engine == "kokoro" and lang == "te":
                     sys.exit(f"line {L['n']}: kokoro can't speak Telugu; set engine google/azure/recorded (espeak for drafts)")
-                a = trim(ENGINES[engine](sgm["spoken"], voice, speed, lang))
+                if engine == "parler":
+                    a = trim(eng_parler(sgm["spoken"], voice, speed, lang, L["opts"].get("style", cast.get("style", meta.get("style")))))
+                else:
+                    a = trim(ENGINES[engine](sgm["spoken"], voice, speed, lang))
                 dur = len(a) / SR
                 pieces.append(a)
                 entry["segments"].append({"start": round(t, 3), "end": round(t + dur, 3), "text": sgm["shown"]})
