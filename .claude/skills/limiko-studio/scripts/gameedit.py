@@ -15,7 +15,9 @@ Edit list (paths relative to the json file):
   "aspect": "16:9",                       # "16:9" or "9:16" (vertical: big 4:3 gameplay band on blurred fill)
   "full_highlights": true,                # true = the whole video is highlights → no hook
   "hook": {"a": 58.15, "b": 59.45, "punch": 58.42},   # only used when full_highlights is false
-  "glow": {"color": "#3fe8ff", "anchor": [0.46, 0.65]},  # player character glow; omit anchor → identify (may ask)
+  "glow": {"style": "sticker", "color": "#ffb347", "anchor": [0.46, 0.65]},  # player outline; omit anchor → identify (may ask)
+                                          # style: sticker (white outline + warm glow) | neon | aura; "stroke": outline colour
+  "grade": "leak",                        # optional colour grade: purple→gold light leak (thumbnail look)
   "transition": "glow-zoom",              # between highlights: "glow-zoom" | "whip" | "flash" | "cut"
   "highlights": [
     {"a": 29.6, "b": 42.2, "events": [{"t": 31.05}, {"t": 40.85, "big": true}]},
@@ -152,15 +154,54 @@ def camera_at(T, src_t, events, trans_in, trans_out, local_out_t, dur):
     return z, px, py, shake, flash, boost
 
 
-def glow_layer(frame, mask, color, strength):
-    """Aura around the character: outside the body only, plus a thin bright rim. The character stays untouched."""
+def glow_layer(frame, mask, color, strength, style="sticker", stroke=None):
+    """Outline around the player's character. The body itself is never painted over.
+    sticker: crisp white outline + soft warm glow behind (thumbnail look) · neon: coloured outline + strong glow ·
+    aura: soft coloured halo + thin rim."""
     import cv2
+    h = frame.shape[0]
     m = np.clip(mask.astype(np.float32) / 255.0, 0, 1)
-    body = cv2.GaussianBlur(m, (0, 0), 1.2)
-    aura = cv2.GaussianBlur(cv2.dilate(m, np.ones((5, 5), np.uint8), iterations=2), (0, 0), 7)
-    rim = np.clip(cv2.dilate(m, np.ones((3, 3), np.uint8)) - cv2.erode(m, np.ones((3, 3), np.uint8)), 0, 1)
-    g = np.clip(aura * (1 - body) * 0.85 + rim * (1 - body * 0.6) * 0.7, 0, 1) * min(1.0, strength)
-    return np.clip(frame.astype(np.float32) + g[..., None] * color[None, None, :] * 0.9, 0, 255)
+    body = cv2.GaussianBlur(m, (0, 0), 0.8)
+    outside = 1 - np.clip(body * 1.2, 0, 1)
+    f = frame.astype(np.float32)
+    if style == "aura":
+        aura = cv2.GaussianBlur(cv2.dilate(m, np.ones((5, 5), np.uint8), iterations=2), (0, 0), 7)
+        rim = np.clip(cv2.dilate(m, np.ones((3, 3), np.uint8)) - cv2.erode(m, np.ones((3, 3), np.uint8)), 0, 1)
+        g = np.clip(aura * (1 - body) * 0.85 + rim * (1 - body * 0.6) * 0.7, 0, 1) * min(1.0, strength)
+        return np.clip(f + g[..., None] * color[None, None, :] * 0.9, 0, 255)
+    sw = max(2, int(round(h * 0.007)))                                   # outline width ~0.7% of height
+    k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * sw + 1, 2 * sw + 1))
+    ring = np.clip(cv2.GaussianBlur(cv2.dilate(m, k), (0, 0), 0.9) - body, 0, 1)          # crisp outline band
+    gr = max(4, int(round(h * 0.035)))
+    glow = cv2.GaussianBlur(cv2.dilate(m, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * sw + 3, 2 * sw + 3))), (0, 0), gr) * outside
+    gk = (1.0 if style == "neon" else 0.9) * min(1.2, strength)
+    f = 255 - (255 - f) * (1 - np.clip(glow * gk, 0, 1)[..., None] * (color[None, None, :] / 255.0))   # screen-blend glow
+    sc = color if style == "neon" else (hex_bgr(stroke) if stroke else np.array([255, 255, 255], np.float32))
+    a = np.clip(ring * (1.0 if style == "neon" else 0.95), 0, 1)[..., None]
+    return np.clip(f * (1 - a) + sc[None, None, :] * a, 0, 255)
+
+
+def grade_frame(img, grade):
+    """Colour grade on the output frame. 'leak': purple light leak on the left, warm gold on the right (thumbnail look)."""
+    if not grade:
+        return img
+    import cv2
+    hh, ww = img.shape[:2]
+    if grade == "leak":
+        x = np.linspace(0, 1, ww, dtype=np.float32)[None, :, None]
+        left = np.array([240, 40, 170], np.float32)   # BGR purple-magenta
+        right = np.array([20, 170, 255], np.float32)  # BGR warm gold
+        tint = left * (1 - x) ** 2 + right * x ** 2
+        amt = (0.62 * (1 - x) ** 2.2 + 0.58 * x ** 2.2)
+        colored = np.clip(img * (tint / 205.0) + tint * 0.22, 0, 255)  # recolour (works on bright walls too)
+        img = img * (1 - amt) + colored * amt
+        hsv = cv2.cvtColor(np.clip(img, 0, 255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32)
+        hsv[..., 1] = np.clip(hsv[..., 1] * 1.18, 0, 255)
+        img = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR).astype(np.float32)
+        yy, xx = np.mgrid[0:hh, 0:ww].astype(np.float32)
+        v = 1 - 0.28 * np.clip(((xx / ww - 0.5) ** 2 + (yy / hh - 0.5) ** 2) * 2.2, 0, 1)
+        img = img * v[..., None]
+    return np.clip(img, 0, 255)
 
 
 class MaskTrack:
@@ -192,7 +233,8 @@ def render_piece(E, p, idx, src, work, out_w, out_h, glowcfg, track, anchor, pre
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{out_w}x{out_h}", "-r", str(FPS),
                             "-i", "-", "-c:v", "libx264", "-preset", "veryfast" if preview else "medium", "-crf", "24" if preview else "17",
                             "-pix_fmt", "yuv420p", str(vpath)], stdin=subprocess.PIPE)
-    color = hex_bgr(glowcfg.get("color", "#3fe8ff")) if glowcfg else None
+    style = (glowcfg or {}).get("style", "sticker")
+    color = hex_bgr(glowcfg.get("color", "#ffb347" if style == "sticker" else "#3fe8ff")) if glowcfg else None
     ax, ay = anchor
     vertical = E.get("aspect", "16:9") == "9:16"
     # base crop of the source: 16:9 → centred 16:9 window; 9:16 → centred 4:3 band
@@ -207,7 +249,7 @@ def render_piece(E, p, idx, src, work, out_w, out_h, glowcfg, track, anchor, pre
         lt = k / FPS; src_t = p["a"] + lt * p["speed"]; T = p["out_start"] + lt
         z, px, py, (sx, sy), flash, boost = camera_at(T, src_t, p["events"], p.get("trans_in"), p.get("trans_out"), lt, p["dur"])
         if track is not None and p["kind"] != "outro":
-            f = glow_layer(f, track.at(src_t), color, 0.6 + 0.4 * boost)
+            f = glow_layer(f, track.at(src_t), color, 0.7 + 0.5 * boost, style, glowcfg.get("stroke"))
         # zoom about the player (anchor), within the base crop
         cx0 = (w - cw) / 2
         zx = cx0 + (ax * w - cx0) * 0.6 + cw / 2 * 0.4  # bias the zoom centre towards the player
@@ -220,6 +262,7 @@ def render_piece(E, p, idx, src, work, out_w, out_h, glowcfg, track, anchor, pre
             bloom = cv2.GaussianBlur(band, (0, 0), 14)
             band = np.clip(band + flash * 255 * 0.6 + bloom * flash * 0.5, 0, 255)
         band = np.clip((band - 128) * 1.06 + 128, 0, 255)
+        band = grade_frame(band, E.get("grade"))
         if vertical:
             bg = cv2.resize(f, (int(out_h * w / h), out_h)); bx = (bg.shape[1] - out_w) // 2
             bg = cv2.GaussianBlur(bg[:, bx:bx + out_w], (0, 0), 25) * 0.62

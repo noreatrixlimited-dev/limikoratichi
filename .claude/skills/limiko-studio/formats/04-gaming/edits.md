@@ -25,8 +25,16 @@
   `frames/transitions.cjs chain`.
 - **Zoom in and zoom out on every event:** ease in towards the player before the hit, punch on the hit, ease back out after.
   Not only punches. The camera never stops (`direction.md`, Camera rules).
-- **Character glow on the player** throughout the highlights (aura around the outline, never filling the body),
-  brighter for a moment on each kill. The glow colour is the channel's colour (default cyan `#3fe8ff`).
+- **Character outline on the player** throughout the highlights, brighter for a moment on each kill; the body itself
+  is never painted over. Styles (`"glow": {"style": …}`):
+  | Style | Look | Use |
+  |---|---|---|
+  | `sticker` (default) | crisp white outline + soft warm glow behind (`"color": "#ffb347"`, `"stroke": "#ffffff"`) | thumbnail look; most gaming edits |
+  | `neon` | coloured outline + strong glow in the same colour | night maps, synthwave, channel colour |
+  | `aura` | soft coloured halo + thin rim | subtle, cinematic |
+- **Colour grade** (optional, `"grade": "leak"`): purple-magenta light leak on the left, warm gold on the right,
+  more saturation and a light vignette. Matches the bright gaming-thumbnail look; use the same grade for the
+  thumbnail so video and thumbnail feel like one brand.
 - **Identify the player's character before glowing.** `charglow.py identify` decides automatically when it is
   sure. **If not sure, ask the user:** show `identify.jpg` (numbered outlines) and ask which number is their
   character, then use `--pick N` or the anchor. Never guess and glow the wrong person (an enemy or a teammate).
