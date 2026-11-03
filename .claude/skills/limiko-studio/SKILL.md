@@ -121,7 +121,7 @@ node frames/character-sheet.cjs <spec.json…>                # character refere
 (from repo root) node .claude/skills/limiko-studio/frames/preview.cjs <scene.js>        # live preview player (--snap t,t --out x.jpg headless)
 (from repo root) node .claude/skills/limiko-studio/frames/templates.cjs list|render|batch|still …   # template videos from data
 bash scripts/voice-setup.sh                                 # once: offline English voices (Kokoro) + Telugu draft voice
-python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voice.wav + timeline (words, cues, captions)
+python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voice.wav + timeline (EN: kokoro|chatterbox · TE: parler|indicf5)
 python3 scripts/voice.py mix --voice v.wav --music m.wav --out mix.wav --lufs -14
 python3 scripts/hookcheck.py <voice.md> [--timeline …] | --options opts.txt   # score the first 10 s (EN/TE)
 python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)

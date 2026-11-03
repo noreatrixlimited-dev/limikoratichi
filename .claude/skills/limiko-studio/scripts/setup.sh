@@ -4,12 +4,13 @@
 #   bash scripts/setup.sh                 renderer + English voice  (≈ 0.5 GB)
 #   bash scripts/setup.sh --telugu        + native Telugu voices (Parler, IndicF5)   (≈ +5 GB, needs Hugging Face access)
 #   bash scripts/setup.sh --vision        + gaming edits: character identify/track, thumbnails (≈ +0.5 GB, after --telugu)
+#   bash scripts/setup.sh --chatterbox    + expressive English voice (Chatterbox, ≈ +3 GB, after --telugu)
 #   bash scripts/setup.sh --all           everything
 #   bash scripts/setup.sh --check         only report what is installed
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"; SKILL="$(dirname "$HERE")"; CACHE="$HOME/.cache/limiko-voice"
-TE=0; VI=0; CHECK=0
-for a in "$@"; do case "$a" in --telugu) TE=1;; --vision) VI=1;; --all) TE=1; VI=1;; --check) CHECK=1;; *) echo "unknown option $a"; exit 1;; esac; done
+TE=0; VI=0; CB=0; CHECK=0
+for a in "$@"; do case "$a" in --telugu) TE=1;; --vision) VI=1;; --chatterbox) CB=1;; --all) TE=1; VI=1; CB=1;; --check) CHECK=1;; *) echo "unknown option $a"; exit 1;; esac; done
 
 ok() { printf '  \033[32m✓\033[0m %s\n' "$1"; }
 no() { printf '  \033[33m·\033[0m %s\n' "$1"; }
@@ -21,6 +22,7 @@ status() {
   [ -f "$CACHE/kokoro-q8.onnx" ] && ok "English voice (Kokoro)" || no "English voice"
   [ -x "$CACHE/venv-te/bin/python" ] && ok "Telugu voice (Indic Parler-TTS)" || no "Telugu voice (--telugu)"
   [ -x "$CACHE/venv-f5/bin/python" ] && ok "Telugu reference-voice engine (IndicF5)" || no "IndicF5 (--telugu)"
+  [ -x "$CACHE/venv-cb/bin/python" ] && ok "expressive English voice (Chatterbox)" || no "Chatterbox (--chatterbox)"
   [ -x "$CACHE/venv-vision/bin/python" ] && ok "gaming vision (DETR + SAM 2)" || no "gaming vision (--vision)"
 }
 if [ $CHECK = 1 ]; then status; exit 0; fi
@@ -30,6 +32,7 @@ echo "→ renderer packages"; (cd "$SKILL/frames" && npm ci --no-audit --no-fund
 node -e "require('playwright')" 2>/dev/null || echo "  note: Playwright not found. Install once: npm i -g playwright && npx playwright install --with-deps chromium"
 [ -f "$CACHE/kokoro-q8.onnx" ] || { echo "→ English voice"; bash "$HERE/voice-setup.sh"; }
 if [ $TE = 1 ]; then echo "→ Telugu voices"; bash "$HERE/voice-setup.sh" --telugu; fi
+if [ $CB = 1 ]; then echo "→ expressive English voice"; bash "$HERE/voice-setup.sh" --chatterbox; fi
 if [ $VI = 1 ]; then echo "→ gaming vision"; bash "$HERE/vision-setup.sh"; fi
 status
 echo "Next: python3 scripts/make.py new my-first-film --format facts --lang en,te"

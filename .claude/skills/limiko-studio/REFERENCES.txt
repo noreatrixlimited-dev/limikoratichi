@@ -242,8 +242,10 @@ Used by scripts/voice.py and scripts/voice-setup.sh. See shared/voiceover.md.
      tested end to end 2026-11-03 on CPU (~30x real time): a Parler reference clip -> new Telugu line, ASR transcript matched word for word.
      notes: voice_indicf5.py builds the model itself (transformers 5 meta-device init breaks the vocoder load) and reads audio with soundfile.
 [V-indictts] AI4Bharat/Indic-TTS | voice | MIT code; check model licence | check | model | FastPitch + HiFi-GAN voices for Indian languages incl. Telugu
-[V-chatterbox] resemble-ai/chatterbox | voice | MIT (code + weights ResembleAI/chatterbox) | yes | model | expressive English (emotion 'exaggeration' control, voice from a reference clip); multilingual model has no Telugu
-     status: NOT installed: needs its own venv (pins torch 2.6 / transformers 5.2); installing outside packages needs the user's permission
+[V-chatterbox] resemble-ai/chatterbox | voice | MIT (code + weights ResembleAI/chatterbox) | yes | model | expressive English narration: emotion ('exaggeration') and pacing (cfg) control, optional voice from a reference clip; output watermarked (Resemble Perth, inaudible); multilingual model has no Telugu
+     install: voice-setup.sh --chatterbox (venv-cb: chatterbox-tts 0.1.7 --no-deps + s3tokenizer, conformer, resemble-perth, onnx, setuptools<81; torch/transformers shared from venv-f5)
+     tested 2026-11-03 on CPU: ~12 s per line; ASR transcripts matched the script at emotion 0.5-0.9
+[V-asr-en] facebook/wav2vec2-base-960h | voice | Apache-2.0 | yes | model | English speech RECOGNITION, used only to check renders (not TTS)
 Checked and NOT for this channel: facebook/mms-tts-tel (Telugu, CC-BY-NC-4.0, non-commercial),
      facebook/mms-tts-kff-script_telugu (Koya language in Telugu script, CC-BY-NC-4.0),
      anuragshas/wav2vec2-large-xlsr-53-telugu (Apache-2.0, speech RECOGNITION not TTS; WER 45%: alignment use only)

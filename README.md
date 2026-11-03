@@ -9,7 +9,7 @@ voices, edits, scores and packages videos in **10 formats**, with **native Engli
 | **Planning** | Gates come before any full video: topic → look → characters → concept → storyboard → sample frames → your approval |
 | **Picture** | Code-drawn 2D and three.js 3D, rendered frame by frame, so every render is identical. Includes 59 style frames, a character rig, a timeline toolkit, a cinematic 3D look (depth of field, ambient occlusion, bloom, light shafts, grade) and Manim-style equations. |
 | **Templates** | Title card, countdown, stat, quote and lower third. Driven by JSON or CSV, in English or Telugu, horizontal or vertical (Shorts). |
-| **Voice** | English: Kokoro (offline). Telugu: Indic Parler-TTS (Lalitha, Prakash, Kiran) and IndicF5 (a voice from a reference clip). Word timings, cues and captions drive the animation. |
+| **Voice** | English: Kokoro (offline) and Chatterbox (expressive, with emotion control). Telugu: Indic Parler-TTS (Lalitha, Prakash, Kiran) and IndicF5 (a voice from a reference clip). Word timings, cues and captions drive the animation. |
 | **Editing** | Gaming highlight editor with SAM 2 character outlines, zoom-on-kill and transitions. 166 GPU transitions and 25 text animations (Telugu-safe). |
 | **Hooks and packaging** | Scoring of the first 10 seconds (the O-10 curiosity format, English and Telugu), thumbnails, titles, descriptions and tags |
 | **Tools** | Live preview player, parallel rendering, one-command pipeline, tests and CI |
@@ -72,7 +72,16 @@ ffmpeg are missing.
   [`REFERENCES.txt`](.claude/skills/limiko-studio/REFERENCES.txt), with their licence and commercial-use status.
 - No personal footage or data in this public repository.
 
+## Previews (made only with the studio's own art and voices)
+`frames/previews/`: `rain-en.mp4` / `rain-te.mp4` (one animation, two native narrations), `math-demo.mp4` (equations),
+`temple-3d.mp4` (cinematic 3D), `textfx.mp4` (text animations), `transition-cube.mp4`, `pip-meadow.mp4`, plus style-frame
+sheets (`kids.jpg`, `facts.jpg`, `history.jpg`, `gaming.jpg`), `characters.jpg`, `transitions.jpg` and `templates.jpg`.
+
+## Licence
+Copyright (c) 2026 noreatrixlimited-dev. **All rights reserved.** The code is public to view, but it may not be reused
+without written permission (see [`LICENSE`](LICENSE)).
+
 ## Licences of included third-party parts
 GL Transitions (MIT/BSD, notice in `frames/transitions/gl/`), Noto Telugu fonts (OFL, notice in `frames/fonts/`).
-Installed at setup and not stored here: three.js (MIT), MathJax (Apache-2.0), Kokoro (Apache-2.0), Indic Parler-TTS
-(Apache-2.0), IndicF5 (MIT), DETR and SAM 2 (Apache-2.0). Details and links are in `REFERENCES.txt`.
+Installed at setup and not stored here: three.js (MIT), MathJax (Apache-2.0), Kokoro (Apache-2.0), Chatterbox (MIT),
+Indic Parler-TTS (Apache-2.0), IndicF5 (MIT), DETR and SAM 2 (Apache-2.0). Details and links are in `REFERENCES.txt`.

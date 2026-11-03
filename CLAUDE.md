@@ -15,7 +15,7 @@ start with its `SKILL.md`.
 | `…/formats/NN-*/direction.md` | Per-format identity, pacing, allowed camera/transitions, checklist |
 | `…/shared/` | Pre-production, directing, characters, voice-over, engines, editing, packaging, assets |
 | `…/frames/` | Renderer: style frames (`render.cjs`), character sheets (`character-sheet.cjs`), animation → MP4 (`animate.cjs`, `timeline.js`) |
-| `…/scripts/voice.py` | Voice-over: render / check / mix / voices; engines kokoro (EN), parler + indicf5 (TE), recorded, espeak (draft) |
+| `…/scripts/voice.py` | Voice-over: render / check / mix / voices; engines kokoro + chatterbox (EN), parler + indicf5 (TE), recorded, espeak (draft) |
 | `…/scripts/voice-setup.sh` | One-time voice install (`--telugu` adds the native Telugu models) |
 | `…/REFERENCES.txt` | The only place outside repos/models are named: links, licences, commercial-use status |
 | `…/voice-examples/` | `rain.en.md`, `rain.te.md` (same cues), `volcano.en.md` |
@@ -64,8 +64,9 @@ Studio upgrades (2026-11-03): `frames/animate.cjs --workers/--props` (parallel, 
 `frames/preview.cjs` (live player; `--snap` headless), `frames/templates.cjs` + `templates/` (5 data-driven templates),
 `frames/mathfx.js` (MathJax equations, write/transform/box), `frames/look3d.js` (cinematic three.js),
 `scripts/make.py` (new/check/draft/approve/final; final needs approve), `scripts/setup.sh`, tests in
-`.claude/skills/limiko-studio/tests/` + CI `.github/workflows/tests.yml`. Chatterbox (MIT, English) is catalogued but NOT
-installed: installing outside packages was blocked; it needs the user's permission. No LICENSE file yet (owner's choice).
+`.claude/skills/limiko-studio/tests/` + CI `.github/workflows/tests.yml`. Chatterbox (MIT, English) is
+installed and tested (`venv-cb`, engine `chatterbox`, English only). LICENSE: all rights reserved (user's choice).
+Showcase previews: `frames/previews/math-demo.mp4`, `temple-3d.mp4`, `templates.jpg`.
 
 ## Setting up a fresh session
 1. `cd .claude/skills/limiko-studio && bash scripts/setup.sh --all` (or `--check` to see what's there). Large downloads; run in the background.

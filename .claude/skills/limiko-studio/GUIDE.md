@@ -115,6 +115,7 @@ All paths are relative to `.claude/skills/limiko-studio/` unless they start from
   | Language | Engine | Voices | Where |
   |---|---|---|---|
   | English | `kokoro` (offline, Apache-2.0) | af_heart, am_puck, bm_george… | `venv` |
+  | English, expressive | `chatterbox` (MIT; `emotion=`, `cfg=`, optional `ref=`) | built-in voice or a clip we have rights to | `venv-cb` |
   | Telugu | `parler` (Indic Parler-TTS) | Lalitha, Prakash, Kiran | `venv-te` |
   | Telugu, a cloned voice | `indicf5` (reference clip we have rights to) | — | `venv-f5` (tested; about 30× real time on CPU) |
   | Either | `recorded` (a human artist) | — | — |
@@ -167,6 +168,7 @@ These are large downloads, so run them in the background. If Telugu fails, check
 | `~/.cache/limiko-voice/venv` | Kokoro ONNX | `voice.py` (EN) |
 | `…/venv-te` | torch, transformers 4.46, Parler | `voice.py` (TE) |
 | `…/venv-f5` | transformers 5.x, IndicF5 | `voice.py` engine `indicf5` |
+| `…/venv-cb` | Chatterbox; shares torch and transformers with venv-f5 | `voice.py` engine `chatterbox` |
 | `…/venv-vision` | shares torch with venv-te; transformers 4.57, DETR, SAM 2.1 | `charglow.py`, `gameedit.py`, `thumbnail.py` |
 | `frames/node_modules` | Playwright, three.js | every `frames/*.cjs` |
 
@@ -213,8 +215,8 @@ These are large downloads, so run them in the background. If Telugu fails, check
 | director system and 10 format profiles | style frames for formats 05–10 |
 | 59 style frames (2D and 3D), character rig and sheets | rewrite the rain examples to O-10 |
 | timeline toolkit, `animate.cjs` | automatic GL transitions inside `gameedit` |
-| English voice (Kokoro), native Telugu voices (Parler, IndicF5) | more English engines (Chatterbox needs install permission) |
+| English voices (Kokoro, Chatterbox), native Telugu voices (Parler, IndicF5) | showcase videos for formats 05–10 |
 | gaming edit, SAM 2 outline, thumbnails | faster tracking (GPU) |
-| 166 transitions, 25 text presets, hook scoring | a LICENSE for the repo (owner's choice) |
+| 166 transitions, 25 text presets, hook scoring | |
 | templates, equations, cinematic 3D, live preview, parallel render | |
 | `make.py` pipeline, tests + CI | |

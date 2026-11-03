@@ -31,6 +31,9 @@ Engines:
              model's terms accepted, and scripts/voice-setup.sh --telugu once.
     indicf5  AI4Bharat IndicF5 (MIT): Telugu in the voice of a reference clip. ref=clip.wav (+ clip.txt transcript,
              or reftext="…"). Only voices you have the right to use. Needs HF_TOKEN + voice-setup.sh --telugu.
+    chatterbox  Resemble AI Chatterbox (MIT): expressive English, local. emotion=0.25–1.0 (0.5 natural), cfg=0.3–0.7,
+             optional ref=clip.wav (a voice you have rights to; otherwise the built-in voice). Output carries the
+             model's inaudible watermark. Needs scripts/voice-setup.sh --chatterbox once.
     espeak   espeak-ng, robotic. Timing drafts and animatics only, never for publishing.
     recorded Lines from files (`file=` per line): human voice artists, the user's own voice.
 """
@@ -58,6 +61,7 @@ TELUGU_VOICES = {
     "espeak": ["te (draft only)"],
 }
 ENGLISH_CLOUD = {
+    "chatterbox": ["built-in voice (default)", "or ref=clip.wav (a voice you have rights to)", "+ emotion=0.25–1.0, cfg=0.3–0.7"],
     "google": ["en-US-Neural2-*", "en-GB-Neural2-*", "en-US-Chirp3-HD-*"],
     "azure": ["en-US-AvaNeural", "en-US-AndrewNeural", "en-GB-SoniaNeural", "en-GB-RyanNeural"],
 }
@@ -223,6 +227,7 @@ def eng_recorded(path):
 _parler_cache = {}
 VENV_TE = CACHE / "venv-te" / "bin" / "python"   # parler (pins transformers 4.46)
 VENV_F5 = CACHE / "venv-f5" / "bin" / "python"   # indicf5 (own dependencies)
+VENV_CB = CACHE / "venv-cb" / "bin" / "python"   # chatterbox (shares torch with venv-f5)
 PACE = [(0.88, "slow"), (0.97, "slightly slow"), (1.04, "moderate"), (1.12, "slightly fast"), (9, "fast")]
 
 
@@ -275,6 +280,23 @@ def indicf5_prefetch(jobs, work):
     for j in jobs:
         a, sr = sf.read(work / f"{j['id']}.wav", dtype="float32")
         _f5_cache[j["key"]] = resample(a, sr)
+
+
+_cb_cache = {}
+
+
+def chatterbox_prefetch(jobs, work):
+    if not jobs:
+        return
+    if not VENV_CB.exists():
+        sys.exit("chatterbox engine not installed: run scripts/voice-setup.sh --chatterbox")
+    work.mkdir(parents=True, exist_ok=True)
+    jf = work / "jobs.json"
+    jf.write_text(json.dumps([{k: v for k, v in j.items() if k != "key"} for j in jobs], ensure_ascii=False), encoding="utf-8")
+    subprocess.run([str(VENV_CB), str(Path(__file__).with_name("voice_chatterbox.py")), str(jf), str(work)], check=True)
+    for j in jobs:
+        a, sr = sf.read(work / f"{j['id']}.wav", dtype="float32")
+        _cb_cache[j["key"]] = resample(a, sr)
 
 
 def ref_for(script_dir, ref, reftext):
@@ -382,6 +404,28 @@ def render(script, out_dir):
                     f5jobs.append({"id": hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12], "key": key,
                                    "text": speakable(sg["spoken"]), "ref": refp, "ref_text": reft})
     indicf5_prefetch(f5jobs, out / ".indicf5-cache")
+    cbjobs, cbseen = [], set()
+    for L in lines:
+        cast = meta["cast"].get(L["who"], {})
+        if L["opts"].get("engine", cast.get("engine", meta["engine"])) != "chatterbox" or "file" in L["opts"]:
+            continue
+        if lang != "en":
+            sys.exit(f"line {L['n']}: chatterbox speaks English only; Telugu uses parler or indicf5")
+        g = lambda k, d=None: L["opts"].get(k, cast.get(k, meta.get(k, d)))
+        ref = g("ref")
+        refp = str((Path(script).parent / ref).resolve()) if ref else None
+        if refp and not Path(refp).exists():
+            sys.exit(f"line {L['n']}: reference clip not found: {refp}")
+        emo, cfg, speed = float(g("emotion", 0.5)), float(g("cfg", 0.5)), float(g("speed", 1.0))
+        for sg in L["segments"]:
+            if sg.get("spoken"):
+                key = ("cb", sg["spoken"], refp, emo, cfg, speed)
+                if key not in cbseen:
+                    cbseen.add(key)
+                    import hashlib
+                    cbjobs.append({"id": hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12], "key": key,
+                                   "text": speakable(sg["spoken"]), "ref": refp, "emotion": emo, "cfg": cfg, "speed": speed})
+    chatterbox_prefetch(cbjobs, out / ".chatterbox-cache")
     for li, L in enumerate(lines):
         cast = meta["cast"].get(L["who"], {})
         engine = L["opts"].get("engine", cast.get("engine", meta["engine"]))
@@ -404,7 +448,7 @@ def render(script, out_dir):
                     for c in sgm["cues"]:
                         timeline["cues"][c["name"]] = round(t, 3)
                     continue
-                if engine not in ENGINES and engine != "indicf5":
+                if engine not in ENGINES and engine not in ("indicf5", "chatterbox"):
                     sys.exit(f"line {L['n']}: unknown engine {engine}")
                 if engine == "kokoro" and lang == "te":
                     sys.exit(f"line {L['n']}: kokoro can't speak Telugu; set engine google/azure/recorded (espeak for drafts)")
@@ -412,6 +456,12 @@ def render(script, out_dir):
                     ref = L["opts"].get("ref", cast.get("ref", meta.get("ref")))
                     key = ("f5", sgm["spoken"], str((Path(script).parent / ref).resolve()))
                     a = trim(_f5_cache[key])
+                elif engine == "chatterbox":
+                    g = lambda k, d=None: L["opts"].get(k, cast.get(k, meta.get(k, d)))
+                    ref = g("ref")
+                    key = ("cb", sgm["spoken"], str((Path(script).parent / ref).resolve()) if ref else None,
+                           float(g("emotion", 0.5)), float(g("cfg", 0.5)), float(g("speed", 1.0)))
+                    a = trim(_cb_cache[key])
                 elif engine == "parler":
                     a = trim(eng_parler(sgm["spoken"], voice, speed, lang, L["opts"].get("style", cast.get("style", meta.get("style")))))
                 else:

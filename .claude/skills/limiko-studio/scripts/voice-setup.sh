@@ -68,6 +68,22 @@ if [ "${1:-}" = "--telugu" ]; then
   fi
 fi
 
+# Expressive English voice (optional): Resemble AI Chatterbox, MIT.  bash voice-setup.sh --chatterbox  (after --telugu)
+# Own venv (it pins torch 2.6 / transformers 5.2); to save ~1 GB it shares torch + transformers with venv-f5 via a .pth file
+# and installs only Chatterbox's own pieces. Model ResembleAI/chatterbox (~3 GB) downloads on first use.
+if [ "${1:-}" = "--chatterbox" ]; then
+  [ -x venv-f5/bin/python ] || { echo "run voice-setup.sh --telugu first (Chatterbox shares its torch)"; exit 1; }
+  if [ ! -x venv-cb/bin/python ]; then
+    python3 -m venv venv-cb
+    SP=$(venv-f5/bin/python -c "import site;print(site.getsitepackages()[0])")
+    CSP=$(venv-cb/bin/python -c "import site;print(site.getsitepackages()[0])")
+    echo "$SP" > "$CSP/_shared_f5.pth"
+    venv-cb/bin/pip install -q --no-deps chatterbox-tts==0.1.7 s3tokenizer conformer==0.3.2 resemble-perth pyloudnorm diffusers
+  fi
+  venv-cb/bin/python -c "from huggingface_hub import snapshot_download as s; s('ResembleAI/chatterbox')" >/dev/null \
+    && echo "✓ expressive English voice ready (engine: chatterbox)"
+fi
+
 # Telugu draft voice (robotic; for timing drafts only). Needs apt.
 if ! command -v espeak-ng >/dev/null 2>&1; then
   (apt-get install -y -q espeak-ng >/dev/null 2>&1 || true)

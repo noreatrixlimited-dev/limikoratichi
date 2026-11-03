@@ -1,0 +1,13 @@
+Copyright (c) 2026 noreatrixlimited-dev. All rights reserved.
+
+This repository is published so it can be viewed. No licence is granted to copy, modify, distribute,
+sublicense or use any part of it, in whole or in part, without the copyright holder's prior written permission.
+
+Third-party components included in this repository keep their own licences, which this notice does not change:
+  - GL Transitions shaders in .claude/skills/limiko-studio/frames/transitions/gl/
+    (MIT / BSD; see LICENSE-gl-transitions.txt and each file's header)
+  - Noto Sans Telugu and Noto Serif Telugu fonts in .claude/skills/limiko-studio/frames/fonts/
+    (SIL Open Font License 1.1; see LICENSE-OFL.txt)
+Software installed by the setup scripts (three.js, MathJax, Kokoro, Indic Parler-TTS, IndicF5, Chatterbox, DETR,
+SAM 2 and others) is not part of this repository and is used under its own licence, listed in
+.claude/skills/limiko-studio/REFERENCES.txt.

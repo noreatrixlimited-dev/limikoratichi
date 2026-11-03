@@ -13,6 +13,7 @@ Working example in both languages: `../voice-examples/rain.en.md`, `../voice-exa
 | | English | Telugu |
 |---|---|---|
 | **Default** | `kokoro`: local, offline, Apache-2.0; native US (`af_`, `am_`) and UK (`bf_`, `bm_`) voices | `parler`: AI4Bharat Indic Parler-TTS, local, Apache-2.0; speakers **Lalitha** (F), **Prakash** (M), Kiran (M), tone set with `style=` |
+| **Expressive** | `chatterbox`: Resemble AI Chatterbox, local, MIT; `emotion=0.25–1.0` (0.5 natural; kids and gaming 0.6–0.8, documentary 0.4), `cfg=0.3–0.7` (lower = slower, more deliberate), optional `ref=clip.wav` for a voice we have rights to. About 12 s per line on CPU. Output carries the model's inaudible watermark. Setup: `voice-setup.sh --chatterbox` | |
 | Channel signature voice | | `indicf5`: AI4Bharat IndicF5, local, MIT; speaks in the voice of a 5–12 s reference clip (`ref=clip.wav` + `clip.txt` transcript). Tested: about 30× real time on CPU, so use it for short signature lines or on a GPU |
 | Best quality | | `recorded` (native voice artist or the user) |
 | Cloud | `google` (en-US / en-GB Neural2, Chirp HD), `azure` (en-US / en-GB Neural) | `google` te-IN (Standard A/B, Chirp HD if enabled), `azure` te-IN-ShrutiNeural (F), te-IN-MohanNeural (M) |
@@ -79,7 +80,7 @@ always time scenes to the rendered voice, never to a word count.
 ```
 ---
 lang: te                  # en | te
-engine: google            # kokoro | google | azure | recorded | espeak (draft)
+engine: google            # kokoro | chatterbox | parler | indicf5 | google | azure | recorded | espeak (draft)
 voice: te-IN-Standard-A
 speed: 1.0
 gap: 0.4                  # silence between lines
@@ -164,3 +165,9 @@ Tolerance ±1 LU (`voice.py mix` prints the measured value).
 - [ ] Cues land on the intended beats; captions in the right script and font, ≤ 2 lines
 - [ ] Loudness within ±1 LU of the format target
 - [ ] Rights: own or licensed voice; cloud voices under the provider's commercial terms; consent for any cloned voice
+
+## Checking a render by ear and by transcript
+Transcribe what the engine actually said and compare it with the script:
+- Telugu: the wav2vec2 Telugu ASR (`~/.cache/limiko-voice/models/wav2vec2-large-xlsr-53-telugu`, about 45% WER, so judge the meaning).
+- English: `facebook/wav2vec2-base-960h` (Apache-2.0, in the Hugging Face cache). It outputs capital letters with no punctuation.
+A take that is much shorter than its words (under ~0.17 s per word) is retried automatically by `parler` and `chatterbox`.
