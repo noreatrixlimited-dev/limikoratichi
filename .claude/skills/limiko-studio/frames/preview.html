@@ -1,0 +1,135 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Limiko preview</title>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<style>
+:root{--bg:#14161b;--panel:#1d2027;--line:#2c313b;--text:#e8eaf0;--dim:#8d94a3;--accent:#ffb347;--cue:#5cc8ff}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.4 system-ui,sans-serif}
+#app{display:grid;grid-template-columns:1fr 300px;grid-template-rows:1fr auto;height:100%}
+#stage{display:flex;align-items:center;justify-content:center;overflow:hidden;padding:16px}
+canvas{max-width:100%;max-height:100%;box-shadow:0 8px 40px #0008;background:#000}
+#side{grid-row:1/3;grid-column:2;background:var(--panel);border-left:1px solid var(--line);padding:12px;overflow:auto}
+#bar{background:var(--panel);border-top:1px solid var(--line);padding:10px 16px}
+#track{position:relative;height:28px;margin-bottom:8px;cursor:pointer}
+#track .rail{position:absolute;left:0;right:0;top:12px;height:4px;background:var(--line);border-radius:2px}
+#track .fill{position:absolute;left:0;top:12px;height:4px;background:var(--accent);border-radius:2px}
+#track .head{position:absolute;top:4px;width:2px;height:20px;background:#fff}
+#track .cue{position:absolute;top:0;width:2px;height:10px;background:var(--cue)}
+#track .cue span{position:absolute;top:-2px;left:4px;font-size:10px;color:var(--cue);white-space:nowrap}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button,select{background:#272b34;color:var(--text);border:1px solid var(--line);border-radius:6px;padding:5px 10px;font:inherit;cursor:pointer}
+button:hover{border-color:var(--accent)}
+#time{font-variant-numeric:tabular-nums;min-width:170px}
+textarea{width:100%;height:260px;background:#11131a;color:var(--text);border:1px solid var(--line);border-radius:6px;font:12px ui-monospace,monospace;padding:8px}
+h3{margin:14px 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+#err{color:#ff7a7a;white-space:pre-wrap;font:12px ui-monospace,monospace}
+.kbd{color:var(--dim);font-size:11px}
+</style></head>
+<body><div id="app">
+<div id="stage"><canvas id="c"></canvas></div>
+<div id="side">
+  <h3>Scene</h3><div id="name"></div><div id="meta" class="kbd"></div>
+  <h3>Cues</h3><div id="cues" class="kbd">none</div>
+  <h3>Props (JSON)</h3><textarea id="props" spellcheck="false"></textarea>
+  <div class="row" style="margin-top:6px"><button id="apply">Apply props</button><button id="copy">Copy props</button></div>
+  <h3>Keys</h3><div class="kbd">space play/pause · ← → one frame · shift+← → one second · home/end · [ ] previous/next cue · L loop</div>
+  <div id="err"></div>
+</div>
+<div id="bar">
+  <div id="track"><div class="rail"></div><div class="fill"></div><div class="head"></div></div>
+  <div class="row"><button id="play">▶ Play</button><button id="loop">Loop: off</button>
+    <select id="speed"><option>0.25</option><option>0.5</option><option selected>1</option><option>2</option></select>
+    <span id="time"></span><span class="kbd" id="status"></span></div>
+</div></div>
+<script type="module">
+import * as L from './lib.js';
+import * as T from './timeline.js';
+const q = new URLSearchParams(location.search), $ = (id) => document.getElementById(id);
+const sceneUrl = q.get('scene');
+let scene, state, meta, ctx = null, three = null, t = +(q.get('t') || 0), playing = false, loop = false, dirty = true, busy = false, audio = null, cues = {};
+const canvas = $('c');
+
+async function load(propsOverride) {
+  $('err').textContent = '';
+  try {
+    scene = (await import(sceneUrl + '?v=' + Date.now())).default;
+    let props = propsOverride;
+    if (!props) props = { ...(scene.defaultProps || {}), ...(q.get('props') ? await (await fetch(q.get('props'))).json() : {}) };
+    const W = props.width || scene.width || 1280, H = props.height || scene.height || 720;
+    canvas.width = W; canvas.height = H;
+    if (scene.dim === '3d') { const THREE = await import('three'); three = { THREE, canvas, W, H, L, T }; ctx = null; }
+    else { ctx = canvas.getContext('2d'); three = null; }
+    await L.loadFonts(); await document.fonts.ready;
+    $('props').value = JSON.stringify(props, null, 2);
+    state = scene.setup ? await scene.setup(ctx ? { ctx, W, H, L, T, props } : { ...three, props }) : {};
+    state = state || {}; if (!('props' in state)) state.props = props;
+    meta = { fps: scene.fps || 24, duration: state.duration || scene.duration, W, H, audio: state.audio || scene.audio || null };
+    cues = state.cues || (state.tl && state.tl.cues) || scene.cues || {};
+    $('name').textContent = sceneUrl.split('/').pop();
+    $('meta').textContent = `${W}×${H} · ${meta.fps} fps · ${meta.duration.toFixed(2)} s · ${scene.dim || '2d'}`;
+    $('cues').innerHTML = Object.keys(cues).length ? Object.entries(cues).map(([k, v]) => `<div><a href="#" data-t="${v}" style="color:var(--cue)">${k}</a> ${(+v).toFixed(2)} s</div>`).join('') : 'none';
+    $('cues').querySelectorAll('a').forEach((a) => a.onclick = (e) => { e.preventDefault(); seek(+a.dataset.t); });
+    drawCues();
+    if (audio) audio.pause(); audio = null;
+    if (meta.audio) { audio = new Audio(new URL(meta.audio, location.href)); audio.preload = 'auto'; }
+    t = Math.min(t, meta.duration); dirty = true;
+  } catch (e) { $('err').textContent = String(e && e.stack || e); }
+}
+function drawCues() {
+  $('track').querySelectorAll('.cue').forEach((n) => n.remove());
+  for (const [k, v] of Object.entries(cues)) { const d = document.createElement('div'); d.className = 'cue'; d.style.left = (100 * v / meta.duration) + '%'; d.innerHTML = `<span>${k}</span>`; $('track').appendChild(d); }
+}
+const frameDur = () => 1 / meta.fps;
+const snap = (x) => Math.round(x * meta.fps) / meta.fps;
+function seek(x) { t = Math.max(0, Math.min(meta.duration - frameDur(), x)); if (audio && playing) audio.currentTime = t; dirty = true; }
+function setPlaying(p) {
+  playing = p; $('play').textContent = p ? '❚❚ Pause' : '▶ Play';
+  if (audio) { if (p) { audio.currentTime = t; audio.playbackRate = +$('speed').value; audio.play().catch(() => {}); } else audio.pause(); }
+}
+let last = performance.now();
+async function tick(now) {
+  const dt = (now - last) / 1000; last = now;
+  if (playing && meta) {
+    t = audio && !audio.paused && +$('speed').value === audio.playbackRate ? audio.currentTime : t + dt * +$('speed').value;
+    if (t >= meta.duration) { if (loop) seek(0), setPlaying(true); else { t = meta.duration - frameDur(); setPlaying(false); } }
+    dirty = true;
+  }
+  if (dirty && !busy && scene && state) {
+    busy = true; dirty = false;
+    const ft = snap(t); // draw exactly the frame the renderer would draw
+    try { if (ctx) await scene.draw(ctx, meta.W, meta.H, L, T, ft, state); else await scene.draw({ ...three, t: ft, state }); }
+    catch (e) { $('err').textContent = String(e && e.stack || e); setPlaying(false); }
+    const p = 100 * ft / meta.duration;
+    $('track').querySelector('.fill').style.width = p + '%'; $('track').querySelector('.head').style.left = p + '%';
+    $('time').textContent = `${ft.toFixed(2)} s · frame ${Math.round(ft * meta.fps)} / ${Math.round(meta.duration * meta.fps)}`;
+    busy = false; window.DRAWN = ft;
+  }
+  requestAnimationFrame(tick);
+}
+$('track').onpointerdown = (e) => {
+  const r = $('track').getBoundingClientRect(), go = (ev) => seek(meta.duration * Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)));
+  go(e); const mv = (ev) => go(ev); window.addEventListener('pointermove', mv); window.addEventListener('pointerup', () => window.removeEventListener('pointermove', mv), { once: true });
+};
+$('play').onclick = () => setPlaying(!playing);
+$('loop').onclick = () => { loop = !loop; $('loop').textContent = 'Loop: ' + (loop ? 'on' : 'off'); };
+$('speed').onchange = () => { if (audio && playing) audio.playbackRate = +$('speed').value; };
+$('apply').onclick = () => { try { load(JSON.parse($('props').value)); } catch (e) { $('err').textContent = 'props: ' + e.message; } };
+$('copy').onclick = () => navigator.clipboard && navigator.clipboard.writeText($('props').value);
+window.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'TEXTAREA') return;
+  const cueTimes = Object.values(cues).map(Number).sort((a, b) => a - b);
+  if (e.code === 'Space') { e.preventDefault(); setPlaying(!playing); }
+  else if (e.key === 'ArrowRight') seek(snap(t) + (e.shiftKey ? 1 : frameDur()));
+  else if (e.key === 'ArrowLeft') seek(snap(t) - (e.shiftKey ? 1 : frameDur()));
+  else if (e.key === 'Home') seek(0); else if (e.key === 'End') seek(meta.duration);
+  else if (e.key === ']') { const n = cueTimes.find((c) => c > t + 1e-3); if (n != null) seek(n); }
+  else if (e.key === '[') { const p = cueTimes.filter((c) => c < t - 1e-3).pop(); seek(p ?? 0); }
+  else if (e.key.toLowerCase() === 'l') $('loop').click();
+});
+// hot reload: the server reports the newest change time of the scene's folder and the toolkit
+let stamp = null;
+setInterval(async () => {
+  try { const s = await (await fetch('/__stamp?scene=' + encodeURIComponent(sceneUrl))).text(); if (stamp && s !== stamp) { $('status').textContent = 'reloaded ' + new Date().toLocaleTimeString(); await load(JSON.parse($('props').value || '{}')); } stamp = s; } catch {}
+}, 1000);
+window.seek = (x) => { seek(x); return new Promise((res) => { const w = () => (window.DRAWN === snap(t) && !dirty && !busy ? res() : setTimeout(w, 20)); w(); }); };
+await load(); window.READY = true; requestAnimationFrame(tick);
+</script></body></html>

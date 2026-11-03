@@ -8,13 +8,15 @@ import * as T from './timeline.js';
 const q = new URLSearchParams(location.search);
 try {
   const scene = (await import(q.get('scene'))).default;
-  const W = scene.width || 1280, H = scene.height || 720;
+  const props = { ...(scene.defaultProps || {}), ...(q.get('props') ? await (await fetch(q.get('props'))).json() : {}) };
+  const W = props.width || scene.width || 1280, H = props.height || scene.height || 720;
   const canvas = document.getElementById('c'); canvas.width = W; canvas.height = H;
   let ctx = null, three = null;
   if (scene.dim === '3d') { const THREE = await import('three'); three = { THREE, canvas, W, H, L, T }; }
   else ctx = canvas.getContext('2d', { willReadFrequently: true });
   await L.loadFonts(); await document.fonts.ready;
-  const state = scene.setup ? await scene.setup(ctx ? { ctx, W, H, L, T } : three) : {};
+  let state = scene.setup ? await scene.setup(ctx ? { ctx, W, H, L, T, props } : { ...three, props }) : {};
+  state = state || {}; if (!('props' in state)) state.props = props;
   window.META = { fps: scene.fps || 24, duration: (state && state.duration) || scene.duration, W, H, audio: (state && state.audio) || scene.audio || null };
   window.frame = async (t) => {
     if (ctx) await scene.draw(ctx, W, H, L, T, t, state); else await scene.draw({ ...three, t, state });

@@ -17,7 +17,7 @@ from pathlib import Path
 WPM = {"en": 150, "te": 115}
 BANNED = {
     "en": [r"^\s*(hi|hey|hello)\b.*\b(guys|everyone|friends|folks|all)\b", r"\bwelcome (back )?to\b", r"\bin (this|today'?s) video\b",
-           r"\bbefore (we|i) (start|begin|get started)\b", r"\b(don'?t forget to |please )?(like|subscribe|hit the bell)\b",
+           r"\bbefore (we|i) (start|begin|get started)\b", r"\bsubscribe\b|\bhit the bell\b|\bsmash (that|the) like\b|\b(like|share) (this|the|my|our) (video|channel)\b|\bdon'?t forget to like\b",
            r"^\s*so,? today\b", r"\bmy name is\b"],
     "te": [r"^\s*నమస్కారం\s*(మిత్రులారా|అందరికీ|ఫ్రెండ్స్)", r"ఈ\s*వీడియోలో", r"మా\s*ఛానల్", r"సబ్‌?స్క్రైబ్", r"లైక్\s*చేయండి",
            r"వీడియో\s*మొదలు", r"స్వాగతం"],

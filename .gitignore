@@ -4,3 +4,4 @@ films/*/out/
 films/_refs/
 __pycache__/
 *.pyc
+.tpl-*/
