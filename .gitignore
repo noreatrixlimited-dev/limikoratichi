@@ -2,3 +2,5 @@ vendor/
 films/*/out/
 .claude/skills/x-*
 films/_refs/
+__pycache__/
+*.pyc
