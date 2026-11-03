@@ -57,7 +57,11 @@ G5 Storyboard → G6 Sample frames → user approval → production
 | Camera, transitions, pacing per format, animation principles, effect levels, sound, continuity | `shared/directing.md` |
 | Which rendering engine for which shot, and techniques learned from each | `shared/engines.md` |
 | Code-drawn animation: `renderFrame(t)`, render loop, encode, mix, effect toolbox | `shared/building.md` |
-| Animate scenes to MP4 with the timeline toolkit (interpolate, spring, sequences, voice cues, camera, parallax, exposure sheet) | `frames/README.md` → `frames/animate.cjs`, `frames/timeline.js` |
+| Animate scenes to MP4 with the timeline toolkit (interpolate, spring, sequences, voice cues, camera, parallax, exposure sheet); parallel workers; live preview | `frames/README.md` → `frames/animate.cjs`, `frames/preview.cjs`, `frames/timeline.js` |
+| **Templates from data** (title card, countdown, stat, quote, lower third; EN/TE; vertical) | `frames/README.md` → `frames/templates.cjs` |
+| **Equations** (write-on, matching transforms, highlight) for explainers | `frames/mathfx.js`, `examples/math-demo.js` |
+| **Cinematic 3D** (environment light, depth of field, AO, bloom, grade, light shafts, lens + camera rigs) | `frames/look3d.js`, `examples/temple-3d.js` |
+| **One command per stage** (new → check → draft → approve → final) | `scripts/make.py` |
 | Sample frames, style frames, character sheets (2D canvas + 3D three.js) | `frames/README.md` |
 | Characters: spec schema, rig, reference sheets, rules | `shared/characters.md` |
 | Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |
@@ -109,10 +113,13 @@ Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the packagi
 ## Tools
 ```
 cd .claude/skills/limiko-studio
-(cd frames && npm install)                                  # once: three.js for 3D frames
+bash scripts/setup.sh [--telugu] [--vision] [--all|--check]   # once: renderer, voices, vision
+python3 scripts/make.py new|check|draft|approve|final|status <slug>   # the whole film, stage by stage (final needs approve)
 node frames/render.cjs <kids|gaming|facts|history|all>      # style frames + contact sheets
 node frames/character-sheet.cjs <spec.json…>                # character reference sheets
-(from repo root) node .claude/skills/limiko-studio/frames/animate.cjs <scene.js> --out film.mp4   # animated scene → video
+(from repo root) node .claude/skills/limiko-studio/frames/animate.cjs <scene.js> --out film.mp4 [--workers 4] [--props p.json]   # scene → video
+(from repo root) node .claude/skills/limiko-studio/frames/preview.cjs <scene.js>        # live preview player (--snap t,t --out x.jpg headless)
+(from repo root) node .claude/skills/limiko-studio/frames/templates.cjs list|render|batch|still …   # template videos from data
 bash scripts/voice-setup.sh                                 # once: offline English voices (Kokoro) + Telugu draft voice
 python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voice.wav + timeline (words, cues, captions)
 python3 scripts/voice.py mix --voice v.wav --music m.wav --out mix.wav --lufs -14

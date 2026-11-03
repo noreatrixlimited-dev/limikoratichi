@@ -13,7 +13,7 @@ Working example in both languages: `../voice-examples/rain.en.md`, `../voice-exa
 | | English | Telugu |
 |---|---|---|
 | **Default** | `kokoro`: local, offline, Apache-2.0; native US (`af_`, `am_`) and UK (`bf_`, `bm_`) voices | `parler`: AI4Bharat Indic Parler-TTS, local, Apache-2.0; speakers **Lalitha** (F), **Prakash** (M), Kiran (M), tone set with `style=` |
-| Channel signature voice | | `indicf5`: AI4Bharat IndicF5, local, MIT; speaks in the voice of a 5–12 s reference clip (`ref=clip.wav` + `clip.txt` transcript) |
+| Channel signature voice | | `indicf5`: AI4Bharat IndicF5, local, MIT; speaks in the voice of a 5–12 s reference clip (`ref=clip.wav` + `clip.txt` transcript). Tested: about 30× real time on CPU, so use it for short signature lines or on a GPU |
 | Best quality | | `recorded` (native voice artist or the user) |
 | Cloud | `google` (en-US / en-GB Neural2, Chirp HD), `azure` (en-US / en-GB Neural) | `google` te-IN (Standard A/B, Chirp HD if enabled), `azure` te-IN-ShrutiNeural (F), te-IN-MohanNeural (M) |
 | Draft only | n/a | `espeak`: robotic, for timing and animatics. **Never publish** |

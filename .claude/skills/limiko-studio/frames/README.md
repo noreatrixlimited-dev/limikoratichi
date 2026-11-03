@@ -37,7 +37,31 @@ then move the sheet to `films/<slug>/plan/frames/` and delete the temporary file
 ## Animated scenes → video
 ```
 node .claude/skills/limiko-studio/frames/animate.cjs <scene.js> [--out film.mp4] [--from s] [--to s] [--every n] [--audio file]
+        [--workers N] [--props p.json] [--keep-frames]
+node .claude/skills/limiko-studio/frames/preview.cjs <scene.js> [--props p.json]     # live player: scrub, play with audio, cues, props, hot reload
+node .claude/skills/limiko-studio/frames/preview.cjs <scene.js> --snap 0,2,5 --out strip.jpg   # headless check
 ```
+`--workers` renders chunks in parallel browser pages (default: cores, max 4); frames are identical to one worker
+because every frame starts from a fresh canvas state. `--props` passes data (`env.props` in setup, `state.props` in
+draw, merged over the scene's `defaultProps`; `width`/`height` in props change the canvas, e.g. 1080×1920).
+
+### Templates (data → video)
+`node frames/templates.cjs list | render <name> [--props p.json] [--set k=v,…] [--vertical] | batch <name> --data rows.csv|json | still <name> --t 1.5`
+Templates in `templates/`: `title-card`, `countdown` (top-N), `stat` (count-up + comparison bar), `quote`, `lower-third`
+(green key for overlay). Props: `theme` (kids, facts, history, gaming, business, mystery), `lang` (en, te), content fields.
+Each keeps the moving-camera rule and the theme's pacing. CSV: arrays as `a|b`, countdown items as `title::note|title::note`.
+
+### Equations (`mathfx.js`, Manim-style)
+`const eq = await M.tex('a^2+b^2=c^2')` in setup (MathJax, Apache-2.0), then in draw: `M.draw(ctx, eq, {x, y, size, t, start, preset: 'write'|'fade'|'rise'|'pop'})`,
+`M.transform(ctx, eqA, eqB, p, {...})` (matching symbols travel, the rest fade), `M.box(ctx, eq, await eq.find('c^2'), {p})`.
+Example: `examples/math-demo.js`.
+
+### Cinematic 3D (`look3d.js`)
+`const look = await cinematic(THREE, canvas, W, H, { quality: 'final'|'draft', grade, fog, focal })` gives image-based
+light, filmic tone mapping, MSAA, ambient occlusion, depth of field, bloom, colour grade, vignette and grain.
+Helpers: `lens(camera, mm)`, `rig.orbit|dolly|crane|handheld`, `lightShaft`, `dust`, `materials.gold|stone|marble|glass|…`.
+Render with `look.render(t, { focus: [x, y, z] })` (move the focus point for a rack focus). Example: `examples/temple-3d.js`.
+Use `draft` while blocking shots; `final` costs ≈ 2 s per frame on CPU.
 Run from the repo root (the scene must be inside it). A scene module exports
 `{ dim, fps, duration, width, height, audio?, setup?(env), draw(ctx, W, H, L, T, t, state) }`
 (3D: `draw({ THREE, canvas, W, H, L, T, t, state })`). `T` is `timeline.js`:

@@ -215,6 +215,16 @@ Not used: animate-css/animate.css (Hippocratic licence, not a standard open-sour
 shared/hooks.md and scripts/hookcheck.py are our own (English + Telugu, per format, O-10 timing); nothing copied.
 
 -------------------------------------------------------------------------------
+16. EQUATIONS, CINEMATIC 3D, PREVIEW, TEMPLATES (checked 2026-11-03)
+-------------------------------------------------------------------------------
+[M-mathjax] mathjax/MathJax-src | math | Apache-2.0 | yes | tool | TeX typesetting to SVG outlines (npm mathjax-full 3.2.2); frames/mathfx.js animates the glyphs (our code)
+[M-three-post] mrdoob/three.js (examples/jsm) | 3d | MIT | yes | tool | EffectComposer, GTAO, Bokeh, UnrealBloom, RoomEnvironment; used by frames/look3d.js (our code)
+Ideas learned, re-implemented in our own code: Remotion (props-driven compositions, chunked parallel rendering ->
+templates.cjs, animate.cjs --workers), Motion Canvas (live editor with a timeline -> preview.cjs), ManimGL/Manim
+(write-on, TransformMatchingTex-style glyph matching -> mathfx.js), Blender (filmic tone mapping, lens in mm, DOF,
+AO, volumetric light -> look3d.js), short-video generators (one command from script to video -> scripts/make.py).
+
+-------------------------------------------------------------------------------
 12. VOICE-OVER: NATIVE ENGLISH AND NATIVE TELUGU (checked 2026-11-03)
 -------------------------------------------------------------------------------
 Used by scripts/voice.py and scripts/voice-setup.sh. See shared/voiceover.md.
@@ -225,11 +235,15 @@ Used by scripts/voice.py and scripts/voice-setup.sh. See shared/voiceover.md.
 [V-kokoro-weights] bruk.habtu/kokoro-shards | voice | Apache-2.0 | yes | assets | npm kokoro-q8-shards: Kokoro int8 weights split for registries; sha256 fbae9257…a1478
      install: npm pack kokoro-q8-shards@1.0.0 (voice-setup.sh joins and verifies)
 [V-kokoro-js] hexgrad/kokoro | voice | Apache-2.0 | yes | assets | npm kokoro-js: ships the 54 voice style files (converted to voices.npz)
-[V-indicparler] huggingface/parler-tts | voice | Apache-2.0 code; model card ai4bharat/indic-parler-tts | check | model | open Telugu (and English) TTS with voice description prompts; needs Hugging Face access + GPU/Colab
-     use: render Telugu lines on a machine with access, then feed the files to voice.py with file=
+[V-indicparler] ai4bharat/indic-parler-tts | voice | Apache-2.0 (model card; gated: accept terms) | yes | model | native Telugu narration: Lalitha, Prakash (recommended), Kiran; style by description; runs on CPU (~8-10x real time)
+     install: voice-setup.sh --telugu (venv-te, transformers 4.46)
 [V-indicf5] AI4Bharat/IndicF5 | voice | MIT (model card ai4bharat/IndicF5, gated: accept terms) | yes | model | Telugu speech in the voice of a reference clip; signature channel voices (consent required)
      install: voice-setup.sh --telugu (pip git+https://github.com/ai4bharat/IndicF5.git + model download with HF_TOKEN)
+     tested end to end 2026-11-03 on CPU (~30x real time): a Parler reference clip -> new Telugu line, ASR transcript matched word for word.
+     notes: voice_indicf5.py builds the model itself (transformers 5 meta-device init breaks the vocoder load) and reads audio with soundfile.
 [V-indictts] AI4Bharat/Indic-TTS | voice | MIT code; check model licence | check | model | FastPitch + HiFi-GAN voices for Indian languages incl. Telugu
+[V-chatterbox] resemble-ai/chatterbox | voice | MIT (code + weights ResembleAI/chatterbox) | yes | model | expressive English (emotion 'exaggeration' control, voice from a reference clip); multilingual model has no Telugu
+     status: NOT installed: needs its own venv (pins torch 2.6 / transformers 5.2); installing outside packages needs the user's permission
 Checked and NOT for this channel: facebook/mms-tts-tel (Telugu, CC-BY-NC-4.0, non-commercial),
      facebook/mms-tts-kff-script_telugu (Koya language in Telugu script, CC-BY-NC-4.0),
      anuragshas/wav2vec2-large-xlsr-53-telugu (Apache-2.0, speech RECOGNITION not TTS; WER 45%: alignment use only)

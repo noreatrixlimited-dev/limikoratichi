@@ -113,6 +113,8 @@ def score(text, lang, fmt, strike_secs=None):
     banned = [b for b in BANNED[lang] if re.search(b, tl if lang == "en" else t, re.I)]
     greet = bool(re.search(GREETING[lang], t, re.I))
     kids = fmt in ("kids", "01")
+    if kids and greet and banned == [BANNED[lang][0]]:
+        banned = []   # kids: a friendly "hello friends" is only a soft penalty (greet after the first line instead)
     lim = 9 if lang == "en" else 7
     s = 100 - 85 * bool(banned) - (40 if kids else 80) * (greet and not banned) - max(0, fw - lim) * 8
     if banned:

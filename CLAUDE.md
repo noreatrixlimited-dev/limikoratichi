@@ -9,6 +9,7 @@ start with its `SKILL.md`.
 ## Map
 | Path | What |
 |---|---|
+| `README.md` | Public overview, quick start, tests |
 | `.claude/skills/limiko-studio/GUIDE.md` | **The whole picture**: every job → read, run, ask, deliver, limits |
 | `.claude/skills/limiko-studio/SKILL.md` | Router: 10 formats, mandatory pre-production gates, tools, rules |
 | `…/formats/NN-*/direction.md` | Per-format identity, pacing, allowed camera/transitions, checklist |
@@ -36,7 +37,8 @@ Telugu voice notes
 - Verify Telugu output by transcribing it: the wav2vec2 Telugu ASR model (Apache-2.0, ~45% WER, so judge
   meaning, not spelling) lives in `~/.cache/limiko-voice/models/` (clone from huggingface.co/anuragshas/wav2vec2-large-xlsr-53-telugu).
 - `indicf5` (voice from a reference clip) is installed in its own venv (`venv-f5`, transformers 5.x; parler's
-  `venv-te` pins 4.46). Not yet tested end to end. Reference voices: only ones we have rights to (user, consenting
+  `venv-te` pins 4.46). Tested end to end (≈30× real time on CPU; ASR matched word for word). `voice_indicf5.py`
+  builds the model itself (transformers 5 meta-device init breaks it) and stubs `datasets`/reads audio with soundfile. Reference voices: only ones we have rights to (user, consenting
   artist, or a synthetic Parler voice).
 
 Gaming edits (2026-11-03): `scripts/gameedit.py` (scan → badges → edit.json → render) with the user's rules:
@@ -58,9 +60,15 @@ Scripts: first 10 seconds follow the O-10 curiosity format (`shared/hooks.md`); 
 Environment: network allows `huggingface.co` and `*.hf.co`; a network secret adds `Authorization: Bearer <token>`
 to huggingface.co (account accepted the terms of ai4bharat/indic-parler-tts and ai4bharat/IndicF5).
 
+Studio upgrades (2026-11-03): `frames/animate.cjs --workers/--props` (parallel, identical frames; ctx.reset per frame),
+`frames/preview.cjs` (live player; `--snap` headless), `frames/templates.cjs` + `templates/` (5 data-driven templates),
+`frames/mathfx.js` (MathJax equations, write/transform/box), `frames/look3d.js` (cinematic three.js),
+`scripts/make.py` (new/check/draft/approve/final; final needs approve), `scripts/setup.sh`, tests in
+`.claude/skills/limiko-studio/tests/` + CI `.github/workflows/tests.yml`. Chatterbox (MIT, English) is catalogued but NOT
+installed: installing outside packages was blocked; it needs the user's permission. No LICENSE file yet (owner's choice).
+
 ## Setting up a fresh session
-1. `cd .claude/skills/limiko-studio && bash scripts/voice-setup.sh && bash scripts/voice-setup.sh --telugu`
-   and `cd frames && npm install`, then `bash scripts/vision-setup.sh` for gaming edits. Large downloads; run in the background.
+1. `cd .claude/skills/limiko-studio && bash scripts/setup.sh --all` (or `--check` to see what's there). Large downloads; run in the background.
 2. Check access if Telugu fails: `curl -s -o /dev/null -w '%{http_code}\n' -L https://huggingface.co/ai4bharat/indic-parler-tts/resolve/main/config.json` (200 = ok).
 3. Narration: `python3 scripts/voice.py render voice-examples/rain.te.md --out voice-examples/out/rain-te`, then
    `python3 scripts/voice.py mix --voice voice-examples/out/rain-te/voice.wav --out voice-examples/out/rain-te/voice.m4a --lufs -16`.

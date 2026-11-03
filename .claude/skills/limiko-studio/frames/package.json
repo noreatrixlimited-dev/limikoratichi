@@ -1,18 +1,16 @@
 {
-  "name": "styleframes",
+  "name": "limiko-frames",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Limiko Studio renderer: style frames, animation, templates, transitions",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test ../tests/*.test.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
     "@fontsource/noto-sans-telugu": "^5.3.0",
     "@fontsource/noto-serif-telugu": "^5.3.0",
     "mathjax-full": "^3.2.2",
     "three": "^0.170.0"
-  }
+  },
+  "private": true
 }

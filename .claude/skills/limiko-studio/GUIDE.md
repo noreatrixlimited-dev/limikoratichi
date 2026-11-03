@@ -53,7 +53,12 @@ All paths are relative to `.claude/skills/limiko-studio/` unless they start from
 | N | "edit it like this trending video" | [N](#n--copy-a-trend) | `analyze.py` |
 | O | 3D, Blender, AI clips, outside engines | [O](#o--3d-outside-engines-ai-clips) | `studio.py` |
 | P | free assets, music, licences | [P](#p--assets-and-licences) | `REFERENCES.txt` |
-| Q | a fresh session set up | [Q](#q--setup-in-a-fresh-session) | setup scripts |
+| Q | a fresh session set up | [Q](#q--setup-in-a-fresh-session) | `setup.sh` |
+| R | a quick video from data (titles, top-N, stats, quotes, lower thirds) | [R](#r--templates-from-data) | `templates.cjs` |
+| S | equations explained on screen | [S](#s--equations) | `mathfx.js` |
+| T | cinematic 3D shots | [T](#t--cinematic-3d) | `look3d.js` |
+| U | see a scene while building it | [U](#u--live-preview) | `preview.cjs` |
+| V | the whole film in one command per stage | [V](#v--one-command-pipeline) | `make.py` |
 
 ---
 
@@ -110,8 +115,8 @@ All paths are relative to `.claude/skills/limiko-studio/` unless they start from
   | Language | Engine | Voices | Where |
   |---|---|---|---|
   | English | `kokoro` (offline, Apache-2.0) | af_heart, am_puck, bm_george… | `venv` |
-  | Telugu | `parler` (Indic Parler-TTS) | Lalitha, Prakash | `venv-te` |
-  | Telugu, a cloned voice | `indicf5` (reference clip we have rights to) | — | `venv-f5` (not yet tested end to end) |
+  | Telugu | `parler` (Indic Parler-TTS) | Lalitha, Prakash, Kiran | `venv-te` |
+  | Telugu, a cloned voice | `indicf5` (reference clip we have rights to) | — | `venv-f5` (tested; about 30× real time on CPU) |
   | Either | `recorded` (a human artist) | — | — |
   | Drafts only | `espeak` | — | **never published** |
 - **Run:** `python3 scripts/voice.py check <script.md>`, then `voice.py render <script.md> --out DIR` writes `voice.wav`, `timeline.json` (words, cues, captions) and `captions.srt`. Then `voice.py mix --voice … [--music …] --out … --lufs -14|-16`.
@@ -152,14 +157,9 @@ All paths are relative to `.claude/skills/limiko-studio/` unless they start from
 
 ## Q · Setup in a fresh session
 ```bash
-cd .claude/skills/limiko-studio && bash scripts/voice-setup.sh && bash scripts/voice-setup.sh --telugu
+cd .claude/skills/limiko-studio && bash scripts/setup.sh --all
 ```
-```bash
-cd .claude/skills/limiko-studio/frames && npm install
-```
-```bash
-cd .claude/skills/limiko-studio && bash scripts/vision-setup.sh
-```
+Use `--telugu` or `--vision` for parts only, and `--check` to see what is installed.
 These are large downloads, so run them in the background. If Telugu fails, check Hugging Face access (`CLAUDE.md`).
 
 | Environment | Holds | Used by |
@@ -169,6 +169,28 @@ These are large downloads, so run them in the background. If Telugu fails, check
 | `…/venv-f5` | transformers 5.x, IndicF5 | `voice.py` engine `indicf5` |
 | `…/venv-vision` | shares torch with venv-te; transformers 4.57, DETR, SAM 2.1 | `charglow.py`, `gameedit.py`, `thumbnail.py` |
 | `frames/node_modules` | Playwright, three.js | every `frames/*.cjs` |
+
+## R · Templates from data
+- **Run** (from the repo root): `node .claude/skills/limiko-studio/frames/templates.cjs list`, then `render <name> --set title=…` or `batch <name> --data rows.csv [--vertical]`.
+- **Templates:** title-card, countdown, stat, quote, lower-third. Pick `theme` by format and `lang` en or te.
+- **Rules:** templates are packaging and inserts, not the whole film. Formats still need their own visuals per beat.
+
+## S · Equations
+- **Use** `frames/mathfx.js`: `tex()` in setup, then `draw` (write, fade, rise, pop), `transform` (matching symbols travel) and `box` (highlight). Example: `examples/math-demo.js`.
+- **Rule:** one idea on screen at a time. Write, highlight, transform, then clear (facts direction profile).
+
+## T · Cinematic 3D
+- **Use** `frames/look3d.js`: `cinematic()` for the renderer, plus `lens`, `rig` moves, `lightShaft`, `dust` and `materials`. Example: `examples/temple-3d.js`.
+- **Run:** block the shots with `quality: 'draft'`, then render `final` (about 2 s per frame on CPU; use `--workers`).
+
+## U · Live preview
+- **Run** from the repo root: `node .claude/skills/limiko-studio/frames/preview.cjs <scene.js>`, then open the URL. The player has a scrubber, playback with audio, cue markers, a props editor and reloads when you save.
+- **In the cloud**, `--snap 0,2,5 --out strip.jpg` gives screenshots instead.
+
+## V · One-command pipeline
+- **Run:** `python3 scripts/make.py new <slug> --format <f> --lang en,te`, then `check`, then `draft`. After the user approves, `approve`, then `final`. `status` shows the next step.
+- **Gate:** `final` refuses to run until `approve` is recorded. Record approval only after the user approves the plan and sample frames.
+- **Output:** `films/<slug>/out/film.<lang>.mp4` mixed to the format's loudness, plus `report.md` (hook score on the real timing, edit analysis, publish checklist).
 
 ---
 
@@ -191,6 +213,8 @@ These are large downloads, so run them in the background. If Telugu fails, check
 | director system and 10 format profiles | style frames for formats 05–10 |
 | 59 style frames (2D and 3D), character rig and sheets | rewrite the rain examples to O-10 |
 | timeline toolkit, `animate.cjs` | automatic GL transitions inside `gameedit` |
-| English voice (Kokoro), native Telugu voice (Parler) | IndicF5 end-to-end test |
+| English voice (Kokoro), native Telugu voices (Parler, IndicF5) | more English engines (Chatterbox needs install permission) |
 | gaming edit, SAM 2 outline, thumbnails | faster tracking (GPU) |
-| 166 transitions, 25 text presets, hook scoring | |
+| 166 transitions, 25 text presets, hook scoring | a LICENSE for the repo (owner's choice) |
+| templates, equations, cinematic 3D, live preview, parallel render | |
+| `make.py` pipeline, tests + CI | |

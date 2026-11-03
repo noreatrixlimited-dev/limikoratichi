@@ -96,7 +96,7 @@ async function tick(now) {
   if (dirty && !busy && scene && state) {
     busy = true; dirty = false;
     const ft = snap(t); // draw exactly the frame the renderer would draw
-    try { if (ctx) await scene.draw(ctx, meta.W, meta.H, L, T, ft, state); else await scene.draw({ ...three, t: ft, state }); }
+    try { if (ctx) { ctx.reset(); await scene.draw(ctx, meta.W, meta.H, L, T, ft, state); } else await scene.draw({ ...three, t: ft, state }); }
     catch (e) { $('err').textContent = String(e && e.stack || e); setPlaying(false); }
     const p = 100 * ft / meta.duration;
     $('track').querySelector('.fill').style.width = p + '%'; $('track').querySelector('.head').style.left = p + '%';

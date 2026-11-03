@@ -19,7 +19,8 @@ try {
   state = state || {}; if (!('props' in state)) state.props = props;
   window.META = { fps: scene.fps || 24, duration: (state && state.duration) || scene.duration, W, H, audio: (state && state.audio) || scene.audio || null };
   window.frame = async (t) => {
-    if (ctx) await scene.draw(ctx, W, H, L, T, t, state); else await scene.draw({ ...three, t, state });
+    // fresh 2D state every frame (no fill/align/alpha leaking from the previous frame), so any frame renders the same alone
+    if (ctx) { ctx.reset(); await scene.draw(ctx, W, H, L, T, t, state); } else await scene.draw({ ...three, t, state });
     return canvas.toDataURL('image/png');
   };
   window.READY = true;
