@@ -1,0 +1,2 @@
+# word = how the voice should say it
+magma = MAG-muh

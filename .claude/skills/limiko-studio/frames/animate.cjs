@@ -45,9 +45,13 @@ srv.listen(0, '127.0.0.1', async () => {
   console.log(`\r  ${k} frames in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
   await browser.close(); srv.close();
   const mp4 = base + '.mp4';
-  const audio = audioArg || (meta.audio ? path.resolve(path.dirname(scenePath), meta.audio) : null);
+  // scene audio paths are URLs like fetch(): relative to frames/anim.html (or '/…' from the repo root)
+  const audio = audioArg ? path.resolve(ROOT, audioArg)
+    : meta.audio ? (meta.audio.startsWith('/') ? path.join(ROOT, meta.audio) : path.resolve(__dirname, meta.audio)) : null;
+  if (audio && !fs.existsSync(audio)) { console.error(`audio not found: ${audio}`); process.exit(1); }
+  if (audio) console.log(`  audio: ${path.relative(ROOT, audio)}`);
   const ff = ['-y', '-v', 'error', '-framerate', String(fps / every), '-i', path.join(dir, '%05d.png')];
-  if (audio && fs.existsSync(audio)) ff.push('-ss', String(from), '-i', audio, '-c:a', 'aac', '-b:a', '192k', '-shortest');
+  if (audio) ff.push('-ss', String(from), '-i', audio, '-c:a', 'aac', '-b:a', '192k');
   ff.push('-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', mp4);
   execFileSync('ffmpeg', ff, { stdio: 'inherit' });
   console.log(`✓ ${mp4}`);

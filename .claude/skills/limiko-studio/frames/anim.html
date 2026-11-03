@@ -13,9 +13,9 @@ try {
   let ctx = null, three = null;
   if (scene.dim === '3d') { const THREE = await import('three'); three = { THREE, canvas, W, H, L, T }; }
   else ctx = canvas.getContext('2d', { willReadFrequently: true });
-  await document.fonts.ready;
+  await L.loadFonts(); await document.fonts.ready;
   const state = scene.setup ? await scene.setup(ctx ? { ctx, W, H, L, T } : three) : {};
-  window.META = { fps: scene.fps || 24, duration: scene.duration, W, H, audio: scene.audio || null };
+  window.META = { fps: scene.fps || 24, duration: (state && state.duration) || scene.duration, W, H, audio: (state && state.audio) || scene.audio || null };
   window.frame = async (t) => {
     if (ctx) await scene.draw(ctx, W, H, L, T, t, state); else await scene.draw({ ...three, t, state });
     return canvas.toDataURL('image/png');

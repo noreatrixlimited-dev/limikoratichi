@@ -25,7 +25,7 @@ try {
       await st.draw({ THREE, canvas, W, H, L });
     } else {
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      await document.fonts.ready;
+      await L.loadFonts(); await document.fonts.ready;
       await st.draw(ctx, W, H, L);
     }
   }

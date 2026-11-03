@@ -40,7 +40,9 @@ The sheet shows: front / ¾ / side / back on a head-height grid, 6 expressions, 
                   "necklace","garland","earrings",
                   "flute","mace","trident","sword","staff","book","lotus",   // right hand
                   "bow","shield"],                                           // left hand
-  "personality": "…", "voice": "…", "signature": "…", "source": "…"
+  "personality": "…", "voice": "…", "signature": "…", "source": "…",
+  "voices": { "en": { "engine": "kokoro", "voice": "am_puck", "speed": 1.08 },        // cast voice per language
+              "te": { "engine": "google", "voice": "te-IN-Standard-B", "speed": 1.05 } } // see voiceover.md
 }
 ```
 

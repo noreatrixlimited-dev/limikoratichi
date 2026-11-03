@@ -59,6 +59,7 @@ G5 Storyboard → G6 Sample frames → user approval → production
 | Characters: spec schema, rig, reference sheets, rules | `shared/characters.md` |
 | Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |
 | Copy a trending video's editing style with our own content | `shared/remake-a-trend.md` + `scripts/analyze.py` |
+| **Voice-over: native English and native Telugu** (engines, casting, script markup, Telugu writing rules, timings, cues, captions, mix) | `shared/voiceover.md` + `scripts/voice.py` |
 | Lyric and song videos | `shared/music-video.md` |
 | AI-generated photoreal clips | `shared/ai-models.md` |
 | 3D characters, worlds, Blender | `shared/3d.md` |
@@ -80,6 +81,8 @@ Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the packagi
 (hook, title, thumbnail text, description, tags).
 
 ## Rules
+- **Two languages: native English and native Telugu.** Write each natively (never word-for-word translation);
+  bilingual films share one animation driven by voice cues. No published `espeak` voice.
 - **Distinct identity per format.** Use only the camera moves, transitions and effect level the format allows.
 - **Continuity.** Characters from locked specs; light, screen direction, props and costume tracked per scene.
 - **Truth.** Facts, history, documentary and nature need sources; myths are told as stories from a named
@@ -100,6 +103,9 @@ cd .claude/skills/limiko-studio
 node frames/render.cjs <kids|gaming|facts|history|all>      # style frames + contact sheets
 node frames/character-sheet.cjs <spec.json…>                # character reference sheets
 (from repo root) node .claude/skills/limiko-studio/frames/animate.cjs <scene.js> --out film.mp4   # animated scene → video
+bash scripts/voice-setup.sh                                 # once: offline English voices (Kokoro) + Telugu draft voice
+python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voice.wav + timeline (words, cues, captions)
+python3 scripts/voice.py mix --voice v.wav --music m.wav --out mix.wav --lufs -14
 python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)
 python3 scripts/studio.py for <kids|games|facts|history>    # engines a format recommends
 python3 scripts/studio.py search <words> · show <id> · fetch <id…> · enable <id> · status

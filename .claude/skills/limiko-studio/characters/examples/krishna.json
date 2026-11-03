@@ -1,15 +1,66 @@
 {
-  "id": "krishna-young", "version": 1, "name": "Krishna (young)", "role": "mythology · Bhagavata Purana / Mahabharata",
+  "id": "krishna-young",
+  "version": 1,
+  "name": "Krishna (young)",
+  "role": "mythology · Bhagavata Purana / Mahabharata",
   "age": "youth",
-  "build": { "heads": 6, "width": 0.95, "head": "oval" },
-  "colors": { "skin": "#3b6fb6", "hair": "#141018", "eyes": "#141018", "top": "#3b6fb6", "bottom": "#f2b705",
-              "shoes": "#3b6fb6", "accent": "#e8b23a", "line": "#1d1a2a", "blush": "#ff9aa2" },
-  "face": { "eyes": "almond", "eyeSize": 1.1, "brows": "soft", "nose": "small", "mouth": "smile", "marks": ["tilak"] },
-  "hair": { "style": "long", "volume": 1.1 }, "ears": "human",
-  "outfit": { "top": "none", "bottom": "dhoti", "sash": "#e94f37" },
-  "accessories": ["tall-crown", "peacock-feather", "flute", "necklace", "garland", "earrings"],
+  "build": {
+    "heads": 6,
+    "width": 0.95,
+    "head": "oval"
+  },
+  "colors": {
+    "skin": "#3b6fb6",
+    "hair": "#141018",
+    "eyes": "#141018",
+    "top": "#3b6fb6",
+    "bottom": "#f2b705",
+    "shoes": "#3b6fb6",
+    "accent": "#e8b23a",
+    "line": "#1d1a2a",
+    "blush": "#ff9aa2"
+  },
+  "face": {
+    "eyes": "almond",
+    "eyeSize": 1.1,
+    "brows": "soft",
+    "nose": "small",
+    "mouth": "smile",
+    "marks": [
+      "tilak"
+    ]
+  },
+  "hair": {
+    "style": "long",
+    "volume": 1.1
+  },
+  "ears": "human",
+  "outfit": {
+    "top": "none",
+    "bottom": "dhoti",
+    "sash": "#e94f37"
+  },
+  "accessories": [
+    "tall-crown",
+    "peacock-feather",
+    "flute",
+    "necklace",
+    "garland",
+    "earrings"
+  ],
   "personality": "playful, wise, calm, compassionate",
   "voice": "gentle, melodic, unhurried",
   "signature": "flute held at the lips, one foot crossed; peacock feather always on the crown",
-  "source": "traditional iconography: blue skin, yellow dhoti, flute, peacock feather (respect rules apply)"
+  "source": "traditional iconography: blue skin, yellow dhoti, flute, peacock feather (respect rules apply)",
+  "voices": {
+    "en": {
+      "engine": "kokoro",
+      "voice": "bm_fable",
+      "speed": 0.95
+    },
+    "te": {
+      "engine": "recorded",
+      "note": "native Telugu artist: gentle, melodic"
+    }
+  }
 }

@@ -281,3 +281,20 @@ export function three3d(THREE, canvas, W, H, { bg = '#ffffff', fov = 35, ortho =
   const render = () => renderer.render(scene, camera);
   return { renderer, scene, camera, sun, mesh, render };
 }
+
+// Telugu fonts (OFL) for captions and titles. Called by page.html / anim.html before drawing.
+export async function loadFonts() {
+  const base = new URL('./fonts/', import.meta.url);
+  const faces = [
+    ['Noto Sans Telugu', 'noto-sans-telugu-telugu-400-normal.woff2', 400],
+    ['Noto Sans Telugu', 'noto-sans-telugu-telugu-700-normal.woff2', 700],
+    ['Noto Sans Telugu', 'noto-sans-telugu-telugu-900-normal.woff2', 900],
+    ['Noto Serif Telugu', 'noto-serif-telugu-telugu-400-normal.woff2', 400],
+    ['Noto Serif Telugu', 'noto-serif-telugu-telugu-700-normal.woff2', 700],
+  ];
+  await Promise.all(faces.map(async ([fam, file, weight]) => {
+    try { const f = new FontFace(fam, `url(${new URL(file, base)})`, { weight: String(weight) }); await f.load(); document.fonts.add(f); } catch (e) { /* font optional */ }
+  }));
+}
+// Font stacks: put Telugu first for Telugu text; Latin glyphs fall through to the next family.
+export const FONT = { te: '"Noto Sans Telugu", Inter, sans-serif', teSerif: '"Noto Serif Telugu", "DejaVu Serif", serif', en: 'Inter, "DejaVu Sans", sans-serif' };

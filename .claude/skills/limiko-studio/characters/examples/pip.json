@@ -1,14 +1,63 @@
 {
-  "id": "pip", "version": 1, "name": "Pip the Fox", "role": "kids channel hero", "age": "5 (fox years)",
-  "build": { "heads": 3, "width": 1.1, "belly": 0.3, "head": "fox" },
-  "colors": { "skin": "#f28c38", "hair": "#f28c38", "eyes": "#2b1d14", "top": "#4aa3df", "bottom": "#2f5f8a",
-              "shoes": "#3a2a20", "accent": "#ffd23f", "line": "#5a3a20", "blush": "#ff8a8a" },
-  "face": { "eyes": "round", "eyeSize": 1.15, "brows": "soft", "nose": "animal", "mouth": "smile", "marks": [] },
-  "hair": { "style": "none" }, "ears": "fox", "muzzle": "#fff4e0",
-  "tail": { "color": "#f28c38", "tip": "#fff4e0" },
-  "outfit": { "top": "tunic", "bottom": "pants", "sleeves": "short", "belt": false },
+  "id": "pip",
+  "version": 1,
+  "name": "Pip the Fox",
+  "role": "kids channel hero",
+  "age": "5 (fox years)",
+  "build": {
+    "heads": 3,
+    "width": 1.1,
+    "belly": 0.3,
+    "head": "fox"
+  },
+  "colors": {
+    "skin": "#f28c38",
+    "hair": "#f28c38",
+    "eyes": "#2b1d14",
+    "top": "#4aa3df",
+    "bottom": "#2f5f8a",
+    "shoes": "#3a2a20",
+    "accent": "#ffd23f",
+    "line": "#5a3a20",
+    "blush": "#ff8a8a"
+  },
+  "face": {
+    "eyes": "round",
+    "eyeSize": 1.15,
+    "brows": "soft",
+    "nose": "animal",
+    "mouth": "smile",
+    "marks": []
+  },
+  "hair": {
+    "style": "none"
+  },
+  "ears": "fox",
+  "muzzle": "#fff4e0",
+  "tail": {
+    "color": "#f28c38",
+    "tip": "#fff4e0"
+  },
+  "outfit": {
+    "top": "tunic",
+    "bottom": "pants",
+    "sleeves": "short",
+    "belt": false
+  },
   "accessories": [],
   "personality": "curious, brave, kind; asks 'why?' a lot",
   "voice": "warm, bright, a little giggly; speaks slowly",
-  "signature": "waves with the right paw; tail wags when happy"
+  "signature": "waves with the right paw; tail wags when happy",
+  "voices": {
+    "en": {
+      "engine": "kokoro",
+      "voice": "am_puck",
+      "speed": 1.08
+    },
+    "te": {
+      "engine": "google",
+      "voice": "te-IN-Standard-B",
+      "speed": 1.05
+    }
+  }
 }

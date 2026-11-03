@@ -182,6 +182,28 @@ Websites (not GitHub, all CC0, credit appreciated but not required):
      Pixabay Music / Freesound (filter CC0)
 
 -------------------------------------------------------------------------------
+12. VOICE-OVER: NATIVE ENGLISH AND NATIVE TELUGU (checked 2026-11-03)
+-------------------------------------------------------------------------------
+Used by scripts/voice.py and scripts/voice-setup.sh. See shared/voiceover.md.
+
+[V-kokoro] hexgrad/kokoro | voice | Apache-2.0 | yes | model | Kokoro-82M English voices (US + UK); the studio's offline English narrator
+[V-kokoro-onnx] thewh1teagle/kokoro-onnx | voice | MIT | yes | tool | Python runtime for Kokoro ONNX (PyPI kokoro-onnx)
+     install: pip install kokoro-onnx==0.6.1
+[V-kokoro-weights] bruk.habtu/kokoro-shards | voice | Apache-2.0 | yes | assets | npm kokoro-q8-shards: Kokoro int8 weights split for registries; sha256 fbae9257…a1478
+     install: npm pack kokoro-q8-shards@1.0.0 (voice-setup.sh joins and verifies)
+[V-kokoro-js] hexgrad/kokoro | voice | Apache-2.0 | yes | assets | npm kokoro-js: ships the 54 voice style files (converted to voices.npz)
+[V-indicparler] huggingface/parler-tts | voice | Apache-2.0 code; model card ai4bharat/indic-parler-tts | check | model | open Telugu (and English) TTS with voice description prompts; needs Hugging Face access + GPU/Colab
+     use: render Telugu lines on a machine with access, then feed the files to voice.py with file=
+[V-indictts] AI4Bharat/Indic-TTS | voice | MIT code; check model licence | check | model | FastPitch + HiFi-GAN voices for Indian languages incl. Telugu
+[V-espeak] espeak-ng/espeak-ng | voice | GPL-3.0 (output unrestricted) | yes | tool | robotic Telugu/English: drafts and animatics only, never published
+[V-noto-te] notofonts/telugu | font | OFL-1.1 | yes | assets | Noto Sans / Serif Telugu for captions (bundled in frames/fonts via @fontsource)
+
+Cloud voices (commercial use under each provider's terms; need the user's account):
+     Google Cloud Text-to-Speech   te-IN Standard A/B (+ Chirp HD where enabled), en-US/en-GB Neural2
+     Azure AI Speech               te-IN-ShrutiNeural, te-IN-MohanNeural, en-US/en-GB Neural
+Not for published videos: browser "read aloud" endpoints (e.g. Edge online TTS); their terms don't cover it.
+
+-------------------------------------------------------------------------------
 11. RENDERING ENGINES TO LEARN FROM (checked 2026-11-02)
 -------------------------------------------------------------------------------
 Already listed above and part of this set: E-html (HTML/CSS → video), E-remotion (React

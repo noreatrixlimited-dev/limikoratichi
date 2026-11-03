@@ -1,0 +1,5 @@
+Noto Sans Telugu and Noto Serif Telugu
+Copyright 2022 The Noto Project Authors (https://github.com/notofonts/telugu)
+Licensed under the SIL Open Font License, Version 1.1 (https://openfontlicense.org).
+Copied from the npm packages @fontsource/noto-sans-telugu@5.3.0 and @fontsource/noto-serif-telugu@5.3.0.
+The fonts may be used, embedded in videos and redistributed; they may not be sold by themselves.
