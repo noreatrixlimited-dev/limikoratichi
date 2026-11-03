@@ -19,7 +19,7 @@ jobs:
           node-version: "22"
       - name: System tools
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg fonts-inter fonts-dejavu-core
-      - name: Python packages (light: no voice or vision models)
+      - name: "Python packages (light, no voice or vision models)"
         run: pip install numpy soundfile pillow
       - name: Renderer packages
         working-directory: .claude/skills/limiko-studio/frames
