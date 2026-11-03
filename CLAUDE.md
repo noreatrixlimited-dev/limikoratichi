@@ -47,6 +47,9 @@ identify.jpg and ask the user which character is theirs). Moving camera in every
 Character outline tracking uses SAM 2.1 tiny (transformers 4.57 inside venv-vision only; venv-te keeps 4.46 for
 Parler); DETR only identifies. Transitions: 166 GL Transitions vendored in frames/transitions/gl (`frames/transitions.cjs`),
 text animations `frames/textfx.js` (25 presets, Telugu-safe); guide `shared/transitions-text.md`.
+Outline styles in gameedit: sticker (default, white stroke + warm glow, from the user's thumbnail reference), neon,
+aura; optional "grade": "leak" (purple→gold). Thumbnails: `scripts/thumbnail.py` (SAM 2 cut-out + sticker outline +
+leak grade + 3D text, mixed Telugu/Latin runs). The repo is public: don't commit the user's footage or frames of it.
 
 Environment: network allows `huggingface.co` and `*.hf.co`; a network secret adds `Authorization: Bearer <token>`
 to huggingface.co (account accepted the terms of ai4bharat/indic-parler-tts and ai4bharat/IndicF5).

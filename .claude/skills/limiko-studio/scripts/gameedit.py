@@ -181,7 +181,7 @@ def glow_layer(frame, mask, color, strength, style="sticker", stroke=None):
     return np.clip(f * (1 - a) + sc[None, None, :] * a, 0, 255)
 
 
-def grade_frame(img, grade):
+def grade_frame(img, grade, strength=1.0):
     """Colour grade on the output frame. 'leak': purple light leak on the left, warm gold on the right (thumbnail look)."""
     if not grade:
         return img
@@ -192,11 +192,11 @@ def grade_frame(img, grade):
         left = np.array([240, 40, 170], np.float32)   # BGR purple-magenta
         right = np.array([20, 170, 255], np.float32)  # BGR warm gold
         tint = left * (1 - x) ** 2 + right * x ** 2
-        amt = (0.62 * (1 - x) ** 2.2 + 0.58 * x ** 2.2)
+        amt = np.clip((0.62 * (1 - x) ** 2.2 + 0.58 * x ** 2.2) * strength, 0, 0.95)
         colored = np.clip(img * (tint / 205.0) + tint * 0.22, 0, 255)  # recolour (works on bright walls too)
         img = img * (1 - amt) + colored * amt
         hsv = cv2.cvtColor(np.clip(img, 0, 255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32)
-        hsv[..., 1] = np.clip(hsv[..., 1] * 1.18, 0, 255)
+        hsv[..., 1] = np.clip(hsv[..., 1] * (1 + 0.18 * strength), 0, 255)
         img = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR).astype(np.float32)
         yy, xx = np.mgrid[0:hh, 0:ww].astype(np.float32)
         v = 1 - 0.28 * np.clip(((xx / ww - 0.5) ** 2 + (yy / hh - 0.5) ** 2) * 2.2, 0, 1)

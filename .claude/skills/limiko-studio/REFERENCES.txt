@@ -187,7 +187,7 @@ Websites (not GitHub, all CC0, credit appreciated but not required):
 Used by scripts/charglow.py and scripts/gameedit.py (venv-vision, scripts/vision-setup.sh).
 
 [X-detr] facebookresearch/detr | vision | Apache-2.0 (model card facebook/detr-resnet-50-panoptic) | yes | model | person segmentation: finds and outlines the player's character
-[X-sam2] facebookresearch/sam2 | vision | Apache-2.0 (models facebook/sam2.1-hiera-tiny / -small) | yes | model | video object tracking: follows the player's character for the glow
+[X-sam2] facebookresearch/sam2 | vision | Apache-2.0 (models facebook/sam2.1-hiera-tiny / -small) | yes | model | video object tracking (tiny) for the outline; single-frame cut-out (small) for thumbnails
      install: via PyPI transformers>=4.57 in venv-vision (building the GitHub source was not needed)
 [X-timm] huggingface/pytorch-image-models | vision | Apache-2.0 | yes | tool | backbone library DETR needs (PyPI timm)
 [X-opencv] opencv/opencv | vision | Apache-2.0 | yes | tool | glow, masks, warping (PyPI opencv-python-headless)

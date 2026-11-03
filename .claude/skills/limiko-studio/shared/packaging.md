@@ -39,6 +39,8 @@ Rules: one idea, under 10 words on screen, no logo or intro before it, motion in
 - 0–4 words, readable at phone size, high contrast, one face or one object large.
 - Adds emotion or tension to the title; never repeats it.
 
+Gaming thumbnails can be made automatically from the footage: `../formats/04-gaming/packaging.md` → `scripts/thumbnail.py`.
+
 ## 4. Description (template)
 ```
 <Line 1: the promise in one sentence, with the main search phrase.>

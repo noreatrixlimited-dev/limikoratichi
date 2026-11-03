@@ -111,6 +111,7 @@ python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voi
 python3 scripts/voice.py mix --voice v.wav --music m.wav --out mix.wav --lufs -14
 python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)
 node frames/transitions.cjs list|join|chain|sheet           # GPU video transitions between clips
+~/.cache/limiko-voice/venv-vision/bin/python scripts/thumbnail.py make|variants …    # thumbnails: cut-out character + outline + grade + 3D text (EN/TE)
 bash scripts/vision-setup.sh                                # once: character tracking (DETR) for gaming edits
 ~/.cache/limiko-voice/venv-vision/bin/python scripts/gameedit.py scan|badges|render …   # gaming edits from an edit list
 ~/.cache/limiko-voice/venv-vision/bin/python scripts/charglow.py identify|track …        # find / track the player's character (asks if unsure)
