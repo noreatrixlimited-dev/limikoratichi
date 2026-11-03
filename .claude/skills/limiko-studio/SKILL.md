@@ -13,6 +13,9 @@ The result must feel directed, not like generated pictures with random transitio
 Engine ids (like `E-film`, `A-kokoro`) are explained, with links, licences and install steps, in
 `REFERENCES.txt`. That notepad is the only place outside sources are listed.
 
+**The whole picture:** `GUIDE.md` maps every job (new video, gaming edit, voice, hook, thumbnail, trend copy, setup…)
+to what to read, what to run, when to ask the user, and what to deliver. Start there when unsure.
+
 ## Step 1 · Choose the format
 
 | # | Format | Identity in one line | Open |

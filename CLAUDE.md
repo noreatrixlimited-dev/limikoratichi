@@ -9,6 +9,7 @@ start with its `SKILL.md`.
 ## Map
 | Path | What |
 |---|---|
+| `.claude/skills/limiko-studio/GUIDE.md` | **The whole picture**: every job → read, run, ask, deliver, limits |
 | `.claude/skills/limiko-studio/SKILL.md` | Router: 10 formats, mandatory pre-production gates, tools, rules |
 | `…/formats/NN-*/direction.md` | Per-format identity, pacing, allowed camera/transitions, checklist |
 | `…/shared/` | Pre-production, directing, characters, voice-over, engines, editing, packaging, assets |
