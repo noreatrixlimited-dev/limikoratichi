@@ -1,0 +1,197 @@
+LIMIKO STUDIO · REFERENCES NOTEPAD
+==================================
+Every outside project this studio learned from or can load, in one place.
+The skill's own text, styles and playbooks are written fresh; nothing below is
+copied into them. Links were checked on 2026-11-02. Star counts are as GitHub
+showed them that day and are not a quality guarantee.
+
+Commercial column:  yes   = permissive (MIT / Apache-2.0 / CC0), fine for paid channels
+                    check = read the licence first (custom, AGPL, GPL, unclear, or model weights differ)
+                    no    = non-commercial; tests only
+
+Line format (the loader script reads these lines; keep the shape):
+[id] owner/repo | category | licence | commercial | kind | one-line use
+     kind: skill (agent skill or plugin), tool, model, assets, list
+
+
+-------------------------------------------------------------------------------
+1. CODE-DRAWN FILMS (every frame made in code, no video model)
+-------------------------------------------------------------------------------
+[E-film] lemomo-ai/lemo-opuscar | film | MIT + CC-BY-4.0 demos | yes | skill | 66 film styles drawn in code with narration and score; the main inspiration for this studio's style library
+     install: claude plugin marketplace add lemomo-ai/lemo-opuscar && claude plugin install lemo-opuscar@lemolab
+     needs: Node 20+, ffmpeg 7+, Python 3.11+
+[E-film-plus] zhgarylu/claude-video | film | unclear | check | skill | a derivative with 61 styles plus a presenter (talking-head) workflow
+[E-html] heygen-com/hyperframes | film | Apache-2.0 | yes | skill | write HTML, render video; built for agents
+     install: claude plugin marketplace add heygen-com/hyperframes && claude plugin install hyperframes@hyperframes
+[E-html2] nexu-io/html-video | film | Apache-2.0 | yes | tool | HTML/CSS/data to MP4 locally
+[E-shots] Vincentwei1021/video-shotcraft | film | Apache-2.0 | yes | skill | cinematic product promos in Remotion from 124 shot recipes
+     install: npx skills add Vincentwei1021/video-shotcraft
+[E-explain] Vincentwei1021/anything2explainer | film | unclear | check | skill | topic in, narrated explainer out (facts channel)
+[E-talk] Vincentwei1021/video-talkcraft | film | unclear | check | skill | voiceover-driven motion-design explainers
+     install: npx skills add Vincentwei1021/video-talkcraft
+[E-mg15] Vincentwei1021/mg-styles-15 | film | MIT | yes | skill | 15 motion-design styles with their prompts
+[E-bang] bangtutorial/bang-motion | film | MIT | yes | skill | openers, promos, kinetic type, five explainer looks
+     install: /plugin install bang-motion@bang-motion
+[E-mgskills] charlie947/motion-graphics-skills | film | MIT | yes | skill | 13 launch-style motion-graphics skills
+[E-mg] Barty-Bart/motion-graphics | film | unclear | check | skill | motion-graphics skills
+[E-biz] echris6/motion-video-kit | film | MIT | yes | skill | business videos with a critic pass
+[E-collage] Anil-matcha/vox-ai-motion-graphics-generator | film | none | check | tool | paper-collage explainer look
+[E-book] DozenTwelve/Papermorph | film | MIT | yes | skill | books into narrated animated stories (kids)
+     install: npx skills add DozenTwelve/Papermorph --skill papermorph --agent claude-code
+[E-remotion-skill] haidrrrry/claude-remotion-skill | film | MIT | yes | skill | Remotion video skill
+[E-remotion-pro] DojoCodingLabs/remotion-superpowers | film | MIT | yes | skill | Remotion production studio
+[E-remotion] remotion-dev/remotion | film | Remotion licence | check | tool | React to video; free for individuals and small teams
+[E-manim] ManimCommunity/manim | film | MIT | yes | tool | maths and science explainer animation
+[E-manim-3b1b] 3b1b/manim | film | MIT | yes | tool | the original manim
+[E-movis] rezoo/movis | film | MIT | yes | tool | Python motion graphics and presentation video
+[E-hand] JohnHeibel/ClaudeAnimationBase | film | MIT | yes | tool | hand-painted cartoon starter kit (p5.js)
+[E-wake] lemomo-ai/lemo-wake | film | unclear | check | tool | one picture into a seamless 5 s loop
+
+-------------------------------------------------------------------------------
+2. MUSIC AND LYRIC VIDEOS
+-------------------------------------------------------------------------------
+[E-mv] Yari-tuber/mv-director | music-video | unclear | check | skill | reads lyrics, cuts on the beat
+     install: git clone https://github.com/Yari-tuber/mv-director ~/.claude/skills/mv-director
+[E-mv-paint] Joker-chichi/claude-mv-skill | music-video | unclear | check | skill | hand-painted lyric videos
+[E-mv-vocaloid] EGSECDA/vocaloid-style-mv-pipeline | music-video | MIT | yes | skill | hand-drawn lyric video pipeline
+
+-------------------------------------------------------------------------------
+3. AI VIDEO MODELS (need a GPU or a hosted runner)
+-------------------------------------------------------------------------------
+[M-wan] Wan-Video/Wan2.1 | ai-video | Apache-2.0 | yes | model | strong open text/image-to-video
+[M-ltx] Lightricks/LTX-Video | ai-video | Apache-2.0 | yes | model | fast, runs on consumer GPUs
+[M-opensora] hpcaitech/Open-Sora | ai-video | Apache-2.0 | yes | model | open text-to-video
+[M-cog] zai-org/CogVideo | ai-video | Apache-2.0 | yes | model | text/image-to-video
+[M-hunyuan] Tencent-Hunyuan/HunyuanVideo | ai-video | Tencent licence | check | model | high quality, region limits in licence
+[M-hunyuan15] Tencent-Hunyuan/HunyuanVideo-1.5 | ai-video | Tencent licence | check | model | lighter version
+[M-hunyuan-i2v] Tencent-Hunyuan/HunyuanVideo-I2V | ai-video | Tencent licence | check | model | image-to-video
+[M-animate] HumanAIGC/AnimateAnyone | ai-video | Apache-2.0 | yes | model | animate a character from one image
+[M-animate2] MooreThreads/Moore-AnimateAnyone | ai-video | Apache-2.0 | yes | model | runnable AnimateAnyone + face reenactment
+[M-comfy] Comfy-Org/ComfyUI | ai-video | GPL-3.0 | check | tool | node UI that runs all of the above; outputs are yours
+[M-comfy-mcp] artokun/comfyui-mcp | ai-video | MIT | yes | tool | lets an agent drive ComfyUI
+[M-prompts] jnMetaCode/ai-shortfilm-prompts | ai-video | MIT | yes | skill | idea into prompts for hosted video models
+[M-drama] zenstory-ai/drama-skills | ai-video | MIT | yes | skill | short drama: script, characters, storyboard, prompts
+     install: npx skills add zenstory-ai/drama-skills -y -g
+[M-survey] showlab/Awesome-Video-Diffusion | ai-video | none | check | list | survey of video diffusion methods
+
+-------------------------------------------------------------------------------
+4. 3D (models, motion, Blender)
+-------------------------------------------------------------------------------
+[D-trellis] microsoft/TRELLIS | 3d | MIT | yes | model | image or text to 3D asset
+[D-hy3d] Tencent-Hunyuan/Hunyuan3D-2 | 3d | Tencent licence | check | model | textured 3D assets
+[D-hy3d21] Tencent-Hunyuan/Hunyuan3D-2.1 | 3d | Tencent licence | check | model | PBR materials
+[D-dreamg] dreamgaussian/dreamgaussian | 3d | MIT | yes | model | fast image-to-3D
+[D-dreamfusion] ashawkey/stable-dreamfusion | 3d | Apache-2.0 | yes | model | text-to-3D with mesh export
+[D-motion] Tencent-Hunyuan/HY-Motion-1.0 | 3d | Tencent licence | check | model | text to 3D character motion
+[D-mocap] MaxLiu22/Motion2MixamoRig | 3d | Apache-2.0 | yes | tool | motion from video onto a Mixamo rig
+[D-mocap2] squall01337/mixamo-llm-mocap | 3d | unclear | check | tool | any video into a Mixamo-rig animation in Blender
+[D-prompt2rig] blendi-remade/prompt2rig | 3d | Apache-2.0 | yes | tool | type a motion, a rigged character performs it
+[D-blender-mcp] ahujasid/mcp-for-blender | 3d | MIT | yes | tool | lets the agent control Blender
+     install: https://github.com/ahujasid/mcp-for-blender#installation (read the script before running it)
+[D-blender94] arjun988/blender-skills | 3d | MIT | yes | skill | 94 Blender skills
+[D-blender52] EL4CTEO/blender-skills | 3d | MIT | yes | skill | Blender 5.2 workflows
+[D-blender-game] majidmanzarpour/blender-game-skills | 3d | MIT | yes | skill | concept art to rigged game asset
+[D-blender-cc] RobLe3/cc-blender-skill | 3d | MIT | yes | skill | Blender via natural language
+[D-3dviz] viettranx/3dviz-pro-max | 3d | MIT | yes | skill | Three.js / Blender scenes
+[D-talkinghead] met4citizen/TalkingHead | 3d | MIT | yes | tool | 3D talking avatar in the browser
+
+-------------------------------------------------------------------------------
+5. VOICE, MUSIC, SOUND, LIP SYNC
+-------------------------------------------------------------------------------
+[A-kokoro] remsky/Kokoro-FastAPI | voice | Apache-2.0 | yes | tool | light, good TTS, runs on CPU (default narrator)
+[A-f5] SWivid/F5-TTS | voice | MIT code, check weights | check | model | natural voice and cloning
+[A-sovits] RVC-Boss/GPT-SoVITS | voice | MIT | yes | model | clone a voice from ~1 minute (own voice only)
+[A-bark] suno-ai/bark | voice | MIT | yes | model | speech with laughs and sounds
+[A-chattts] 2noise/ChatTTS | voice | AGPL-3.0 + NC weights | no | model | conversational TTS
+[A-coqui] coqui-ai/TTS | voice | MPL-2.0, XTTS weights NC | check | model | TTS toolkit
+[A-voxcpm] OpenBMB/VoxCPM | voice | Apache-2.0 | yes | model | multilingual TTS and voice design
+[A-moss] OpenMOSS/MOSS-TTS | voice | Apache-2.0 | yes | model | long-form speech, dialogue, sound effects
+[A-ttsui] rsxdalv/TTS-WebUI | voice | MIT | yes | tool | one UI for many TTS and music engines
+[A-acestep] ace-step/ACE-Step-1.5 | music | MIT | yes | model | full songs locally
+[A-acestep-ui] fspecii/ace-step-ui | music | none | check | tool | friendly UI for ACE-Step
+[A-yue] multimodal-art-projection/YuE | music | Apache-2.0 | yes | model | songs with vocals
+[A-audiocraft] facebookresearch/audiocraft | music | MIT code, CC-BY-NC weights | no | model | MusicGen / AudioGen
+[A-stableaudio] Stability-AI/stable-audio-tools | sfx | MIT code, check weights | check | model | sound effects and loops
+[A-amphion] open-mmlab/Amphion | music | MIT | yes | tool | audio, music and speech toolkit
+[A-rhubarb] DanielSWolf/rhubarb-lip-sync | lipsync | MIT-style | yes | tool | 2D cartoon mouth shapes from audio
+[A-latentsync] bytedance/LatentSync | lipsync | Apache-2.0 | yes | model | realistic lip sync
+[A-wav2lip] Rudrabha/Wav2Lip | lipsync | research only | no | model | lip sync (non-commercial)
+
+-------------------------------------------------------------------------------
+6. EDITING REAL FOOTAGE
+-------------------------------------------------------------------------------
+[C-ffmpeg] kajisho5/ffmpeg-skill | editing | MIT | yes | skill | 42 ffmpeg tools for agents, local
+     install: npx ffmpeg-skill
+[C-herk] nateherkai/herk-edit-kit | editing | unclear | check | skill | 15 skills for Reels and Shorts edits
+[C-cut] Agentchengfeng/chengfeng-videocut-skills | editing | Apache-2.0 | yes | skill | video-cutting agent
+[C-resolve] appariciojunior/video-editor-skills | editing | unclear | check | skill | first-pass edit in DaVinci Resolve
+[C-vlog] znyupup/ai-video-editing-skill | editing | MIT | yes | skill | raw vlog footage to a finished cut
+[C-storyline] FireRedTeam/FireRed-OpenStoryline | editing | Apache-2.0 | yes | tool | intent-driven editing agent
+[C-chatcut] 0xsline/OpenChatCut | editing | AGPL-3.0 | check | tool | conversational multi-track editor
+[C-pireel] pireel/pireel | editing | AGPL-3.0 | check | tool | open CapCut alternative over MCP
+[C-moviepy] Zulko/moviepy | editing | MIT | yes | tool | Python video editing
+[C-subs] m1guelpf/auto-subtitle | editing | MIT | yes | tool | Whisper subtitles burned in
+[C-smartsub] buxuku/SmartSub | editing | MIT | yes | tool | subtitles, translation, dubbing desktop app
+[C-openshot] OpenShot/openshot-qt | editing | GPL-3.0 | check | tool | free desktop editor
+
+-------------------------------------------------------------------------------
+7. FULL AUTOMATION (topic to finished short)
+-------------------------------------------------------------------------------
+[F-mpt] harry0703/MoneyPrinterTurbo | automation | MIT | yes | tool | keyword to finished short video
+[F-shortgpt] RayVentura/ShortGPT | automation | MIT | yes | tool | Shorts/TikTok channel automation
+[F-pixelle] ATH-MaaS/Pixelle-Video | automation | Apache-2.0 | yes | tool | automated short-video engine
+[F-yutu] eat-pray-ai/yutu | automation | Apache-2.0 | yes | tool | YouTube CLI and MCP (upload, metadata)
+[F-bottuber] sam5epi0l/BotTuber | automation | MIT | yes | tool | auto title, description, tags
+[F-openmontage] calesthio/OpenMontage | automation | AGPL-3.0 | check | tool | agentic production system; star count looked inflated, verify first
+
+-------------------------------------------------------------------------------
+8. PACKAGING: HOOKS, TITLES, TAGS, THUMBNAILS
+-------------------------------------------------------------------------------
+[P-yt11] Jakeschincariol/youtube-agent-skill | packaging | MIT | yes | skill | 11 YouTube skills incl. hook formulas, titles, thumbnails
+     install: /plugin install youtube-agent  (after adding its marketplace)
+[P-ytcc] AgriciDaniel/claude-youtube | packaging | MIT | yes | skill | channel audit, SEO, retention scripts
+[P-ytshorts] sergebulaev/youtube-skills | packaging | MIT | yes | skill | CTR titles, SEO descriptions, Shorts
+[P-ytgrowth] adityaarsharma/youtube-marketing-skills | packaging | MIT | yes | skill | 21 growth commands
+[P-cover] oil-oil/oil-cover | packaging | unclear | check | skill | thumbnails from video frames
+[P-research] ScrapeCreators/social-media-research-skills | packaging | MIT | yes | skill | outlier posts, competitor teardown
+
+-------------------------------------------------------------------------------
+9. FREE ASSETS FOR COMMERCIAL USE
+-------------------------------------------------------------------------------
+[G-cc0list] madjin/awesome-cc0 | assets | CC0 | yes | list | where to find CC0 art, models, sound
+[G-3dres] devanshutak25/3d-resources | assets | CC0 | yes | list | 3,400+ 3D/VFX/game resources
+[G-glb] ToxSam/open-source-3D-assets | assets | CC0 (per asset) | yes | assets | 990+ GLB models
+[G-kenney] astagename/kenney-dl | assets | MIT tool, CC0 assets | yes | tool | bulk download Kenney CC0 packs (2D, 3D, audio, UI)
+[G-2d] Tiddybub/2d-assets | assets | CC0 (per asset) | yes | assets | CC0 sprites, tiles, characters
+[G-3d] Tiddybub/3d-assets | assets | CC0 (per asset) | yes | assets | CC0 models, PBR, HDRIs
+[G-uncopyright] johnjago/awesome-uncopyright | assets | CC0 | yes | list | public-domain images, music, video
+[G-blender] agmmnn/awesome-blender | assets | CC0 | yes | list | Blender add-ons and resources
+[G-sprites] aldegad/sprite-gen | assets | Apache-2.0 | yes | skill | generate 2D sprites and animation sheets
+[G-pixelfx] patch-gg/pixelfx | assets | MIT | yes | skill | 244 pixel-art effects in code
+
+Websites (not GitHub, all CC0, credit appreciated but not required):
+     Kenney          https://kenney.nl
+     Quaternius      https://quaternius.com
+     Poly Haven      https://polyhaven.com
+     ambientCG       https://ambientcg.com
+     OpenGameArt     https://opengameart.org   (licence varies per asset; filter to CC0)
+     Pixabay Music / Freesound (filter CC0)
+
+-------------------------------------------------------------------------------
+10. LISTS TO FIND MORE
+-------------------------------------------------------------------------------
+[L-claudevideo] zhuyansen/awesome-claude-video-skills | list | unclear | check | list | ~180 agent video skill repos
+[L-videogen] AlonzoLeeeooo/awesome-video-generation | list | MIT | yes | list | video generation research
+
+
+-------------------------------------------------------------------------------
+CREDIT NEEDED
+-------------------------------------------------------------------------------
+- Reusing any demo film or still from lemomo-ai/lemo-opuscar: CC BY 4.0, credit
+  "LemoLab" with a link to the repo. Films we make ourselves need no credit.
+- MIT / Apache code copied into this repo must keep its licence notice. (None is
+  copied today: the loader clones into vendor/, which is git-ignored.)
+- CC0 assets: no credit required; list them in films/<slug>/credits.txt anyway.
+
+ALREADY AVAILABLE AS ACCOUNT SKILLS (no fetch needed)
+- flick, html-anime, nullmotion-overlays, yt-package, yt-seo, yt-shorts
