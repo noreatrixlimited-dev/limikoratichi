@@ -208,6 +208,13 @@ Not used: animate-css/animate.css (Hippocratic licence, not a standard open-sour
      from scratch in textfx.js where similar.
 
 -------------------------------------------------------------------------------
+15. HOOKS AND SCRIPT OPENINGS (checked 2026-11-03)
+-------------------------------------------------------------------------------
+[H-ytagent] Jakeschincariol/youtube-agent-skill | hooks | MIT | yes | skill | 21 hook formulas + hook scoring; learned: the first seconds must confirm the click, open a question and prove the payoff; weakest-link scoring
+[H-viralhooks] rediumvex/viral-hooks-skill | hooks | MIT | yes | skill | 100 short-form hook formulas in 10 categories; learned the category map
+shared/hooks.md and scripts/hookcheck.py are our own (English + Telugu, per format, O-10 timing); nothing copied.
+
+-------------------------------------------------------------------------------
 12. VOICE-OVER: NATIVE ENGLISH AND NATIVE TELUGU (checked 2026-11-03)
 -------------------------------------------------------------------------------
 Used by scripts/voice.py and scripts/voice-setup.sh. See shared/voiceover.md.

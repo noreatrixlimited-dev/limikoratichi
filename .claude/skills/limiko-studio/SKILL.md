@@ -64,6 +64,7 @@ G5 Storyboard → G6 Sample frames → user approval → production
 | Lyric and song videos | `shared/music-video.md` |
 | AI-generated photoreal clips | `shared/ai-models.md` |
 | 3D characters, worlds, Blender | `shared/3d.md` |
+| **First 10 seconds: curiosity format, 12 hook types, per format, EN + TE; hook scoring** | `shared/hooks.md` + `scripts/hookcheck.py` |
 | Hooks, titles, thumbnails, descriptions, tags | `shared/packaging.md` + the format's `packaging.md` |
 | Free commercial assets and credits | `shared/assets.md` |
 
@@ -82,6 +83,9 @@ Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the packagi
 (hook, title, thumbnail text, description, tags).
 
 ## Rules
+- **First 10 seconds = curiosity.** Every script opens with the O-10 format (strike → gap → stakes → promise + open
+  loop; no greeting or intro first). Write three openings, score them with `scripts/hookcheck.py`, show the user the
+  top two (`shared/hooks.md`).
 - **Moving camera in every video.** Every shot in every format has camera motion (code-drawn or a virtual camera
   on footage). Each format's `direction.md` has its own Camera rules (`shared/directing.md` §0).
 - **Two languages: native English and native Telugu.** Write each natively (never word-for-word translation);
@@ -109,6 +113,7 @@ node frames/character-sheet.cjs <spec.json…>                # character refere
 bash scripts/voice-setup.sh                                 # once: offline English voices (Kokoro) + Telugu draft voice
 python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voice.wav + timeline (words, cues, captions)
 python3 scripts/voice.py mix --voice v.wav --music m.wav --out mix.wav --lufs -14
+python3 scripts/hookcheck.py <voice.md> [--timeline …] | --options opts.txt   # score the first 10 s (EN/TE)
 python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)
 node frames/transitions.cjs list|join|chain|sheet           # GPU video transitions between clips
 ~/.cache/limiko-voice/venv-vision/bin/python scripts/thumbnail.py make|variants …    # thumbnails: cut-out character + outline + grade + 3D text (EN/TE)

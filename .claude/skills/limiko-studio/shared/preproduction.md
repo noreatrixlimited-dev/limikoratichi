@@ -97,6 +97,10 @@ Rules:
 - Continuity column: what must match the previous shot (character version, light, screen direction, props, time of day).
 - Keep screen direction: a character walking left→right keeps doing so unless a shot shows them turn.
 
+**Opening (first 10 s):** before the storyboard is approved, write three openings in the O-10 format
+(`hooks.md`), score them with `../scripts/hookcheck.py --options`, and show the top two with their scores.
+The storyboard's first shots follow the chosen opening beat by beat.
+
 ## G6 · Sample frames → `plan/frames/`
 Render 3–6 key frames in the chosen style **with the real characters**: the hook frame, one frame
 per act, and the most complex shot. Use `frames/` (style frames) and the character rig.

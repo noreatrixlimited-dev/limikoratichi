@@ -101,6 +101,9 @@ lexicon: lexicon.te.txt   # optional pronunciation fixes
 | `lexicon:` file | `word = respelling` lines applied to every line (spoken only) |
 
 `python3 scripts/voice.py check script.md` prints lines, words and the estimated length before rendering.
+Comments are whole lines starting with `#` (a `#` later in a line is spoken). Mark the opening beats with comment lines
+`# @strike`, `# @gap`, `# @stakes`, `# @promise` and check it: `python3 scripts/hookcheck.py script.md`; after rendering,
+add `--timeline audio/<lang>/timeline.json` to check the real 10-second window and how long the first line takes to say.
 
 ## 4. Writing natively
 

@@ -4,6 +4,7 @@ Write packaging **before** the edit is final. Each category has its own `packagi
 The account skills `yt-package`, `yt-seo` and `yt-shorts` can lint the result; this guide is the method.
 
 ## 1. Hook (first 1–2 seconds)
+The full opening format for the first 10 seconds, with hook types per format and Telugu notes: `hooks.md`.
 
 The hook works with the sound off: picture + on-screen text say it together.
 

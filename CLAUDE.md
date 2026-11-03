@@ -51,6 +51,9 @@ Outline styles in gameedit: sticker (default, white stroke + warm glow, from the
 aura; optional "grade": "leak" (purple→gold). Thumbnails: `scripts/thumbnail.py` (SAM 2 cut-out + sticker outline +
 leak grade + 3D text, mixed Telugu/Latin runs). The repo is public: don't commit the user's footage or frames of it.
 
+Scripts: first 10 seconds follow the O-10 curiosity format (`shared/hooks.md`); score openings with
+`scripts/hookcheck.py` (EN/TE, per format, uses the rendered timeline when given).
+
 Environment: network allows `huggingface.co` and `*.hf.co`; a network secret adds `Authorization: Bearer <token>`
 to huggingface.co (account accepted the terms of ai4bharat/indic-parler-tts and ai4bharat/IndicF5).
 
