@@ -26,6 +26,18 @@ knows where to look and has time to understand and repeat.
 - Sudden loud sounds, scary faces, darkness, danger shown as fun.
 - Clutter: more than 3 moving things at once besides the background.
 
+## Camera rules (kids)
+The camera always moves, but slowly and calmly, so a child never loses the subject.
+| Situation | Camera move | Numbers |
+|---|---|---|
+| Every shot (default) | gentle drift or slow push-in | zoom ≤ 8% over the shot; pan ≤ 8% of width per second; never fully static |
+| Hero talks or sings | slow push-in towards the face | 100 → 106% over 3–5 s, ease in-out |
+| New place | slow pan or slow pull-out to show it | 4–6 s, constant speed |
+| Learning item (word, number, colour) | slow push-in onto the item, then hold the move gently | item stays fully in frame ≥ 4 s |
+| Storybook scenes | parallax layers under a slow pan | foreground 1.6×, middle 1×, background 0.4× |
+| Song chorus | soft sway with the beat | ≤ 2% side-to-side |
+| Never | shake, whip pans, crash zooms, fast orbits, dutch angles | |
+
 ## Special planning (G4)
 Beat sheet with **repetition built in**: what is repeated (word, song line, action) and how many times.
 Mark the "pause and answer" moments (3 s holds) and where the child is invited to join in.

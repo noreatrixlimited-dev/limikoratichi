@@ -37,6 +37,20 @@ art across scenes so the world stays consistent.
 On screen and in narration, separate: **documented history** · **tradition / legend** · **mythology (as told in <text>)**.
 A small corner tag works: `HISTORY`, `LEGEND`, `FROM THE MAHABHARATA`.
 
+## Camera rules (history and mythology)
+Cinematic and grand: slow, motivated moves that make painted scenes feel like a film.
+| Situation | Camera move | Numbers |
+|---|---|---|
+| Every shot (default) | slow push or pan over a parallax scene | 4–8% per shot; never a still picture |
+| Establishing a kingdom, temple or battlefield | wide pan or slow aerial descent | 5–8 s, constant speed |
+| Gods, kings, temples | tilt-up (low angle) for power and awe | slow, ease-out |
+| Emotion, a decision, a vow | slow push-in to the face | 100 → 112% over 4–6 s |
+| Battle | tracking with the hero; short punches on clashes | punch ≤ 10%, light shake ≤ 4 px |
+| The turn of the story | slow push-in, then hold the move with silence | |
+| Journey across a map | map move along the route line | the camera follows the line as it draws |
+| Endings | slow pull-out to wide | 4–6 s |
+| Never | handheld shake in calm scenes, fast whips, modern-looking moves | |
+
 ## Special planning (G4)
 Beat sheet (5–8 beats) with, per beat: date or text reference, location sheet, characters, emotion, turn.
 

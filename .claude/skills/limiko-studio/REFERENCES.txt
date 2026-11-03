@@ -182,6 +182,19 @@ Websites (not GitHub, all CC0, credit appreciated but not required):
      Pixabay Music / Freesound (filter CC0)
 
 -------------------------------------------------------------------------------
+13. GAMING EDITS: CHARACTER GLOW AND TRACKING (checked 2026-11-03)
+-------------------------------------------------------------------------------
+Used by scripts/charglow.py and scripts/gameedit.py (venv-vision, scripts/vision-setup.sh).
+
+[X-detr] facebookresearch/detr | vision | Apache-2.0 (model card facebook/detr-resnet-50-panoptic) | yes | model | person segmentation: finds and outlines the player's character
+[X-timm] huggingface/pytorch-image-models | vision | Apache-2.0 | yes | tool | backbone library DETR needs (PyPI timm)
+[X-opencv] opencv/opencv | vision | Apache-2.0 | yes | tool | glow, masks, warping (PyPI opencv-python-headless)
+[X-torchvision] pytorch/vision | vision | BSD-3-Clause | yes | tool | installed as a timm dependency
+Checked and NOT used: nvidia/segformer-*, facebook/mask2former-*, briaai/RMBG-1.4 (licences "other" / non-commercial);
+     ZhengPeng7/BiRefNet (MIT, good but slow on CPU: an option on GPU machines).
+Game footage: the user's own recordings; check each game publisher's video policy before monetising.
+
+-------------------------------------------------------------------------------
 12. VOICE-OVER: NATIVE ENGLISH AND NATIVE TELUGU (checked 2026-11-03)
 -------------------------------------------------------------------------------
 Used by scripts/voice.py and scripts/voice-setup.sh. See shared/voiceover.md.

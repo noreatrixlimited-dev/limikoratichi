@@ -27,6 +27,19 @@ For each concept, show **the mechanism**, not a picture of the result:
 3D (Three.js / Blender): exploded views, cutaways (clipping planes), orbiting models, particle flows,
 size-comparison lineups. Choose 3D when depth, inside/outside or scale matters.
 
+## Camera rules (facts and science)
+The camera explains: every move goes towards the thing being explained, or shows how it connects.
+| Situation | Camera move | Numbers |
+|---|---|---|
+| Every shot (default) | steady drift or slow push | 3–6% per shot; never fully static |
+| Introducing a concept | push-in to the detail that matters | 100 → 115% over 1.5–2.5 s |
+| Inside an object (cutaway, body, machine) | zoom-through into it, or a slow orbit | orbit 15–30° over the shot |
+| Scale or comparison | continuous pull-out (or push-in) across the sizes | constant speed, labels follow |
+| Process (step 1 → 2 → 3) | tracking move along the flow | the camera follows the moving part |
+| Number or reveal | quick ease-in punch, then settle | 100 → 108% in 6 frames |
+| Maps | aerial zoom from wide to the place | ease in-out, 2–3 s |
+| Never | random shake, moves that hide the label being read | |
+
 ## Special planning (G4): concept plan
 Fill the concept table in `../../shared/preproduction.md` G4. Every row needs a **visual mechanism**;
 a row without motion gets redesigned.

@@ -2,6 +2,17 @@
 
 Every choice must serve the story. Pick from these vocabularies in G2 and use only what you picked.
 
+## 0. The moving-camera rule (every video, every format)
+The camera moves in **every shot**. A fully static frame is never delivered.
+- **Code-drawn scenes:** animate the camera with `T.camera()` / `T.parallax()` (drift, push, pan, tilt, orbit).
+- **Real footage, gameplay, screen recordings, still images:** add a virtual camera in the edit: slow drift
+  plus a breathing zoom at minimum, and push-ins towards whatever matters.
+- **How much:** each format sets its own speed and size (`formats/NN/direction.md`, "Camera rules"). Kids and
+  nature move slowly; gaming and anime move most; history is slow and grand; facts move towards the explanation.
+- **Motivated:** every move goes towards, away from or along the subject. Never move just to move.
+- **Check:** `scripts/analyze.py` on the render; its motion level must not be "low" for gaming, and
+  a quick look at frames 1 s apart must show the frame changing in every shot.
+
 ## 1. Pacing by format (defaults; the format profile can override)
 
 | Format | Median shot | Range | Cuts/min | Camera speed | Transition intensity |

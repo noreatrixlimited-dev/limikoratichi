@@ -81,6 +81,8 @@ Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the packagi
 (hook, title, thumbnail text, description, tags).
 
 ## Rules
+- **Moving camera in every video.** Every shot in every format has camera motion (code-drawn or a virtual camera
+  on footage). Each format's `direction.md` has its own Camera rules (`shared/directing.md` §0).
 - **Two languages: native English and native Telugu.** Write each natively (never word-for-word translation);
   bilingual films share one animation driven by voice cues. No published `espeak` voice.
 - **Distinct identity per format.** Use only the camera moves, transitions and effect level the format allows.
@@ -107,6 +109,9 @@ bash scripts/voice-setup.sh                                 # once: offline Engl
 python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voice.wav + timeline (words, cues, captions)
 python3 scripts/voice.py mix --voice v.wav --music m.wav --out mix.wav --lufs -14
 python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)
+bash scripts/vision-setup.sh                                # once: character tracking (DETR) for gaming edits
+~/.cache/limiko-voice/venv-vision/bin/python scripts/gameedit.py scan|badges|render …   # gaming edits from an edit list
+~/.cache/limiko-voice/venv-vision/bin/python scripts/charglow.py identify|track …        # find / track the player's character (asks if unsure)
 python3 scripts/studio.py for <kids|games|facts|history>    # engines a format recommends
 python3 scripts/studio.py search <words> · show <id> · fetch <id…> · enable <id> · status
 ```

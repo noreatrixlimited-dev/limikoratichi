@@ -18,6 +18,10 @@ Everything below works with plain ffmpeg too.
 11. **Export**: H.264 High, yuv420p, CRF 18, AAC 192k, `-movflags +faststart`, −14 LUFS.
 12. **Verify**: run `scripts/analyze.py` on the export; watch the first 3 s muted.
 
+## Moving camera on footage
+Real footage keeps a **virtual camera** in every shot (moving-camera rule, `directing.md` §0): slow drift + breathing
+zoom at minimum, eased push-ins towards the subject on key moments. For gameplay use `../scripts/gameedit.py`, which does this.
+
 ## Handy filters
 | Need | ffmpeg |
 |---|---|

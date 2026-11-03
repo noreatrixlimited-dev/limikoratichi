@@ -38,12 +38,19 @@ Telugu voice notes
   `venv-te` pins 4.46). Not yet tested end to end. Reference voices: only ones we have rights to (user, consenting
   artist, or a synthetic Parler voice).
 
+Gaming edits (2026-11-03): `scripts/gameedit.py` (scan → badges → edit.json → render) with the user's rules:
+full-highlight videos have no hook; zoom in + zoom out around every kill (not only punches); a transition after
+every highlight; a glow on the player's character (`scripts/charglow.py identify`: if it isn't sure, show
+identify.jpg and ask the user which character is theirs). Moving camera in every shot of every video (all formats;
+`shared/directing.md` §0 and each `direction.md` "Camera rules"). Setup: `bash scripts/vision-setup.sh`
+(venv-vision shares torch with venv-te). Tested on the user's gameplay (raw clip not in the repo).
+
 Environment: network allows `huggingface.co` and `*.hf.co`; a network secret adds `Authorization: Bearer <token>`
 to huggingface.co (account accepted the terms of ai4bharat/indic-parler-tts and ai4bharat/IndicF5).
 
 ## Setting up a fresh session
 1. `cd .claude/skills/limiko-studio && bash scripts/voice-setup.sh && bash scripts/voice-setup.sh --telugu`
-   and `cd frames && npm install`. Large downloads; run in the background.
+   and `cd frames && npm install`, then `bash scripts/vision-setup.sh` for gaming edits. Large downloads; run in the background.
 2. Check access if Telugu fails: `curl -s -o /dev/null -w '%{http_code}\n' -L https://huggingface.co/ai4bharat/indic-parler-tts/resolve/main/config.json` (200 = ok).
 3. Narration: `python3 scripts/voice.py render voice-examples/rain.te.md --out voice-examples/out/rain-te`, then
    `python3 scripts/voice.py mix --voice voice-examples/out/rain-te/voice.wav --out voice-examples/out/rain-te/voice.m4a --lufs -16`.

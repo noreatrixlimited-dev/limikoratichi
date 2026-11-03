@@ -3,6 +3,8 @@
 **Identity:** expressive character animation, consistent designs, dynamic poses, cinematic framing,
 emotional close-ups and real action sequences. Intensity matches the story; effects are timed, not random.
 
+> **Moving-camera rule:** the camera moves in every shot (see `../../shared/directing.md` §0).
+
 ## Numbers
 | | |
 |---|---|

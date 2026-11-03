@@ -3,6 +3,8 @@
 **Identity:** picture, type, light and camera move with the music. Beat-matched transitions,
 rhythmic camera, visual storytelling. The song is the star; nothing competes with it.
 
+> **Moving-camera rule:** the camera moves in every shot (see `../../shared/directing.md` §0).
+
 ## Numbers
 | | |
 |---|---|

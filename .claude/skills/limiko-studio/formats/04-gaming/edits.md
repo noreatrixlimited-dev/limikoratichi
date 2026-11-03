@@ -12,6 +12,35 @@
 | **Lore / explained** | Route A graphics + gameplay b-roll, narrated story | 2–4 s shots |
 | **Tutorial / tip** | result first → steps with arrows and circles → result again | 1.5–3 s shots |
 
+## Highlight structure rules
+| The video is… | Hook? | Structure |
+|---|---|---|
+| **Full highlights** (every part is action: montage, kill compilation, a match cut down to its fights) | **No hook.** Start straight in the first highlight | highlight → transition → highlight → … → outro (victory screen) |
+| **One big moment with build-up** (a clutch Short, a long fight, a story) | Yes: the best ~1.2 s first (result first / wait for it) | hook → transition → build-up → the moment → outro |
+
+- **Transition after every highlight.** Default `glow-zoom` (zoom-through with a light flash and bloom, plus a whoosh).
+  Alternatives: `whip` (energy), `flash` (beat drops), `cut` (only inside one continuous highlight).
+- **Zoom in and zoom out on every event:** ease in towards the player before the hit, punch on the hit, ease back out after.
+  Not only punches. The camera never stops (`direction.md`, Camera rules).
+- **Character glow on the player** throughout the highlights (aura around the outline, never filling the body),
+  brighter for a moment on each kill. The glow colour is the channel's colour (default cyan `#3fe8ff`).
+- **Identify the player's character before glowing.** `charglow.py identify` decides automatically when it is
+  sure. **If not sure, ask the user:** show `identify.jpg` (numbered outlines) and ask which number is their
+  character, then use `--pick N` or the anchor. Never guess and glow the wrong person (an enemy or a teammate).
+
+## Tool workflow (`scripts/gameedit.py`, runs in `venv-vision`: `bash scripts/vision-setup.sh` once)
+1. **Scan:** `gameedit.py scan raw.mp4 --a 0 --b <end>` → 1 frame/s grid + loud peaks. Find the fights, the
+   downtime to cut (looting, walking, menus, phone notifications, volume sliders) and the victory screen.
+2. **Pin kills:** `gameedit.py badges raw.mp4 --t 31,37,40,…` → 4 frames/s strips of the HUD centre; take the first
+   frame where each kill badge appears. Multi-kill banners ("DOUBLE", "QUADRA"…) are `"big": true`.
+3. **Character:** `charglow.py identify raw.mp4 --a <first fight> --b <last fight> --out work/id` → auto, or ask the user.
+4. **Edit list:** write `edit.json` (format in `gameedit.py --help`): `full_highlights`, highlights with events,
+   slow motion on the biggest moment, `glow.anchor`, outro.
+5. **Preview:** `gameedit.py render edit.json --preview` (640 px, fast) → check timing, then show the user.
+6. **Final:** `gameedit.py render edit.json` → 1920×1080 (or 1080×1920) at 60 fps, game audio + generated sound
+   effects, mixed to the loudness target.
+Rendering speed on CPU: character tracking ≈ 2 s per analysed frame (6 per second of highlight); the edit itself ≈ 2–4× real time.
+
 ## Effects (ffmpeg patterns in `../../shared/editing.md`)
 | Effect | Use it for | Settings |
 |---|---|---|

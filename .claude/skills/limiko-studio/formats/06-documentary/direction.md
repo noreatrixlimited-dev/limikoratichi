@@ -3,6 +3,8 @@
 **Identity:** continuous, grounded storytelling. Real locations, maps, archival-style imagery,
 animated timelines, professional narration. Transitions feel natural; the story never stops for an effect.
 
+> **Moving-camera rule:** the camera moves in every shot (see `../../shared/directing.md` §0).
+
 ## Numbers
 | | |
 |---|---|

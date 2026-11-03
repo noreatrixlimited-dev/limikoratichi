@@ -3,6 +3,8 @@
 **Identity:** dark cinematic light, controlled camera, tension that builds gradually. Details are
 revealed progressively. Suspense, not constant jump scares.
 
+> **Moving-camera rule:** the camera moves in every shot (see `../../shared/directing.md` §0).
+
 ## Numbers
 | | |
 |---|---|

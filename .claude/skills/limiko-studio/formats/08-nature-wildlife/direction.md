@@ -3,6 +3,8 @@
 **Identity:** calm, beautiful, true to nature. Smooth floating camera, atmospheric light, detailed
 animals, gentle transitions, rich environmental sound. Slow motion for beautiful or decisive moments.
 
+> **Moving-camera rule:** the camera moves in every shot (see `../../shared/directing.md` §0).
+
 ## Numbers
 | | |
 |---|---|

@@ -25,6 +25,19 @@ environmental light pulses matched to hits · damage numbers and highlight circl
 - Shake or flash continuously; effects are punctuation, not wallpaper.
 - Copyrighted music; other creators' clips.
 
+## Camera rules (gaming)
+Gameplay footage has a fixed in-game camera, so the edit adds a **virtual camera** on top. It never stops.
+| Situation | Camera move | Numbers (gameedit.py defaults) |
+|---|---|---|
+| Every moment (always on) | breathing zoom + slow drift | zoom 1.015–1.065, period 7 s; drift ≤ 1.2% |
+| Before a kill | ease in towards the player | +10% (big: +16%) over 0.8 s |
+| The hit | punch-in | +7% (big: +12%), decays in ~0.4 s |
+| After the kill | ease back out | over 0.9 s |
+| Big moment (multi-kill, clutch) | shake + flash + slow motion | shake ≤ 9 px; slow motion 0.5× |
+| Between highlights | transition (glow-zoom by default) | 0.3 s out + 0.3 s in, whoosh |
+| Exploration | drift only, smoother and slower | no punches |
+| Always | zoom centres on the player, so they never leave the frame | |
+
 ## Special planning (G4): moment map
 Run `../../scripts/analyze.py` on raw recordings to find loud and high-motion seconds, then fill the
 moment map in `../../shared/preproduction.md` G4: time, moment type, intensity 1–5, camera plan,

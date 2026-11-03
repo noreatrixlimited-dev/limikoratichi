@@ -3,6 +3,8 @@
 **Identity:** clean modern motion graphics, precise typography, 3D product demonstrations, interface
 animations, cinematic product light, structured storytelling. The product or main subject is always the focus.
 
+> **Moving-camera rule:** the camera moves in every shot (see `../../shared/directing.md` §0).
+
 ## Numbers
 | | |
 |---|---|
