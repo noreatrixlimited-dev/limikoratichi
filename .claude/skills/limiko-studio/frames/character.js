@@ -41,7 +41,7 @@ function limb(ctx, pts, w, col, line, lw) {
 
 export function drawCharacter(ctx, specIn, o = {}) {
   const s = normalize(specIn);
-  const { x = 0, y = 0, h = 400, view = 'front', expr = 'neutral', pose = 'stand' } = o;
+  const { x = 0, y = 0, h = 400, view = 'front', expr = 'neutral', pose = 'stand', stride = null } = o;
   const C = s.colors, B = s.build, U = h / B.heads; // U = one head-height
   const lw = s.line * (h / 400);
   const L = C.line;
@@ -85,7 +85,7 @@ export function drawCharacter(ctx, specIn, o = {}) {
   }
 
   // ---- legs
-  const walk = pose === 'walk' ? 0.35 : 0;
+  const walk = stride ?? (pose === 'walk' ? 0.35 : 0);  // stride: -0.4…0.4 for walk cycles
   const legSpread = (pose === 'hero' ? 0.55 : 0.32) * hipW;
   const legs = side
     ? [[x - U * walk * 0.6, x + U * walk * 0.6]]
@@ -117,7 +117,7 @@ export function drawCharacter(ctx, specIn, o = {}) {
     else if (kind === 'point') { el = [shx + dir * U * 0.6 * AL, shy + U * 0.05]; hd = [shx + dir * U * 1.25 * AL, shy - U * 0.05]; }
     else if (kind === 'hip') { el = [shx + dir * U * 0.55, shy + U * 0.55]; hd = [shx + dir * U * 0.15, hipY]; }
     else if (kind === 'hold') { el = [shx + dir * U * 0.35 * AL, shy + U * 0.7 * AL]; hd = [shx + dir * U * 0.55 * AL, shy + U * 0.55 * AL]; }
-    else { const sw = pose === 'walk' ? dir * 0.25 : 0; el = [shx + dir * U * 0.18 * AL, shy + U * 0.75 * AL]; hd = [shx + dir * U * (0.22 + sw) * AL, shy + U * 1.45 * AL]; }
+    else { const sw = pose === 'walk' ? dir * (stride ?? 0.35) * 0.7 : 0; el = [shx + dir * U * 0.18 * AL, shy + U * 0.75 * AL]; hd = [shx + dir * U * (0.22 + sw) * AL, shy + U * 1.45 * AL]; }
     const sleeve = s.outfit.top === 'none' || s.outfit.top === 'sash' ? C.skin : (s.outfit.sleeves === 'short' ? C.skin : C.top);
     limb(ctx, [[shx, shy], el, hd], armW, sleeve, L, lw);
     if (s.outfit.sleeves === 'short') limb(ctx, [[shx, shy], [L_(shx, el[0], 0.45), L_(shy, el[1], 0.45)]], armW * 1.15, C.top, L, lw);

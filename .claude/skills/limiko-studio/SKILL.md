@@ -52,7 +52,9 @@ G5 Storyboard → G6 Sample frames → user approval → production
 | Need | File |
 |---|---|
 | Camera, transitions, pacing per format, animation principles, effect levels, sound, continuity | `shared/directing.md` |
+| Which rendering engine for which shot, and techniques learned from each | `shared/engines.md` |
 | Code-drawn animation: `renderFrame(t)`, render loop, encode, mix, effect toolbox | `shared/building.md` |
+| Animate scenes to MP4 with the timeline toolkit (interpolate, spring, sequences, voice cues, camera, parallax, exposure sheet) | `frames/README.md` → `frames/animate.cjs`, `frames/timeline.js` |
 | Sample frames, style frames, character sheets (2D canvas + 3D three.js) | `frames/README.md` |
 | Characters: spec schema, rig, reference sheets, rules | `shared/characters.md` |
 | Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |
@@ -97,6 +99,7 @@ cd .claude/skills/limiko-studio
 (cd frames && npm install)                                  # once: three.js for 3D frames
 node frames/render.cjs <kids|gaming|facts|history|all>      # style frames + contact sheets
 node frames/character-sheet.cjs <spec.json…>                # character reference sheets
+(from repo root) node .claude/skills/limiko-studio/frames/animate.cjs <scene.js> --out film.mp4   # animated scene → video
 python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)
 python3 scripts/studio.py for <kids|games|facts|history>    # engines a format recommends
 python3 scripts/studio.py search <words> · show <id> · fetch <id…> · enable <id> · status

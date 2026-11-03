@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script></head>
+<body><canvas id="c"></canvas>
+<script type="module">
+import * as L from './lib.js';
+import * as T from './timeline.js';
+const q = new URLSearchParams(location.search);
+try {
+  const scene = (await import(q.get('scene'))).default;
+  const W = scene.width || 1280, H = scene.height || 720;
+  const canvas = document.getElementById('c'); canvas.width = W; canvas.height = H;
+  let ctx = null, three = null;
+  if (scene.dim === '3d') { const THREE = await import('three'); three = { THREE, canvas, W, H, L, T }; }
+  else ctx = canvas.getContext('2d', { willReadFrequently: true });
+  await document.fonts.ready;
+  const state = scene.setup ? await scene.setup(ctx ? { ctx, W, H, L, T } : three) : {};
+  window.META = { fps: scene.fps || 24, duration: scene.duration, W, H, audio: scene.audio || null };
+  window.frame = async (t) => {
+    if (ctx) await scene.draw(ctx, W, H, L, T, t, state); else await scene.draw({ ...three, t, state });
+    return canvas.toDataURL('image/png');
+  };
+  window.READY = true;
+} catch (e) { window.ERR = String(e && e.stack || e); }
+</script></body></html>

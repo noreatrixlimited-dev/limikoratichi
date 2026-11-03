@@ -34,6 +34,32 @@ one entry per key shot, using the approved characters and the chosen style's hel
 `styles/` under a temporary name (e.g. `styles/film-<slug>.js`), run `node render.cjs film-<slug>`,
 then move the sheet to `films/<slug>/plan/frames/` and delete the temporary file.
 
+## Animated scenes → video
+```
+node .claude/skills/limiko-studio/frames/animate.cjs <scene.js> [--out film.mp4] [--from s] [--to s] [--every n] [--audio file]
+```
+Run from the repo root (the scene must be inside it). A scene module exports
+`{ dim, fps, duration, width, height, audio?, setup?(env), draw(ctx, W, H, L, T, t, state) }`
+(3D: `draw({ THREE, canvas, W, H, L, T, t, state })`). `T` is `timeline.js`:
+
+| Tool | Use |
+|---|---|
+| `interpolate(t, [t0,t1,…], [v0,v1,…], {ease})` | any value over time, multi-step |
+| `spring(t, {from, to, delay, stiffness, damping})` | natural pops and settles |
+| `sequence(t, start, dur)` | a scene's local clock (`.active`, `.t`, `.p`) |
+| `script(init, cues).to().wait().together().until('cue')` | storyboard-like tween scripts synced to voice cues |
+| `cuesFromWords(words)` | voiceover word timings → named cues |
+| `tracker(fn)` | one value drives a whole diagram |
+| `onTwos(t, fps)`, `exposure(t, fps, holds)` | hand-made timing, exposure-sheet holds |
+| `camera(ctx, W, H, {x, y, zoom, rot, shake}, draw)` | pan / zoom / rotate / shake |
+| `parallax(ctx, W, H, cam, layers)` | depth layers for storybook scenes |
+| `morph(ptsA, ptsB, p)` | shape-to-shape explanations |
+| `sway`, `bob` | secondary motion |
+
+Working example: `examples/pip-meadow.js` (Kids format: slow push-in, character on twos, parallax,
+drifting clouds, spring title) → `previews/pip-meadow.mp4`. Use 'examples' as the starting point for new scenes.
+Speed: about 4 frames/s for a layered 2D scene at 1280×720 in this container.
+
 ## Adding a style
 1. Add an entry to the right `styles/<set>.js`: `{ dim: '2d' | '3d', title, draw }`.
    2D: `draw(ctx, W, H, L)`. 3D: `draw({ THREE, canvas, W, H, L })`. `L` is `lib.js` (seeded random, paper,

@@ -22,6 +22,7 @@ Line format (the loader script reads these lines; keep the shape):
      needs: Node 20+, ffmpeg 7+, Python 3.11+
 [E-film-plus] zhgarylu/claude-video | film | unclear | check | skill | a derivative with 61 styles plus a presenter (talking-head) workflow
 [E-html] heygen-com/hyperframes | film | Apache-2.0 | yes | skill | write HTML, render video; built for agents
+     learn: deterministic seek-to-time rendering of HTML/CSS, paused timelines, captions and overlays as HTML
      install: claude plugin marketplace add heygen-com/hyperframes && claude plugin install hyperframes@hyperframes
 [E-html2] nexu-io/html-video | film | Apache-2.0 | yes | tool | HTML/CSS/data to MP4 locally
 [E-shots] Vincentwei1021/video-shotcraft | film | Apache-2.0 | yes | skill | cinematic product promos in Remotion from 124 shot recipes
@@ -41,8 +42,11 @@ Line format (the loader script reads these lines; keep the shape):
 [E-remotion-skill] haidrrrry/claude-remotion-skill | film | MIT | yes | skill | Remotion video skill
 [E-remotion-pro] DojoCodingLabs/remotion-superpowers | film | MIT | yes | skill | Remotion production studio
 [E-remotion] remotion-dev/remotion | film | Remotion licence | check | tool | React to video; free for individuals and small teams
+     learn: compositions as components, frame-driven interpolate and spring, sequences for timing, data-driven batch videos
 [E-manim] ManimCommunity/manim | film | MIT | yes | tool | maths and science explainer animation
-[E-manim-3b1b] 3b1b/manim | film | MIT | yes | tool | the original manim
+     learn: shapes that transform into each other, value trackers with updaters, moving camera frame, 3D axes
+[E-manim-3b1b] 3b1b/manim | film | MIT | yes | tool | the original manim (ManimGL, OpenGL renderer)
+     learn: interactive scene building, fast OpenGL previews, the same transform-based explanation grammar
 [E-movis] rezoo/movis | film | MIT | yes | tool | Python motion graphics and presentation video
 [E-hand] JohnHeibel/ClaudeAnimationBase | film | MIT | yes | tool | hand-painted cartoon starter kit (p5.js)
 [E-wake] lemomo-ai/lemo-wake | film | unclear | check | tool | one picture into a seamless 5 s loop
@@ -176,6 +180,28 @@ Websites (not GitHub, all CC0, credit appreciated but not required):
      ambientCG       https://ambientcg.com
      OpenGameArt     https://opengameart.org   (licence varies per asset; filter to CC0)
      Pixabay Music / Freesound (filter CC0)
+
+-------------------------------------------------------------------------------
+11. RENDERING ENGINES TO LEARN FROM (checked 2026-11-02)
+-------------------------------------------------------------------------------
+Already listed above and part of this set: E-html (HTML/CSS → video), E-remotion (React
+motion graphics), E-manim-3b1b (ManimGL), E-manim (Manim Community). What the studio learned
+from each is written, in our own words, in shared/engines.md.
+
+[R-mcanvas] motion-canvas/motion-canvas | engine | MIT | yes | tool | code-driven animated storytelling: generator timelines, signals, camera
+     learn: timeline as a script of tweens that wait for each other; voiceover time events; camera node
+[R-opentoonz] opentoonz/opentoonz | engine | BSD-3-Clause | yes | tool | traditional 2D character animation (studio-grade, desktop)
+     learn: exposure sheet timing, keys + inbetweens, onion skin, bone/mesh rigs, lip-sync charts, FX compositing
+[R-blender] blender/blender | engine | GPL-2.0+ (renders are yours) | yes | tool | 3D characters, environments, lighting, cinematic scenes; headless Python rendering
+     learn: shot/camera rigs, depth of field, volumetric light, shape-key faces, Grease Pencil 2D-in-3D, bpy batch renders
+     install: not in this container; on the user's machine, or a Docker image with blender --background
+[R-r3f] pmndrs/react-three-fiber | engine | MIT | yes | tool | three.js scenes as React components
+     learn: scene graph as reusable components; per-frame hook (drive it from frame number, not the clock)
+[R-drei] pmndrs/drei | engine | MIT | yes | tool | ready-made helpers for React Three Fiber (environment, shadows, text, float)
+     learn: contact shadows, environment light, billboards, 3D text: the polish layer for product and kids 3D
+
+Remotion licence note: free for individuals and companies with up to 3 employees; larger companies
+need a company licence. Check before using it for a client or a bigger team.
 
 -------------------------------------------------------------------------------
 10. LISTS TO FIND MORE

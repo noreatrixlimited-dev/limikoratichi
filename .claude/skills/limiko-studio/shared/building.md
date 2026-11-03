@@ -1,6 +1,8 @@
 # Building a code-drawn film
 
-Shared technique for every style in `README.md`.
+Shared technique for every code-drawn style (each format's `styles.md`). The ready-made renderer is
+`../frames/animate.cjs` with the timeline toolkit `../frames/timeline.js` (see `../frames/README.md`); the
+sections below explain what it does, for when a film needs a custom pipeline.
 
 ## Project layout
 ```
@@ -10,8 +12,7 @@ films/<slug>/
   shots.json        # [{id, start, end, picture, motion, sound}]
   audio/voice.wav   # narration, rendered first
   audio/music.wav
-  src/index.html    # one page, exposes window.renderFrame(t)
-  render.mjs        # opens the page in headless Chromium, steps time, saves PNGs
+  scene.js          # the animated scene module for animate.cjs (or src/index.html + renderFrame(t))
   out/frames/*.png
   out/film.mp4
   credits.txt
@@ -24,7 +25,7 @@ That makes every render identical and lets you scrub to any frame.
 
 Randomness: use a seeded generator (e.g. mulberry32) so "hand-made" wobble is the same every render.
 
-## Render loop (Playwright)
+## Render loop (what animate.cjs does; Playwright)
 ```js
 // render.mjs
 import { chromium } from 'playwright';
