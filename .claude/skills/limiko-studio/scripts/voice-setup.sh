@@ -42,7 +42,10 @@ if [ "${1:-}" = "--telugu" ]; then
   if [ ! -x venv-te/bin/python ] || ! venv-te/bin/python -c "import parler_tts" 2>/dev/null; then
     echo "↓ Telugu voice runtime (PyPI torch + github huggingface/parler-tts)"
     python3 -m venv venv-te
-    venv-te/bin/pip -q install torch soundfile
+    # CPU-only torch is ~0.2 GB; PyPI's default build bundles CUDA (~6 GB). Use the GPU build only on GPU machines.
+    if command -v nvidia-smi >/dev/null 2>&1; then venv-te/bin/pip -q install torch soundfile
+    else venv-te/bin/pip -q install torch --index-url https://download.pytorch.org/whl/cpu 2>/dev/null \
+         || venv-te/bin/pip -q install torch; venv-te/bin/pip -q install soundfile; fi
     venv-te/bin/pip -q install "git+https://github.com/huggingface/parler-tts.git"
   fi
   # IndicF5 (voice from a reference clip): its Python package, from AI4Bharat's GitHub
