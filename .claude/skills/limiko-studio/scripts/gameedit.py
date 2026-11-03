@@ -326,8 +326,17 @@ def cmd_render(a):
             parts = []
             for j, (x, y) in enumerate(merged):
                 pp = work / f"masks_{j}.npz"
-                subprocess.run([str(VENV_VISION), str(HERE / "charglow.py"), "track", src, "--a", str(x), "--b", str(y),
-                                "--anchor", f"{anchor[0]},{anchor[1]}", "--kfps", "4" if a.preview else "6", "--out", str(pp)], check=True)
+                cmd = [str(VENV_VISION), str(HERE / "charglow.py"), "track", src, "--a", str(x), "--b", str(y),
+                       "--anchor", f"{anchor[0]},{anchor[1]}", "--kfps", "6" if a.preview else "8", "--out", str(pp)]
+                if glowcfg.get("approved"):
+                    cmd.append("--accept")
+                r = subprocess.run(cmd)
+                if r.returncode == 4:
+                    print(f"? the character outline is uncertain in highlight {j}. Show {pp.with_suffix('')}.check.jpg to the user.\n"
+                          f"  If the outline is on their character, set \"glow\": {{\"approved\": true, …}} and render again;\n"
+                          f"  if it is on someone else, run charglow.py identify again and ask which character is theirs.")
+                    sys.exit(3)
+                r.check_returncode()
                 parts.append(np.load(pp))
             np.savez_compressed(mpath, times=np.concatenate([q["times"] for q in parts]), masks=np.concatenate([q["masks"] for q in parts]),
                                 found=np.concatenate([q["found"] for q in parts]), src_size=parts[0]["src_size"])

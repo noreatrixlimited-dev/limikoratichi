@@ -8,15 +8,27 @@
         Exit 0 = confident pick. Exit 3 = not sure: show identify.jpg to the user and ask which number is theirs,
         then re-run with --pick N (or give --anchor cx,cy yourself).
 
-    charglow.py track <video> --a A --b B --anchor CX,CY [--kfps 6] --out masks.npz
-        Per-keyframe masks of that character (follows it frame to frame). Used by gameedit.py.
+    charglow.py track <video> --a A --b B --anchor CX,CY [--kfps 8] [--engine sam2|detr] [--accept] --out masks.npz
+        Masks of that character over time. Default engine SAM 2.1 (video object tracking: prompted once at the
+        character, then follows that same object frame to frame; tight outlines incl. limbs). Quality checks flag
+        frames where the outline jumps in size or position: those frames get no glow. Exit 4 = too many uncertain
+        frames: show the check sheet (masks.check.jpg) to the user and re-run with --accept if they approve.
 
-Model: facebook/detr-resnet-50-panoptic (Apache-2.0), runs in ~/.cache/limiko-voice/venv-vision
-(see scripts/vision-setup.sh). CPU: ~1–2 s per analysed frame at the reduced size used here.
+    charglow.py check <masks.npz> <video> --out check.jpg
+        Contact sheet of the tracked outline every 0.5 s (red label = uncertain frame) for the user to approve.
+
+Models (Apache-2.0, run in ~/.cache/limiko-voice/venv-vision, see scripts/vision-setup.sh):
+    identify: facebook/detr-resnet-50-panoptic (finds every person; picks the player)
+    track:    facebook/sam2.1-hiera-tiny (default; --sam2 small for difficult footage), via transformers ≥ 4.57
+CPU speed: SAM 2 tiny ≈ 3–4 s per tracked frame incl. loading (8 per second of video); small is slower.
 """
-import argparse, json, subprocess, sys
+import argparse, json, os, subprocess, sys, warnings
 from pathlib import Path
 import numpy as np
+
+warnings.filterwarnings("ignore")                 # library warnings (e.g. DETR's harmless backbone-loading notices)
+os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+os.environ.setdefault("TQDM_DISABLE", "1")
 
 MODEL = "facebook/detr-resnet-50-panoptic"
 EDGE = 0.06          # ignore detections whose centre is this close to the frame edge (HUD portraits)
@@ -174,19 +186,117 @@ def track(a):
     print(f"✓ {a.out}: {sum(keep)}/{len(keep)} keyframes with the character ({a.kfps}/s, {a.a:.2f}–{a.b:.2f}s)")
 
 
+def prompt_from_detr(rgb, anchor):
+    """Box + point around the person nearest the anchor in this frame (stronger SAM 2 prompt than a point)."""
+    try:
+        ps = Finder().people(rgb)
+    except Exception:
+        return None
+    h, w = rgb.shape[:2]
+    best = min(ps, key=lambda p: np.hypot(p["cx"] - anchor[0], p["cy"] - anchor[1]), default=None)
+    if best is None or np.hypot(best["cx"] - anchor[0], best["cy"] - anchor[1]) > 0.15:
+        return None
+    ys, xs = np.nonzero(best["mask"])
+    return [float(xs.min()), float(ys.min()), float(xs.max()), float(ys.max())], (best["cx"], best["cy"])
+
+
+def track_sam2(a):
+    import cv2, torch
+    from transformers import Sam2VideoModel, Sam2VideoProcessor
+    w, h = probe(a.video)
+    times, rgbs = frames_range(a.video, a.a, a.b, a.kfps)
+    TW = 640; TH = int(round(TW * h / w / 2) * 2)
+    small = [cv2.resize(f, (TW, TH), interpolation=cv2.INTER_AREA) for f in rgbs]
+    ax, ay = map(float, a.anchor.split(","))
+    pr = prompt_from_detr(rgbs[0], (ax, ay))
+    name = f"facebook/sam2.1-hiera-{a.sam2}"
+    model = Sam2VideoModel.from_pretrained(name).eval(); proc = Sam2VideoProcessor.from_pretrained(name)
+    sess = proc.init_video_session(video=small, inference_device="cpu", dtype=torch.float32)
+    sx, sy = TW / w, TH / h
+    if pr:
+        (x0, y0, x1, y1), (cx, cy) = pr
+        proc.add_inputs_to_inference_session(inference_session=sess, frame_idx=0, obj_ids=1,
+                                             input_boxes=[[[x0 * sx, y0 * sy, x1 * sx, y1 * sy]]])
+        how = "box from the identified character"
+    else:
+        proc.add_inputs_to_inference_session(inference_session=sess, frame_idx=0, obj_ids=1,
+                                             input_points=[[[[ax * TW, ay * TH]]]], input_labels=[[[1]]])
+        how = "point at the anchor"
+    masks = {}
+    with torch.no_grad():
+        model(inference_session=sess, frame_idx=0)
+        for out in model.propagate_in_video_iterator(sess):
+            m = proc.post_process_masks([out.pred_masks], original_sizes=[[TH, TW]], binarize=True)[0]
+            masks[out.frame_idx] = m[0, 0].numpy().astype(np.uint8)
+    mh = int(round(MASK_W * h / w))
+    seq = [masks.get(i, np.zeros((TH, TW), np.uint8)) for i in range(len(small))]
+    # quality checks: size and position must change smoothly
+    areas = np.array([m.sum() for m in seq], float); med = np.median(areas[areas > 0]) if (areas > 0).any() else 0
+    cents = [np.argwhere(m).mean(0)[::-1] / [TW, TH] if m.any() else None for m in seq]
+    ok, prev = [], None
+    for i, m in enumerate(seq):
+        good = med > 0 and 0.4 * med <= areas[i] <= 2.5 * med and cents[i] is not None
+        if good and prev is not None and np.hypot(*(cents[i] - prev)) > 0.12:
+            good = False
+        if good:
+            prev = cents[i]
+        ok.append(bool(good))
+    out = [cv2.resize(m * 255 if k else np.zeros_like(m), (MASK_W, mh), interpolation=cv2.INTER_LINEAR) for m, k in zip(seq, ok)]
+    np.savez_compressed(a.out, times=np.array(times), masks=np.array(out), found=np.array(ok), src_size=np.array([w, h]))
+    bad = 1 - np.mean(ok)
+    print(f"✓ {a.out}: SAM 2 ({a.sam2}) prompted with {how}; {sum(ok)}/{len(ok)} frames passed checks ({a.kfps}/s, {a.a:.2f}–{a.b:.2f}s)")
+    if bad > 0.15 and not a.accept:
+        sheet = str(Path(a.out).with_suffix("")) + ".check.jpg"
+        check_sheet(a.out, a.video, sheet)
+        print(f"? {bad:.0%} of frames are uncertain. Show {sheet} to the user; if the outline is on their character, re-run with --accept.")
+        sys.exit(4)
+
+
+def check_sheet(masks_path, video, out):
+    import cv2
+    d = np.load(masks_path); times, masks, found = d["times"], d["masks"], d["found"]
+    step = max(1, int(round(len(times) / max(1, (times[-1] - times[0]) / 0.5))))
+    idx = list(range(0, len(times), step))[:24]
+    _, rgbs = frames_range(video, float(times[0]), float(times[-1]), 1.0 / max(1e-6, times[1] - times[0]) if len(times) > 1 else 1)
+    tiles = []
+    for i in idx:
+        if i >= len(rgbs):
+            break
+        img = cv2.cvtColor(rgbs[i], cv2.COLOR_RGB2BGR)
+        m = cv2.resize(masks[i], (img.shape[1], img.shape[0])) > 127
+        c, _ = cv2.findContours(m.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(img, c, -1, (255, 230, 60), 3)
+        lab = f"{times[i]:.1f}s" + ("" if found[i] else " UNSURE")
+        cv2.putText(img, lab, (12, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 6)
+        cv2.putText(img, lab, (12, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 255, 255) if found[i] else (60, 60, 255), 2)
+        tiles.append(cv2.resize(img, (480, int(480 * img.shape[0] / img.shape[1]))))
+    while len(tiles) % 4:
+        tiles.append(np.zeros_like(tiles[0]))
+    cv2.imwrite(out, np.vstack([np.hstack(tiles[k:k + 4]) for k in range(0, len(tiles), 4)]))
+    print(f"✓ check sheet {out}")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["identify", "track"])
+    ap.add_argument("cmd", choices=["identify", "track", "check"])
     ap.add_argument("video")
-    ap.add_argument("--a", type=float, required=True)
-    ap.add_argument("--b", type=float, required=True)
+    ap.add_argument("video2", nargs="?")
+    ap.add_argument("--a", type=float)
+    ap.add_argument("--b", type=float)
+    ap.add_argument("--engine", choices=["sam2", "detr"], default="sam2")
+    ap.add_argument("--sam2", choices=["small", "tiny"], default="tiny")
+    ap.add_argument("--accept", action="store_true")
     ap.add_argument("--n", type=int, default=8)
-    ap.add_argument("--kfps", type=float, default=6)
+    ap.add_argument("--kfps", type=float, default=8)
     ap.add_argument("--anchor")
     ap.add_argument("--pick", type=int)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    (identify if a.cmd == "identify" else track)(a)
+    if a.cmd == "check":                       # charglow.py check masks.npz video.mp4 --out check.jpg
+        return check_sheet(a.video, a.video2, a.out)
+    if a.cmd == "identify":
+        return identify(a)
+    return track_sam2(a) if a.engine == "sam2" else track(a)
 
 
 if __name__ == "__main__":

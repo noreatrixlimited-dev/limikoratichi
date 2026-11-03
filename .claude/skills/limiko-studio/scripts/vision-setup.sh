@@ -2,7 +2,7 @@
 # One-time setup for gaming edits: scripts/gameedit.py and scripts/charglow.py.
 # Builds ~/.cache/limiko-voice/venv-vision. To save disk it reuses torch + transformers from the Telugu voice
 # venv (venv-te, made by voice-setup.sh --telugu) when present; otherwise installs its own.
-# Model: facebook/detr-resnet-50-panoptic (Apache-2.0), downloaded from Hugging Face on first use (~170 MB).
+# Models (Apache-2.0): facebook/detr-resnet-50-panoptic (identify) + facebook/sam2.1-hiera-tiny (track), ~330 MB.
 set -euo pipefail
 C="${LIMIKO_VOICE_CACHE:-$HOME/.cache/limiko-voice}"
 mkdir -p "$C" && cd "$C"
@@ -18,5 +18,8 @@ if [ ! -x venv-vision/bin/python ]; then
     venv-vision/bin/pip -q install "transformers>=4.40,<5" soundfile
   fi
 fi
-venv-vision/bin/pip -q install --no-cache-dir timm opencv-python-headless
+# SAM 2 video tracking needs transformers >= 4.57; installed inside venv-vision only (shadows venv-te's pinned 4.46,
+# which the Telugu voice keeps using). The pip resolver warning about parler-tts here is expected and harmless.
+venv-vision/bin/pip -q install --no-cache-dir timm opencv-python-headless "transformers>=4.57,<5" 2>&1 | grep -v "parler-tts" || true
+venv-vision/bin/python -c "from huggingface_hub import snapshot_download as s; [s(m) for m in ('facebook/detr-resnet-50-panoptic', 'facebook/sam2.1-hiera-tiny')]" >/dev/null && echo "✓ models: DETR panoptic + SAM 2.1 tiny"
 venv-vision/bin/python -c "import torch, transformers, timm, cv2, soundfile; print('✓ venv-vision ready: torch', torch.__version__, '· opencv', cv2.__version__)"
