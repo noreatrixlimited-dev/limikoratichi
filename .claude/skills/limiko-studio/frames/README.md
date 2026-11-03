@@ -60,6 +60,10 @@ Working example: `examples/pip-meadow.js` (Kids format: slow push-in, character 
 drifting clouds, spring title) → `previews/pip-meadow.mp4`. Use 'examples' as the starting point for new scenes.
 Speed: about 4 frames/s for a layered 2D scene at 1280×720 in this container.
 
+## Transitions and text animations
+`transitions.cjs` (GL Transitions, 166, in `transitions/gl/` with their licence) and `textfx.js` (25 text presets).
+Usage, previews and picks per format: `../shared/transitions-text.md`. Demos: `examples/textfx-demo.js`.
+
 ## Adding a style
 1. Add an entry to the right `styles/<set>.js`: `{ dim: '2d' | '3d', title, draw }`.
    2D: `draw(ctx, W, H, L)`. 3D: `draw({ THREE, canvas, W, H, L })`. `L` is `lib.js` (seeded random, paper,

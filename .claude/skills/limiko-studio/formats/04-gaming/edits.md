@@ -20,6 +20,9 @@
 
 - **Transition after every highlight.** Default `glow-zoom` (zoom-through with a light flash and bloom, plus a whoosh).
   Alternatives: `whip` (energy), `flash` (beat drops), `cut` (only inside one continuous highlight).
+  For a GL transition from the library (WhipPan, GlitchDisplace, CrossZoom… see `../../shared/transitions-text.md`),
+  render each highlight as its own edit (or cut the final at highlight boundaries) and join them with
+  `frames/transitions.cjs chain`.
 - **Zoom in and zoom out on every event:** ease in towards the player before the hit, punch on the hit, ease back out after.
   Not only punches. The camera never stops (`direction.md`, Camera rules).
 - **Character glow on the player** throughout the highlights (aura around the outline, never filling the body),
@@ -34,6 +37,9 @@
 2. **Pin kills:** `gameedit.py badges raw.mp4 --t 31,37,40,…` → 4 frames/s strips of the HUD centre; take the first
    frame where each kill badge appears. Multi-kill banners ("DOUBLE", "QUADRA"…) are `"big": true`.
 3. **Character:** `charglow.py identify raw.mp4 --a <first fight> --b <last fight> --out work/id` → auto, or ask the user.
+   Tracking then uses **SAM 2** (follows that one object; tight outline incl. limbs and weapon). If more than 15% of
+   frames are uncertain, the render stops and shows `masks_N.check.jpg`: show it to the user; on approval set
+   `"glow": {"approved": true}`; if the outline is on someone else, identify again and ask.
 4. **Edit list:** write `edit.json` (format in `gameedit.py --help`): `full_highlights`, highlights with events,
    slow motion on the biggest moment, `glow.anchor`, outro.
 5. **Preview:** `gameedit.py render edit.json --preview` (640 px, fast) → check timing, then show the user.

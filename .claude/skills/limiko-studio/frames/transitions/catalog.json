@@ -1,0 +1,1164 @@
+[
+ {
+  "name": "Accordion",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image folds up like a pleated paper toward one side while the incoming one unfolds out of the other, both in 3D with lit and shadowed pleats",
+  "tags": "fold, 3d, slide, stripes"
+ },
+ {
+  "name": "ApertureWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A camera aperture opens its turning blades to reveal the incoming image",
+  "tags": "shape, wipe, iris, rotate"
+ },
+ {
+  "name": "Ascii",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The image turns into text-mode characters, denser where it is brighter, the characters scramble into those of the incoming image, then resolve back into it",
+  "tags": "text, pattern, retro, digital"
+ },
+ {
+  "name": "BlockCover",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Blocks of a solid color pop in at random over the outgoing image until they cover the frame, then pop out in another random order to show the incoming image",
+  "tags": "blocks, grid, squares, color, cover"
+ },
+ {
+  "name": "BlockDissolve",
+  "author": "nwoeanhinnogaehr",
+  "license": "MIT",
+  "description": "The incoming image appears in small random blocks",
+  "tags": "dissolve, blocks, noise"
+ },
+ {
+  "name": "BloomDissolve",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The highlights of the outgoing image blow out into a soft, wide glow that floods the frame; under it the incoming image takes over, then the glow subsides back into its highlights while the image stays sharp",
+  "tags": "light, glow, bloom, dissolve"
+ },
+ {
+  "name": "BokehDissolve",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The image falls out of focus like a camera lens, its highlights swelling into large bright bokeh discs, and the incoming image sharpens back out of its own bokeh",
+  "tags": "blur, bokeh, lens, dissolve, light"
+ },
+ {
+  "name": "BookFlip",
+  "author": "hong",
+  "license": "MIT",
+  "description": "The outgoing image turns like a book page from right to left, revealing the incoming one",
+  "tags": "page, flip, 3d"
+ },
+ {
+  "name": "Bounce",
+  "author": "Adrian Purser",
+  "license": "MIT",
+  "description": "The outgoing image drops out of the frame with a few bounces, revealing the incoming one",
+  "tags": "bounce, slide, vertical, shadow"
+ },
+ {
+  "name": "BowTie",
+  "author": "KMojek",
+  "license": "MIT",
+  "description": "A bow-tie wipe with an adjustable shape that can run in reverse",
+  "tags": "wipe, shape"
+ },
+ {
+  "name": "BowTieHorizontal",
+  "author": "huynx",
+  "license": "MIT",
+  "description": "Two triangles grow from the left and right edges into a bow tie that reveals the incoming image",
+  "tags": "wipe, shape, horizontal"
+ },
+ {
+  "name": "BowTieVertical",
+  "author": "huynx",
+  "license": "MIT",
+  "description": "Two triangles grow from the top and bottom edges into a bow tie that reveals the incoming image",
+  "tags": "wipe, shape, vertical"
+ },
+ {
+  "name": "Box",
+  "author": "lql",
+  "license": "MIT",
+  "description": "The outgoing image shrinks into a box, toward the center or a corner, revealing the incoming one",
+  "tags": "box, zoom, shape"
+ },
+ {
+  "name": "BrushWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A few broad brush strokes sweep across the frame in turn, back and forth, painting in the incoming image with streaky bristle edges and dry, ragged ends",
+  "tags": "wipe, paint, brush, organic"
+ },
+ {
+  "name": "BurnThrough",
+  "author": "liubailin2020@gmail.com",
+  "license": "MIT",
+  "description": "The outgoing image burns away in noisy, glowing patches",
+  "tags": "burn, fire, noise"
+ },
+ {
+  "name": "ButterflyWaveScrawler",
+  "author": "mandubian",
+  "license": "MIT",
+  "description": "Wavy, color-separated ripples scramble the outgoing image into the incoming one",
+  "tags": "wave, distort, chromatic"
+ },
+ {
+  "name": "Chessboard",
+  "author": "lql",
+  "license": "MIT",
+  "description": "A chessboard pattern of squares reveals the incoming image",
+  "tags": "grid, squares, pattern"
+ },
+ {
+  "name": "CircleIris",
+  "author": "Fernando Kuteken",
+  "license": "MIT",
+  "description": "The outgoing image closes into a circle over a background color, then the incoming one opens from it",
+  "tags": "circle, iris, shape"
+ },
+ {
+  "name": "CircleOpen",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A soft-edged circle opens from the center to reveal the incoming image",
+  "tags": "circle, iris, wipe"
+ },
+ {
+  "name": "ClockWipe",
+  "author": "Fernando Kuteken",
+  "license": "MIT",
+  "description": "A wipe that sweeps around the center from a starting angle",
+  "tags": "wipe, radial, clock"
+ },
+ {
+  "name": "ColorCoords",
+  "author": "haiyoucuv",
+  "license": "MIT",
+  "description": "A crossfade in which the colors of one image displace the other",
+  "tags": "displace, distort, blend"
+ },
+ {
+  "name": "ColorDistance",
+  "author": "P-Seebauer",
+  "license": "MIT",
+  "description": "Pixels switch to the incoming image in order of how close their colors are",
+  "tags": "blend, color"
+ },
+ {
+  "name": "ColorPhase",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A crossfade in which each color channel changes at a different time",
+  "tags": "fade, color"
+ },
+ {
+  "name": "ColorWrap",
+  "author": "Yoni Maltsman @friendlyspinach",
+  "license": "MIT",
+  "description": "Each color channel of the outgoing image is shifted and wraps around into psychedelic bands, while crossfading to the incoming image",
+  "tags": "color, glitch, psychedelic, fade"
+ },
+ {
+  "name": "Comb",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The frame is cut into interleaved strips that slide in opposite directions, each pushing the outgoing image out and the incoming one in",
+  "tags": "slide, stripes, push, horizontal"
+ },
+ {
+  "name": "CrazyParametricFun",
+  "author": "mandubian",
+  "license": "MIT",
+  "description": "The outgoing image is pulled along a parametric curve into a psychedelic swirl",
+  "tags": "distort, psychedelic"
+ },
+ {
+  "name": "CrossWarp",
+  "author": "Eke Péter <peterekepeter@gmail.com>",
+  "license": "MIT",
+  "description": "The outgoing image zooms in while the incoming one zooms out into place, sweeping from right to left",
+  "tags": "warp, zoom, horizontal"
+ },
+ {
+  "name": "CrossZoom",
+  "author": "rectalogic",
+  "license": "MIT",
+  "description": "A crossfade through a strong zoom blur",
+  "tags": "zoom, blur, blend"
+ },
+ {
+  "name": "Crosshatch",
+  "author": "pthrasher",
+  "license": "MIT",
+  "description": "The incoming image appears through a crosshatch of lines spreading from the center",
+  "tags": "pattern, lines, noise"
+ },
+ {
+  "name": "Cube",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The two images are faces of a rotating 3D cube, with a floor reflection",
+  "tags": "3d, cube, rotate, reflection"
+ },
+ {
+  "name": "Curtains",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image parts in the middle like stage curtains, gathering into shaded folds as it is pulled to the sides",
+  "tags": "split, horizontal, fold, 3d"
+ },
+ {
+  "name": "CurvedWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image is pulled away by its middle: the wipe edge bulges into a smooth curve that leads the way, then flattens as it reaches the far side",
+  "tags": "wipe, curve, directional, shadow"
+ },
+ {
+  "name": "CylinderRoll",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The frame wraps around a drum that rolls up, the outgoing image turning away over its top in a motion blur and the incoming one coming around from below and unrolling flat",
+  "tags": "3d, roll, motion-blur, vertical, chromatic"
+ },
+ {
+  "name": "DefocusBlur",
+  "author": "Sergey Kosarevsky",
+  "license": "MIT",
+  "description": "A crossfade through an out-of-focus blur",
+  "tags": "blur, blend"
+ },
+ {
+  "name": "DiamondWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A soft-edged diamond grows from the center to reveal the incoming image",
+  "tags": "shape, wipe, iris"
+ },
+ {
+  "name": "Directional",
+  "author": "Gaëtan Renaudeau",
+  "license": "MIT",
+  "description": "The incoming image pushes the outgoing one out in a given direction",
+  "tags": "slide, push, directional"
+ },
+ {
+  "name": "DirectionalEased",
+  "author": "Max Plotnikov",
+  "license": "MIT",
+  "description": "Like Directional, with an eased movement",
+  "tags": "slide, push, directional"
+ },
+ {
+  "name": "DirectionalScaled",
+  "author": "Thibaut Foussard",
+  "license": "MIT",
+  "description": "Like Directional, with both images scaled down while they slide",
+  "tags": "slide, push, zoom, directional"
+ },
+ {
+  "name": "DirectionalWarp",
+  "author": "pschroen",
+  "license": "MIT",
+  "description": "A diagonal wipe with a warped, smeared edge",
+  "tags": "wipe, warp, directional"
+ },
+ {
+  "name": "DirectionalWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A soft-edged diagonal wipe",
+  "tags": "wipe, directional"
+ },
+ {
+  "name": "Disintegrate",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image crumbles into fine dust from one side, its grains blown away by the wind and fading out, revealing the incoming image underneath",
+  "tags": "particles, dust, wind, directional"
+ },
+ {
+  "name": "DitherDissolve",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The incoming image appears through a regular 8x8 ordered dither pattern, like a retro computer screen",
+  "tags": "dissolve, pattern, retro, pixelate"
+ },
+ {
+  "name": "DoomMelt",
+  "author": "Zeh Fernando",
+  "license": "MIT",
+  "description": "The outgoing image melts down in uneven columns, like the Doom screen wipe",
+  "tags": "melt, columns, retro"
+ },
+ {
+  "name": "Doorway",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image opens like double doors as the incoming one comes forward, with a floor reflection",
+  "tags": "doors, 3d, reflection"
+ },
+ {
+  "name": "Dreamy",
+  "author": "mikolalysenko",
+  "license": "MIT",
+  "description": "A crossfade with a gentle wavy distortion",
+  "tags": "wave, blend"
+ },
+ {
+  "name": "DreamyZoom",
+  "author": "Zeh Fernando",
+  "license": "MIT",
+  "description": "Zooms and rotates into a bright flash, then out to the incoming image",
+  "tags": "zoom, rotate, flash"
+ },
+ {
+  "name": "EdgeGlow",
+  "author": "Woohyun Kim",
+  "license": "MIT",
+  "description": "Both images fade through black with their edges glowing",
+  "tags": "edges, fade"
+ },
+ {
+  "name": "Fade",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A linear crossfade between the two images",
+  "tags": "fade, blend"
+ },
+ {
+  "name": "FadeColor",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A fade through a solid color, black by default",
+  "tags": "fade, color"
+ },
+ {
+  "name": "FadeGrayscale",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A crossfade through grayscale",
+  "tags": "fade, grayscale, color"
+ },
+ {
+  "name": "FallOver",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image falls over backward, hinged on its bottom edge, revealing the incoming one behind it",
+  "tags": "rotate, vertical, 3d"
+ },
+ {
+  "name": "FilmBurn",
+  "author": "Anastasia Dunbar",
+  "license": "MIT",
+  "description": "Glowing film-burn light leaks wash over the image and reveal the incoming one",
+  "tags": "burn, film, light-leak"
+ },
+ {
+  "name": "FilmDissolve",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A cross-dissolve blended in linear light, as light adds up on film: the frame keeps its brightness all the way through and the highlights of each image shine through the other",
+  "tags": "dissolve, fade, blend, light"
+ },
+ {
+  "name": "FilmStrip",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The picture slips like film in a projector gate: it shrinks to show the sprocket holes, the strip runs down with motion blur and a slight weave, then the incoming frame lands in place",
+  "tags": "retro, vertical, motion-blur, film"
+ },
+ {
+  "name": "Fisheye",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image bulges toward the viewer through a strong fisheye lens, then the incoming one flattens back into place",
+  "tags": "lens, distort, zoom, blend"
+ },
+ {
+  "name": "FlashFade",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A crossfade that brightens toward a color in the middle",
+  "tags": "fade, color, flash"
+ },
+ {
+  "name": "FlowerWipe",
+  "author": "Fernando Kuteken",
+  "license": "MIT",
+  "description": "A flower shape with several petals grows to reveal the incoming image",
+  "tags": "shape, wipe, polar"
+ },
+ {
+  "name": "FlyEye",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The image breaks into a fly's-eye grid of lenses with color separation",
+  "tags": "lens, distort, chromatic"
+ },
+ {
+  "name": "Fold",
+  "author": "nwoeanhinnogaehr",
+  "license": "MIT",
+  "description": "The incoming image unfolds from the left while the outgoing one folds away to the right",
+  "tags": "fold, slide, horizontal"
+ },
+ {
+  "name": "GlitchBands",
+  "author": "Yoni Maltsman @friendlyspinach",
+  "license": "MIT",
+  "description": "A crossfade with glitchy horizontal bands and color shifts",
+  "tags": "glitch, blend"
+ },
+ {
+  "name": "GlitchDisplace",
+  "author": "Matt DesLauriers",
+  "license": "MIT",
+  "description": "Blocks of the image are displaced in a glitch that flashes into the incoming image",
+  "tags": "glitch, displace"
+ },
+ {
+  "name": "GlitchFlicker",
+  "author": "bread",
+  "license": "MIT",
+  "description": "A flickering glitch with RGB offset, ghosting and scanlines that flashes back to the outgoing image",
+  "tags": "glitch, flicker, chromatic, scanlines"
+ },
+ {
+  "name": "GlitchMemories",
+  "author": "Gunnar Roth",
+  "license": "MIT",
+  "description": "A crossfade with glitchy, color-shifted blocks",
+  "tags": "glitch, chromatic, blend"
+ },
+ {
+  "name": "GlowDissolve",
+  "author": "hjm1fb",
+  "license": "MIT",
+  "description": "The incoming image spreads over the outgoing one with a hot, glowing edge",
+  "tags": "dissolve, burn, glow"
+ },
+ {
+  "name": "GooeyWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Soft, glossy blobs of liquid pop up over the outgoing image, swell and melt into each other, revealing the incoming image until they cover the whole frame",
+  "tags": "blob, liquid, organic, reveal"
+ },
+ {
+  "name": "GridFlip",
+  "author": "TimDonselaar",
+  "license": "MIT",
+  "description": "The image splits into a grid of tiles that flip one by one to the incoming image",
+  "tags": "grid, tiles, flip"
+ },
+ {
+  "name": "Halftone",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The image breaks into printed halftone dots whose size follows its shades, the dots reshape into the incoming image, then merge back into it",
+  "tags": "dots, pattern, retro"
+ },
+ {
+  "name": "HeartWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A heart shape grows from the center to reveal the incoming image",
+  "tags": "shape, wipe, heart"
+ },
+ {
+  "name": "Hexagonalize",
+  "author": "Fernando Kuteken",
+  "license": "MIT",
+  "description": "Both images turn into hexagons, crossfade, then sharpen again",
+  "tags": "pixelate, hexagon, blend"
+ },
+ {
+  "name": "Honeycomb",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The image splits into hexagons that spin and shrink away in a wave from the center, uncovering the incoming image",
+  "tags": "hexagon, tiles, rotate, radial"
+ },
+ {
+  "name": "HorizontalClose",
+  "author": "martiniti",
+  "license": "MIT",
+  "description": "The incoming image closes in from the top and bottom edges toward the middle",
+  "tags": "wipe, split"
+ },
+ {
+  "name": "HorizontalOpen",
+  "author": "martiniti",
+  "license": "MIT",
+  "description": "The incoming image opens from a line in the middle toward the top and bottom edges",
+  "tags": "wipe, split"
+ },
+ {
+  "name": "HsvFade",
+  "author": "nwoeanhinnogaehr",
+  "license": "MIT",
+  "description": "A crossfade through the HSV color space that cycles through hues",
+  "tags": "fade, color, hue"
+ },
+ {
+  "name": "InkBleed",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The incoming image spreads over the outgoing one like drops of ink in water, blooming from a few points with curling, wispy edges and a darker rim, until it fills the frame",
+  "tags": "ink, organic, fluid, noise"
+ },
+ {
+  "name": "InvertedPageCurl",
+  "author": "Hewlett-Packard",
+  "license": "BSD 3 Clause",
+  "description": "The outgoing image curls away like a page, revealing the incoming one",
+  "tags": "page, curl, 3d"
+ },
+ {
+  "name": "Kaleidoscope",
+  "author": "nwoeanhinnogaehr",
+  "license": "MIT",
+  "description": "A crossfade through a spinning kaleidoscope",
+  "tags": "kaleidoscope, distort, blend"
+ },
+ {
+  "name": "LeafWipe",
+  "author": "@Flexi23",
+  "license": "MIT",
+  "description": "A leaf shape grows from the center to reveal the incoming image",
+  "tags": "shape, wipe"
+ },
+ {
+  "name": "LeftRight",
+  "author": "zhmy",
+  "license": "MIT",
+  "description": "The outgoing image shrinks away to the left while the incoming one slides in from the right",
+  "tags": "slide, zoom, horizontal"
+ },
+ {
+  "name": "LensFlare",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A bright light sweeps across the frame and flares the lens: a long thin horizontal streak, a glowing core and a trail of colored ghost reflections; at its peak the incoming image spreads out from the light under its glare",
+  "tags": "light, flare, glow, streak"
+ },
+ {
+  "name": "LightRays",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Shafts of light burst from the highlights of the outgoing image and stream outward from a slowly drifting center; at their peak the incoming image takes over and its own rays shrink back into its highlights",
+  "tags": "light, glow, rays, radial"
+ },
+ {
+  "name": "LightStreaks",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The highlights of the outgoing image flare into long horizontal (or vertical) lens streaks while it smears with motion blur; at the peak the incoming image takes over and its streaks shrink back into its highlights as it sharpens",
+  "tags": "light, flare, motion-blur, glow"
+ },
+ {
+  "name": "LightWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A band of intense light sweeps across the frame like a glint on glass, blooming the highlights of both images, and leaves the incoming image behind it",
+  "tags": "wipe, light, glow, glint"
+ },
+ {
+  "name": "LinearBlur",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A crossfade through a blur",
+  "tags": "blur, blend"
+ },
+ {
+  "name": "LissajousTiles",
+  "author": "Boundless <info@boundless-beta.com>",
+  "license": "MIT",
+  "description": "The image breaks into a grid of tiles that swirl along Lissajous curves, in a Scanimate style, and flip one by one to the incoming image before settling back",
+  "tags": "tiles, grid, motion, retro"
+ },
+ {
+  "name": "LuminanceMelt",
+  "author": "0gust1",
+  "license": "MIT",
+  "description": "The outgoing image melts away in noisy vertical streaks, depending on its brightness",
+  "tags": "melt, noise, luma"
+ },
+ {
+  "name": "Morph",
+  "author": "paniq",
+  "license": "MIT",
+  "description": "A crossfade in which each image is displaced by the other's colors, like a morph",
+  "tags": "morph, distort, blend"
+ },
+ {
+  "name": "Mosaic",
+  "author": "Xaychru",
+  "license": "MIT",
+  "description": "The view pans across a mosaic of rotated tiles from both images and settles on the incoming one",
+  "tags": "mosaic, tiles, zoom"
+ },
+ {
+  "name": "MosaicBlend",
+  "author": "Sergey Kosarevsky",
+  "license": "MIT",
+  "description": "Both images break into large blocks that blend, then sharpen into the incoming image",
+  "tags": "pixelate, mosaic, blend"
+ },
+ {
+  "name": "MosaicFade",
+  "author": "YueDev",
+  "license": "MIT",
+  "description": "Both images break into mosaic blocks that blend, then sharpen into the incoming image",
+  "tags": "mosaic, pixelate, blend"
+ },
+ {
+  "name": "MultiplyBlend",
+  "author": "Fernando Kuteken",
+  "license": "MIT",
+  "description": "A crossfade through the multiplied blend of both images",
+  "tags": "blend, fade"
+ },
+ {
+  "name": "NoiseDissolve",
+  "author": "towrabbit",
+  "license": "MIT",
+  "description": "The incoming image appears pixel by pixel in random noise",
+  "tags": "dissolve, noise"
+ },
+ {
+  "name": "Overexposure",
+  "author": "Ben Zhang",
+  "license": "MIT",
+  "description": "A crossfade through a washed-out, overexposed white",
+  "tags": "flash, light, fade"
+ },
+ {
+  "name": "PaperTear",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image tears in two along a ragged line, and the halves are pulled apart to reveal the incoming one",
+  "tags": "split, horizontal, shadow"
+ },
+ {
+  "name": "PerlinDissolve",
+  "author": "Rich Harris",
+  "license": "MIT",
+  "description": "The incoming image appears through blobs of Perlin noise",
+  "tags": "noise, dissolve"
+ },
+ {
+  "name": "PhotoDevelop",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image washes out to a blank cream card, then the incoming image develops on it like an instant photo: shadows first, faint and tinted, then its contrast and colors come up and it settles",
+  "tags": "fade, color, photo, retro"
+ },
+ {
+  "name": "Pinwheel",
+  "author": "Mr Speaker",
+  "license": "MIT",
+  "description": "A spinning pinwheel reveals the incoming image",
+  "tags": "pinwheel, radial, rotate"
+ },
+ {
+  "name": "PixelStretch",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A line sweeps across the frame and drags the outgoing image's pixels behind it as long streaks, which shorten as it goes and reveal the incoming image",
+  "tags": "smear, streaks, directional, chromatic"
+ },
+ {
+  "name": "Pixelize",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Both images pixelate, crossfade, then sharpen again",
+  "tags": "pixelate, blend"
+ },
+ {
+  "name": "PlusWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A plus-shaped cross grows from the center and widens its arms until the incoming image fills the frame",
+  "tags": "shape, wipe, cross, plus"
+ },
+ {
+  "name": "PolkaDotsCurtain",
+  "author": "bobylito",
+  "license": "MIT",
+  "description": "The incoming image appears through growing polka dots",
+  "tags": "dots, pattern"
+ },
+ {
+  "name": "PowerKaleido",
+  "author": "Boundless",
+  "license": "MIT",
+  "description": "The image folds into an animated kaleidoscope before revealing the incoming one",
+  "tags": "kaleidoscope, distort"
+ },
+ {
+  "name": "Prisms",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The frame is cut into 3D prisms that turn in a cascade, like a rotating billboard, from the outgoing image on one face to the incoming one on the next",
+  "tags": "3d, rotate, stripes"
+ },
+ {
+  "name": "Puzzle",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The image is cut into jigsaw puzzle pieces that lift one after another and fall away, revealing the incoming image",
+  "tags": "tiles, shadow, rotate, fragments"
+ },
+ {
+  "name": "RadialWipe",
+  "author": "Xaychru",
+  "license": "MIT",
+  "description": "A radial wipe that sweeps around the center like a clock hand",
+  "tags": "wipe, radial, clock"
+ },
+ {
+  "name": "RandomSquares",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The incoming image appears in random squares",
+  "tags": "squares, grid, dissolve"
+ },
+ {
+  "name": "RectangleCover",
+  "author": "martiniti",
+  "license": "MIT",
+  "description": "A rectangle grows from the center to cover the outgoing image, then shrinks to reveal the incoming one",
+  "tags": "box, shape, iris"
+ },
+ {
+  "name": "RectangleIris",
+  "author": "martiniti",
+  "license": "MIT",
+  "description": "The outgoing image shrinks into a small rectangle over a background color, then the incoming one grows from it",
+  "tags": "box, iris, zoom"
+ },
+ {
+  "name": "Refraction",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The frame is seen through flowing liquid glass that bends the outgoing image more and more, with rainbow fringes, flares up as the incoming image takes over, then calms down and clears",
+  "tags": "distortion, refraction, chromatic-aberration, glow"
+ },
+ {
+  "name": "Revolve",
+  "author": "bread",
+  "license": "MIT",
+  "description": "The outgoing image swirls and zooms with motion blur into the incoming one",
+  "tags": "swirl, zoom, rotate, blur"
+ },
+ {
+  "name": "Ripple",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Ripples spread from the center while crossfading",
+  "tags": "ripple, wave, blend"
+ },
+ {
+  "name": "Rolls",
+  "author": "Mark Craig",
+  "license": "MIT",
+  "description": "The outgoing image rolls away around a corner, revealing the incoming one",
+  "tags": "rotate, roll"
+ },
+ {
+  "name": "RotateFade",
+  "author": "haiyoucuv",
+  "license": "MIT",
+  "description": "The images spin around the center while crossfading",
+  "tags": "rotate, spin, blend"
+ },
+ {
+  "name": "RotateScaleFade",
+  "author": "Fernando Kuteken",
+  "license": "MIT",
+  "description": "The outgoing image spins and zooms while fading to the incoming one, over a background color",
+  "tags": "rotate, zoom, fade"
+ },
+ {
+  "name": "RotateScaleVanish",
+  "author": "Mark Craig",
+  "license": "MIT",
+  "description": "The outgoing image spins and shrinks away over the incoming one",
+  "tags": "rotate, zoom, spin"
+ },
+ {
+  "name": "ScaleIn",
+  "author": "haiyoucuv",
+  "license": "MIT",
+  "description": "The incoming image scales in from the center while fading in",
+  "tags": "zoom, fade"
+ },
+ {
+  "name": "Shatter",
+  "author": "lbl",
+  "license": "MIT",
+  "description": "The outgoing image shatters into fragments that fly away",
+  "tags": "shatter, fragments"
+ },
+ {
+  "name": "Shred",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image is cut into paper strips that drop away at uneven speeds, tilting as they fall, revealing the incoming image",
+  "tags": "slices, stripes, vertical, shadow"
+ },
+ {
+  "name": "SimpleFlip",
+  "author": "nwoeanhinnogaehr",
+  "license": "MIT",
+  "description": "The outgoing image flips around the vertical axis into the incoming one",
+  "tags": "flip, horizontal"
+ },
+ {
+  "name": "SimpleZoom",
+  "author": "0gust1",
+  "license": "MIT",
+  "description": "Zooms into the outgoing image, then fades to the incoming one",
+  "tags": "zoom, fade"
+ },
+ {
+  "name": "SimpleZoomOut",
+  "author": "Tianshuo",
+  "license": "MIT",
+  "description": "The incoming image zooms out into place while fading in",
+  "tags": "zoom, fade"
+ },
+ {
+  "name": "SlideAwayRight",
+  "author": "lizhongjian",
+  "license": "MIT",
+  "description": "The outgoing image slides to the right, uncovering a crossfade to the incoming one",
+  "tags": "slide, horizontal, blend"
+ },
+ {
+  "name": "Slides",
+  "author": "Mark Craig",
+  "license": "MIT",
+  "description": "The outgoing image slides out, or the incoming one slides in, toward an edge, a corner or the center",
+  "tags": "slide, directional"
+ },
+ {
+  "name": "SpiralWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A spiral arm winds out from the center and widens to reveal the incoming image",
+  "tags": "shape, wipe, radial"
+ },
+ {
+  "name": "SplatterWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Splats of paint land one after another, each popping in with a spiky outline, flung droplets and a few drips running down, revealing the incoming image until they cover the frame",
+  "tags": "paint, splash, organic, reveal"
+ },
+ {
+  "name": "SplitSlideInHorizontal",
+  "author": "OllyOllyOlly",
+  "license": "MIT",
+  "description": "The incoming image slides in as two halves moving horizontally in opposite directions",
+  "tags": "slide, split, horizontal"
+ },
+ {
+  "name": "SplitSlideInOutHorizontal",
+  "author": "OllyOllyOlly",
+  "license": "MIT",
+  "description": "The halves of both images slide horizontally in opposite directions, out and in at once",
+  "tags": "slide, split, horizontal"
+ },
+ {
+  "name": "SplitSlideInOutVertical",
+  "author": "OllyOllyOlly",
+  "license": "MIT",
+  "description": "The halves of both images slide vertically in opposite directions, out and in at once",
+  "tags": "slide, split, vertical"
+ },
+ {
+  "name": "SplitSlideInVertical",
+  "author": "OllyOllyOlly",
+  "license": "MIT",
+  "description": "The incoming image slides in as two halves moving vertically in opposite directions",
+  "tags": "slide, split, vertical"
+ },
+ {
+  "name": "SplitSlideOutHorizontal",
+  "author": "OllyOllyOlly",
+  "license": "MIT",
+  "description": "The outgoing image slides out as two halves moving horizontally in opposite directions",
+  "tags": "slide, split, horizontal"
+ },
+ {
+  "name": "SplitSlideOutVertical",
+  "author": "OllyOllyOlly",
+  "license": "MIT",
+  "description": "The outgoing image slides out as two halves moving vertically in opposite directions",
+  "tags": "slide, split, vertical"
+ },
+ {
+  "name": "SquaresWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Squares grow along a diagonal sweep to reveal the incoming image",
+  "tags": "squares, grid, wipe, directional"
+ },
+ {
+  "name": "Squeeze",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image is squeezed into a line with color separation, revealing the incoming one",
+  "tags": "squeeze, chromatic, vertical"
+ },
+ {
+  "name": "StarWipe",
+  "author": "Ben Lucas",
+  "license": "MIT",
+  "description": "A growing star reveals the incoming image",
+  "tags": "wipe, shape, star"
+ },
+ {
+  "name": "StaticFade",
+  "author": "Ben Lucas",
+  "license": "MIT",
+  "description": "Cuts to the incoming image halfway, hidden behind a burst of TV static",
+  "tags": "static, noise, retro"
+ },
+ {
+  "name": "StaticWipe",
+  "author": "Ben Lucas",
+  "license": "MIT",
+  "description": "A wipe from top to bottom with a band of TV static at its edge",
+  "tags": "wipe, static, noise, vertical"
+ },
+ {
+  "name": "StereoViewer",
+  "author": "Ted Schundler",
+  "license": "BSD 2 Clause",
+  "description": "Both images shrink into rounded cards that swap, like a stereo viewer toy",
+  "tags": "cards, zoom, retro"
+ },
+ {
+  "name": "StripDatamoshGlitch",
+  "author": "bread",
+  "license": "MIT",
+  "description": "A datamosh glitch: torn strips, chroma shifts and scan noise drag the outgoing image into the incoming one",
+  "tags": "glitch, datamosh, chromatic"
+ },
+ {
+  "name": "Swap",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The two images swap places in 3D, with a floor reflection",
+  "tags": "3d, swap, reflection"
+ },
+ {
+  "name": "Swirl",
+  "author": "Sergey Kosarevsky",
+  "license": "MIT",
+  "description": "Both images swirl around the center while crossfading",
+  "tags": "swirl, rotate, blend"
+ },
+ {
+  "name": "TangentMotionBlur",
+  "author": "chenkai",
+  "license": "MIT",
+  "description": "The outgoing image is flung away along a curve with motion blur",
+  "tags": "motion-blur, rotate, slide"
+ },
+ {
+  "name": "TilesWave",
+  "author": "numb3r23",
+  "license": "MIT",
+  "description": "The incoming image is revealed tile by tile in a diagonal wave",
+  "tags": "tiles, wave, wipe"
+ },
+ {
+  "name": "TopBottom",
+  "author": "zhmy",
+  "license": "MIT",
+  "description": "The outgoing image shrinks away upward while the incoming one slides in from the bottom",
+  "tags": "slide, zoom, vertical"
+ },
+ {
+  "name": "Tunnel",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The camera flies down a tunnel lined with the outgoing image toward the incoming one, which opens at its far end and grows to fill the frame",
+  "tags": "zoom, 3d, warp, radial"
+ },
+ {
+  "name": "TvLostSignal",
+  "author": "mernking (gitlab.com/Godswork)",
+  "license": "MIT",
+  "description": "A crossfade with drifting tracking lines and tearing, like a TV losing its signal",
+  "tags": "retro, glitch, scanlines"
+ },
+ {
+  "name": "TvRoll",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image rolls faster and faster, like an old TV losing its vertical hold, then the roll slows down and locks on the incoming image",
+  "tags": "retro, vertical, scanlines"
+ },
+ {
+  "name": "TvStatic",
+  "author": "Brandon Anzaldi",
+  "license": "MIT",
+  "description": "Cuts to full-screen TV static, then to the incoming image",
+  "tags": "static, noise, retro"
+ },
+ {
+  "name": "TvTurnOff",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The outgoing image collapses into a glowing line and a dot, like an old TV turned off, then the incoming image powers on from the dot",
+  "tags": "retro, vertical, flash"
+ },
+ {
+  "name": "UndulatingBurnOut",
+  "author": "pthrasher",
+  "license": "MIT",
+  "description": "A circle with a wavy edge burns out from the center to reveal the incoming image",
+  "tags": "circle, burn, wipe"
+ },
+ {
+  "name": "VerticalClose",
+  "author": "martiniti",
+  "license": "MIT",
+  "description": "The incoming image closes in from the left and right edges toward the middle",
+  "tags": "wipe, split"
+ },
+ {
+  "name": "VerticalOpen",
+  "author": "martiniti",
+  "license": "MIT",
+  "description": "The incoming image opens from a line in the middle toward the left and right edges",
+  "tags": "wipe, split"
+ },
+ {
+  "name": "WaterDrop",
+  "author": "Paweł Płóciennik",
+  "license": "MIT",
+  "description": "Ripples spread from the center like a drop falling into water, crossfading to the incoming image",
+  "tags": "ripple, water, blend"
+ },
+ {
+  "name": "WedgeWipe",
+  "author": "gre",
+  "license": "MIT",
+  "description": "Two hands sweep away from each other around the center, opening a widening wedge that reveals the incoming image",
+  "tags": "wipe, radial, clock, wedge"
+ },
+ {
+  "name": "WhipPan",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A fast camera pan that streaks both images with motion blur, the incoming one arriving from the opposite side",
+  "tags": "slide, motion-blur, directional"
+ },
+ {
+  "name": "WhipSpin",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The camera rolls faster and faster around the center of the frame, streaking the outgoing image in a spin blur, then the incoming one takes over mid-spin and slows to a stop",
+  "tags": "rotate, motion-blur, spin"
+ },
+ {
+  "name": "WhipTilt",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The camera tilts fast from the outgoing image to the incoming one, set edge to edge at an angle above it, streaking both in perspective with a vertical motion blur",
+  "tags": "3d, rotate, motion-blur, vertical"
+ },
+ {
+  "name": "Wind",
+  "author": "gre",
+  "license": "MIT",
+  "description": "A ragged left-to-right wipe, as if the image was blown away by the wind",
+  "tags": "wipe, horizontal, noise"
+ },
+ {
+  "name": "WindowBlinds",
+  "author": "Fabien Benetou",
+  "license": "MIT",
+  "description": "A crossfade through horizontal window blinds",
+  "tags": "blinds, stripes, blend"
+ },
+ {
+  "name": "WindowSlices",
+  "author": "gre",
+  "license": "MIT",
+  "description": "The incoming image appears through vertical slices that widen",
+  "tags": "slices, stripes, wipe"
+ },
+ {
+  "name": "WipeDown",
+  "author": "Jake Nelson",
+  "license": "MIT",
+  "description": "A hard-edged wipe from top to bottom",
+  "tags": "wipe, vertical"
+ },
+ {
+  "name": "WipeLeft",
+  "author": "Jake Nelson",
+  "license": "MIT",
+  "description": "A hard-edged wipe from right to left",
+  "tags": "wipe, horizontal"
+ },
+ {
+  "name": "WipeRight",
+  "author": "Jake Nelson",
+  "license": "MIT",
+  "description": "A hard-edged wipe from left to right",
+  "tags": "wipe, horizontal"
+ },
+ {
+  "name": "WipeUp",
+  "author": "Jake Nelson",
+  "license": "MIT",
+  "description": "A hard-edged wipe from bottom to top",
+  "tags": "wipe, vertical"
+ },
+ {
+  "name": "ZoomInCircles",
+  "author": "dycm8009",
+  "license": "MIT",
+  "description": "Concentric rings of the outgoing image zoom at different speeds before revealing the incoming one",
+  "tags": "zoom, circle"
+ },
+ {
+  "name": "ZoomInOut",
+  "author": "OllyOllyOlly",
+  "license": "MIT",
+  "description": "Zooms into the outgoing image until it blurs into a flat color, then out to the incoming one",
+  "tags": "zoom, blur"
+ },
+ {
+  "name": "ZoomWipeLeft",
+  "author": "Handk",
+  "license": "MIT",
+  "description": "Zooms into the outgoing image, then the incoming one wipes in from right to left",
+  "tags": "zoom, wipe, horizontal"
+ },
+ {
+  "name": "ZoomWipeRight",
+  "author": "Handk",
+  "license": "MIT",
+  "description": "Zooms into the outgoing image, then the incoming one wipes in from left to right",
+  "tags": "zoom, wipe, horizontal"
+ }
+]

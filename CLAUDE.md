@@ -44,6 +44,9 @@ every highlight; a glow on the player's character (`scripts/charglow.py identify
 identify.jpg and ask the user which character is theirs). Moving camera in every shot of every video (all formats;
 `shared/directing.md` §0 and each `direction.md` "Camera rules"). Setup: `bash scripts/vision-setup.sh`
 (venv-vision shares torch with venv-te). Tested on the user's gameplay (raw clip not in the repo).
+Character outline tracking uses SAM 2.1 tiny (transformers 4.57 inside venv-vision only; venv-te keeps 4.46 for
+Parler); DETR only identifies. Transitions: 166 GL Transitions vendored in frames/transitions/gl (`frames/transitions.cjs`),
+text animations `frames/textfx.js` (25 presets, Telugu-safe); guide `shared/transitions-text.md`.
 
 Environment: network allows `huggingface.co` and `*.hf.co`; a network secret adds `Authorization: Bearer <token>`
 to huggingface.co (account accepted the terms of ai4bharat/indic-parler-tts and ai4bharat/IndicF5).

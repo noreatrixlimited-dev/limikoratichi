@@ -58,6 +58,7 @@ G5 Storyboard → G6 Sample frames → user approval → production
 | Sample frames, style frames, character sheets (2D canvas + 3D three.js) | `frames/README.md` |
 | Characters: spec schema, rig, reference sheets, rules | `shared/characters.md` |
 | Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |
+| **Transitions (166 GPU + ffmpeg xfade) and text animations (25 presets, EN + TE)**, with picks per format | `shared/transitions-text.md` → `frames/transitions.cjs`, `frames/textfx.js` |
 | Copy a trending video's editing style with our own content | `shared/remake-a-trend.md` + `scripts/analyze.py` |
 | **Voice-over: native English and native Telugu** (engines, casting, script markup, Telugu writing rules, timings, cues, captions, mix) | `shared/voiceover.md` + `scripts/voice.py` |
 | Lyric and song videos | `shared/music-video.md` |
@@ -109,6 +110,7 @@ bash scripts/voice-setup.sh                                 # once: offline Engl
 python3 scripts/voice.py render <voice.en.md|voice.te.md>    # narration → voice.wav + timeline (words, cues, captions)
 python3 scripts/voice.py mix --voice v.wav --music m.wav --out mix.wav --lufs -14
 python3 scripts/analyze.py <video>                          # measure an edit (reference or our render)
+node frames/transitions.cjs list|join|chain|sheet           # GPU video transitions between clips
 bash scripts/vision-setup.sh                                # once: character tracking (DETR) for gaming edits
 ~/.cache/limiko-voice/venv-vision/bin/python scripts/gameedit.py scan|badges|render …   # gaming edits from an edit list
 ~/.cache/limiko-voice/venv-vision/bin/python scripts/charglow.py identify|track …        # find / track the player's character (asks if unsure)

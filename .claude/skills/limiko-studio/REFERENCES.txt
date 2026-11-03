@@ -187,12 +187,25 @@ Websites (not GitHub, all CC0, credit appreciated but not required):
 Used by scripts/charglow.py and scripts/gameedit.py (venv-vision, scripts/vision-setup.sh).
 
 [X-detr] facebookresearch/detr | vision | Apache-2.0 (model card facebook/detr-resnet-50-panoptic) | yes | model | person segmentation: finds and outlines the player's character
+[X-sam2] facebookresearch/sam2 | vision | Apache-2.0 (models facebook/sam2.1-hiera-tiny / -small) | yes | model | video object tracking: follows the player's character for the glow
+     install: via PyPI transformers>=4.57 in venv-vision (building the GitHub source was not needed)
 [X-timm] huggingface/pytorch-image-models | vision | Apache-2.0 | yes | tool | backbone library DETR needs (PyPI timm)
 [X-opencv] opencv/opencv | vision | Apache-2.0 | yes | tool | glow, masks, warping (PyPI opencv-python-headless)
 [X-torchvision] pytorch/vision | vision | BSD-3-Clause | yes | tool | installed as a timm dependency
 Checked and NOT used: nvidia/segformer-*, facebook/mask2former-*, briaai/RMBG-1.4 (licences "other" / non-commercial);
      ZhengPeng7/BiRefNet (MIT, good but slow on CPU: an option on GPU machines).
 Game footage: the user's own recordings; check each game publisher's video policy before monetising.
+
+-------------------------------------------------------------------------------
+14. TRANSITIONS AND TEXT ANIMATION (checked 2026-11-03)
+-------------------------------------------------------------------------------
+[T-gl] gl-transitions/gl-transitions | transitions | MIT (166 files MIT/BSD-2/BSD-3, per-file headers) | yes | assets | 166 GLSL transitions, VENDORED in frames/transitions/gl with LICENSE-gl-transitions.txt
+[T-gllibs] gre/gl-transition-libs | transitions | MIT | yes | tool | reference for the transition format (not vendored; our renderer is frames/transition.html)
+[T-xfade-easing] scriptituk/xfade-easing | transitions | MIT | yes | tool | ffmpeg xfade easing expressions and GLSL ports; reference for ffmpeg-only transitions
+[T-kinetic] marioecg/codrops-kinetic-typo | text | MIT | yes | tool | kinetic typography demos; ideas only (frames/textfx.js is our own code)
+[T-motion-skills] iart-ai/motion-skills | text | MIT | yes | skill | motion-graphics skills incl. text animation; reference
+Not used: animate-css/animate.css (Hippocratic licence, not a standard open-source licence); its effects are re-created
+     from scratch in textfx.js where similar.
 
 -------------------------------------------------------------------------------
 12. VOICE-OVER: NATIVE ENGLISH AND NATIVE TELUGU (checked 2026-11-03)
