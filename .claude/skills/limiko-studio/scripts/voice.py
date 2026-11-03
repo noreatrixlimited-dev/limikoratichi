@@ -240,7 +240,7 @@ def parler_prefetch(jobs, work):
     if not VENV_TE.exists():
         sys.exit("parler engine not installed: run scripts/voice-setup.sh --telugu")
     if not (os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")):
-        sys.exit("parler engine: set HF_TOKEN (a Hugging Face token whose account accepted ai4bharat/indic-parler-tts terms)")
+        print("  parler: no HF_TOKEN; relying on a network secret (Authorization: Bearer) for huggingface.co", file=sys.stderr)
     work.mkdir(parents=True, exist_ok=True)
     jf = work / "jobs.json"
     jf.write_text(json.dumps(jobs, ensure_ascii=False), encoding="utf-8")
@@ -259,7 +259,7 @@ def indicf5_prefetch(jobs, work):
     if not VENV_TE.exists():
         sys.exit("indicf5 engine not installed: run scripts/voice-setup.sh --telugu")
     if not (os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")):
-        sys.exit("indicf5 engine: set HF_TOKEN (account must accept ai4bharat/IndicF5 terms)")
+        print("  indicf5: no HF_TOKEN; relying on a network secret (Authorization: Bearer) for huggingface.co", file=sys.stderr)
     work.mkdir(parents=True, exist_ok=True)
     jf = work / "jobs.json"
     jf.write_text(json.dumps([{k: v for k, v in j.items() if k != "key"} for j in jobs], ensure_ascii=False), encoding="utf-8")

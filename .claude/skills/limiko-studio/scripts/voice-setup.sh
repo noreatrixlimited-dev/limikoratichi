@@ -50,15 +50,16 @@ if [ "${1:-}" = "--telugu" ]; then
   fi
   # IndicF5 (voice from a reference clip): its Python package, from AI4Bharat's GitHub
   venv-te/bin/python -c "import f5_tts" 2>/dev/null || venv-te/bin/pip -q install "git+https://github.com/ai4bharat/IndicF5.git" || echo "· IndicF5 package failed to install (parler still works)"
-  if [ -n "${HF_TOKEN:-}" ]; then
+  # Token: env HF_TOKEN, or a network secret that adds "Authorization: Bearer <token>" to huggingface.co requests.
+  if [ -n "${HF_TOKEN:-}" ] || [ "$(curl -s -o /dev/null -w '%{http_code}' -L https://huggingface.co/ai4bharat/indic-parler-tts/resolve/main/config.json)" = "200" ]; then
     echo "↓ model ai4bharat/indic-parler-tts (first time ~3.8 GB)"
     echo "  (needs huggingface.co and *.hf.co allowed in the environment's network access)"
-    venv-te/bin/python -c "from huggingface_hub import snapshot_download as s; import os; s('ai4bharat/indic-parler-tts', token=os.environ['HF_TOKEN'])" \
+    venv-te/bin/python -c "from huggingface_hub import snapshot_download as s; import os; s('ai4bharat/indic-parler-tts', token=os.environ.get('HF_TOKEN'))" \
       && echo "✓ native Telugu voice ready (engine: parler)"
-    venv-te/bin/python -c "from huggingface_hub import snapshot_download as s; import os; s('ai4bharat/IndicF5', token=os.environ['HF_TOKEN'])" \
+    venv-te/bin/python -c "from huggingface_hub import snapshot_download as s; import os; s('ai4bharat/IndicF5', token=os.environ.get('HF_TOKEN'))" \
       && echo "✓ Telugu voice from a reference clip ready (engine: indicf5)"
   else
-    echo "· set HF_TOKEN, then run this again to download the model"
+    echo "· no access to the gated model: set HF_TOKEN or a huggingface.co network secret, and accept the model terms"
   fi
 fi
 
