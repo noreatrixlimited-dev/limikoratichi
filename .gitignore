@@ -1,3 +1,4 @@
 vendor/
 films/*/out/
 .claude/skills/x-*
+films/_refs/

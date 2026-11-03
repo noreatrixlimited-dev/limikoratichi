@@ -32,6 +32,7 @@ needs. Engine ids (like `E-film`) are explained, with links and licences, in
 | A 3D character, object or world | **E · 3D**: Blender or Three.js, or image-to-3D models | `guides/3d.md` |
 | Only the title, hook, tags or thumbnail | **F · Packaging** | `guides/packaging.md` |
 | Find free art, models, music, sound | **G · Assets** | `guides/assets.md` |
+| "Make it like this trending video" / "edit in the same style" | **H · Remake a trend**: measure its edit, rebuild with our content | `guides/remake-a-trend.md` + `scripts/analyze.py` |
 
 Prefer Route A whenever it can do the job: it needs no GPU, it's fully
 editable, and every pixel is ours to license.
@@ -71,7 +72,28 @@ editable, and every pixel is ours to license.
   Credits are kept where a licence requires them (see REFERENCES.txt, "Credit needed").
 - **Keep work in** `films/<slug>/` (source, renders, `brief.md`, `credits.txt`).
 
-## 5. Loader cheatsheet
+## 5. Files
+
+```
+SKILL.md                 this router
+REFERENCES.txt           notepad: every source repo, link, licence, install (the only place sources appear)
+styles/README.md         47 code-drawn styles by channel
+styles/building.md       renderFrame(t) technique, render loop, encode, mix, effect toolbox
+playbooks/               facts · kids · gaming · music-video · cinematic
+guides/remake-a-trend.md analyse a trending video's edit and rebuild it with our content
+guides/packaging.md      hooks, titles, thumbnail text, description, tags
+guides/editing.md        real footage: cut, reframe, caption, mix, export
+guides/ai-models.md      AI video models: which, how, rules
+guides/3d.md             Three.js / Blender / image-to-3D / rigging
+guides/assets.md         free commercial assets and credits
+scripts/analyze.py       measure a video's edit → analysis.json, shots.jpg, hook.jpg, recipe.md
+scripts/studio.py        catalog browser and on-demand loader
+```
+
+Measure any video (a reference or our own render):
+`python3 .claude/skills/limiko-studio/scripts/analyze.py <video>` (needs ffmpeg, numpy, Pillow).
+
+## 6. Loader cheatsheet
 
 ```
 studio.py list [category]        # what's in the catalog
