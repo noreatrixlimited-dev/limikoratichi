@@ -7,7 +7,7 @@ jobs.json: [{"id": "j0", "text": "…", "ref": "/abs/ref.wav", "ref_text": "tran
 
 Reference clip: 5–12 s, one speaker, clean, with its exact transcript. Only voices you have the right to use
 (your own, a consenting artist, or a voice the studio generated, e.g. a Parler line).
-Runs in ~/.cache/limiko-voice/venv-te. Needs HF_TOKEN from an account that accepted ai4bharat/IndicF5 terms.
+Runs in ~/.cache/limiko-voice/venv-f5 (separate from parler's venv-te). Needs HF_TOKEN from an account that accepted ai4bharat/IndicF5 terms.
 The model repo ships its own loading code (trust_remote_code): official AI4Bharat repo, pinned by revision.
 """
 import json, os, sys, time

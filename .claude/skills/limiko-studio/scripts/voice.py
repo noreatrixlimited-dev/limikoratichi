@@ -221,7 +221,8 @@ def eng_recorded(path):
 
 
 _parler_cache = {}
-VENV_TE = CACHE / "venv-te" / "bin" / "python"
+VENV_TE = CACHE / "venv-te" / "bin" / "python"   # parler (pins transformers 4.46)
+VENV_F5 = CACHE / "venv-f5" / "bin" / "python"   # indicf5 (own dependencies)
 PACE = [(0.88, "slow"), (0.97, "slightly slow"), (1.04, "moderate"), (1.12, "slightly fast"), (9, "fast")]
 
 
@@ -256,14 +257,14 @@ _f5_cache = {}
 def indicf5_prefetch(jobs, work):
     if not jobs:
         return
-    if not VENV_TE.exists():
+    if not VENV_F5.exists():
         sys.exit("indicf5 engine not installed: run scripts/voice-setup.sh --telugu")
     if not (os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")):
         print("  indicf5: no HF_TOKEN; relying on a network secret (Authorization: Bearer) for huggingface.co", file=sys.stderr)
     work.mkdir(parents=True, exist_ok=True)
     jf = work / "jobs.json"
     jf.write_text(json.dumps([{k: v for k, v in j.items() if k != "key"} for j in jobs], ensure_ascii=False), encoding="utf-8")
-    subprocess.run([str(VENV_TE), str(Path(__file__).with_name("voice_indicf5.py")), str(jf), str(work)], check=True)
+    subprocess.run([str(VENV_F5), str(Path(__file__).with_name("voice_indicf5.py")), str(jf), str(work)], check=True)
     for j in jobs:
         a, sr = sf.read(work / f"{j['id']}.wav", dtype="float32")
         _f5_cache[j["key"]] = resample(a, sr)
