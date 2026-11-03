@@ -2,25 +2,28 @@
 lang: en
 engine: chatterbox
 ref: voice-ref/narrator.wav
-emotion: 0.6
-cfg: 0.4
-gap: 0.3
+emotion: 0.65
+cfg: 0.5
+gap: 0.34
 ---
-# 02 Facts · Short · "What happens to an ant nest in heavy rain" · O-10 opening (hookcheck 83 STRONG)
+# 02 Facts · Short · "What happens to an ant nest in heavy rain" · v2: rain defences first, then the flood raft
+# Delivery matched to the reference with scripts/voicestyle.py (pitch, brightness, pace, pauses). Hook 100 STRONG.
 # @strike
-[narrator] {cue strike}Heavy rain can flood an ant nest in minutes.
+[narrator] {cue strike}Ants were building rain-proof cities long before us.
 # @gap
-[narrator] {cue gap}So why don't a hundred thousand ants drown?
+[narrator] {cue gap}So why do a hundred thousand ants still end up floating?
 # @promise
-[narrator] {cue promise}By the end, you'll see what they build in two minutes.
+[narrator] {cue promise}By the end, you'll know their backup plan.
 # @stakes
-[narrator] {cue seal}When a storm is coming, some ants seal their doors with soil.
-[narrator] {cue carry}Inside, workers grab the eggs and the young, and carry them up, away from the rising water.
-[narrator] {cue flood}But when the whole nest floods, fire ants do something incredible.
-[narrator] {cue link}They grab each other, jaws to legs, and weave their own bodies into a living raft.
-[narrator] {cue raft}In about a hundred seconds, the entire colony becomes one floating mat.
-[narrator] {cue hairs}Tiny hairs on every ant trap a layer of air, so the raft doesn't sink.
-[narrator] {cue queen}The queen and the young ride in the middle, kept dry.
-[narrator] {cue drift}And the raft can drift for days, even weeks, until it touches dry land.
-[narrator] {cue land}Then they climb out, and start digging a brand new city.
+[narrator] {cue roof}First, the roof. Wood ants cover their mound with pine needles, layered like tiles, so the rain runs off.
+[narrator] {cue rim}Some ants build a raised rim around the door, so water flows around it, not in.
+[narrator] {cue plug}When a storm is coming, some seal the entrance with soil.
+[narrator] {cue drain}Underground, many rooms sit off to the side, so water drains down the main tunnel, past them, into the soil.
+[narrator] {cue up}And the workers carry the eggs up, into the warm, dry top of the mound.
+[narrator] {cue flood}But sometimes, the rain wins, and the whole nest floods.
+[narrator] {cue link}Then fire ants grab each other, jaws to legs, and weave a living raft.
+[narrator] {cue raft}In about a hundred seconds, the entire colony is floating.
+[narrator] {cue hairs}Tiny hairs trap air, so the raft can't sink.
+[narrator] {cue queen}The queen rides in the middle, kept dry.
+[narrator] {cue drift}They can drift for weeks, until they reach land, and start again.
 [narrator emotion=0.5] {cue outro}Follow for more incredible facts.

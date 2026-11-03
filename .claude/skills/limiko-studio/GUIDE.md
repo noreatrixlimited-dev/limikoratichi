@@ -59,6 +59,7 @@ All paths are relative to `.claude/skills/limiko-studio/` unless they start from
 | T | cinematic 3D shots | [T](#t--cinematic-3d) | `look3d.js` |
 | U | see a scene while building it | [U](#u--live-preview) | `preview.cjs` |
 | V | the whole film in one command per stage | [V](#v--one-command-pipeline) | `make.py` |
+| W | a facts Short like a reference channel (firm narrator) | [W](#w--facts-short-in-a-reference-style) | `shorts.md`, `voicestyle.py` |
 
 ---
 
@@ -193,6 +194,12 @@ These are large downloads, so run them in the background. If Telugu fails, check
 - **Run:** `python3 scripts/make.py new <slug> --format <f> --lang en,te`, then `check`, then `draft`. After the user approves, `approve`, then `final`. `status` shows the next step.
 - **Gate:** `final` refuses to run until `approve` is recorded. Record approval only after the user approves the plan and sample frames.
 - **Output:** `films/<slug>/out/film.<lang>.mp4` mixed to the format's loudness, plus `report.md` (hook score on the real timing, edit analysis, publish checklist).
+
+## W · Facts Short in a reference style
+- **Read:** `formats/02-facts-science/shorts.md` (structure of about 160 words, delivery targets, voice recipe, picture and sound).
+- **Run:** `make.py new <slug> --format facts`. Write the script in the structure and score three openings. To choose the voice, run `voicestyle.py pick shared/voice-profiles/facts-short-firm.json <candidates> --text "…"`. After rendering, run `voicestyle.py compare …`, then `make.py draft`, approve, then `make.py final`.
+- **A new reference:** `voicestyle.py analyze ref.mp3 --out shared/voice-profiles/<name>.json` keeps numbers only. Never commit the reference audio or clone its voice.
+- **Example:** `films/ant-nest-rain/` (hook 100, voice clarity 95%, 62 s, −14.9 LUFS).
 
 ---
 

@@ -221,6 +221,24 @@ def cmd_approve(a):
     print(f"✓ approval recorded: films/{a.slug}/plan/APPROVED")
 
 
+def loudnorm(video, target):
+    """Two-pass loudness normalisation of the finished film's audio (music ducking can leave the mix below target)."""
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(video), "-af", f"loudnorm=I={target}:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"],
+                       capture_output=True, text=True)
+    m = re.search(r"\{[^{}]*\}", r.stderr, re.S)
+    if not m:
+        return
+    d = json.loads(m.group(0))
+    tmp = Path(str(video).replace(".mp4", ".norm.mp4"))
+    af = (f"loudnorm=I={target}:TP=-1.5:LRA=11:measured_I={d['input_i']}:measured_TP={d['input_tp']}:"
+          f"measured_LRA={d['input_lra']}:measured_thresh={d['input_thresh']}:offset={d['target_offset']}:linear=true")
+    run(["ffmpeg", "-y", "-v", "error", "-i", video, "-af", af, "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", tmp])
+    tmp.replace(video)
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(video), "-af", "ebur128=framelog=quiet", "-f", "null", "-"], capture_output=True, text=True)
+    got = re.findall(r"I:\s+(-?[\d.]+) LUFS", r.stderr)
+    print(f"  loudness: {got[-1] if got else '?'} LUFS (target {target})")
+
+
 def cmd_final(a):
     d, f = film(a.slug)
     if not (d / "plan" / "APPROVED").exists():
@@ -240,6 +258,7 @@ def cmd_final(a):
         run(cmd)
         run(["ffmpeg", "-y", "-v", "error", "-i", raw, "-i", mix, "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", final])
         raw.unlink(missing_ok=True)
+        loudnorm(final, f["lufs"])
         h = hookcheck(d, f, l, vo / "timeline.json")
         an = subprocess.run([sys.executable, str(HERE / "analyze.py"), str(final), "--out", str(d / "out" / f"analysis-{l}")], capture_output=True, text=True)
         report += [f"## {l.upper()} · films/{a.slug}/out/film.{l}.mp4", "", "### Hook (first 10 s, real timing)", "```", h.stdout.strip()[-1500:], "```",

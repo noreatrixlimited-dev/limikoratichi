@@ -68,6 +68,12 @@ Studio upgrades (2026-11-03): `frames/animate.cjs --workers/--props` (parallel, 
 installed and tested (`venv-cb`, engine `chatterbox`, English only). LICENSE: all rights reserved (user's choice).
 Showcase previews: `frames/previews/math-demo.mp4`, `temple-3d.mp4`, `templates.jpg`.
 
+Facts Short format (2026-11-03): `formats/02-facts-science/shorts.md` (≈160 words/60 s structure, delivery targets,
+voice recipe, picture + sound rules), `frames/shortkit.js` (captions, labels, cut flash/punch, camera), `scripts/voicestyle.py`
+(analyze/compare/pick a narrator vs a reference or `shared/voice-profiles/*.json`). Voice recipe: Chatterbox + studio-made
+Kokoro am_fenrir reference clip, emotion 0.65, cfg 0.5 (8/8 measures, 95% clarity). Example film: `films/ant-nest-rain/`
+(v2: rain defences, then raft). The user's reference audio (an ElevenLabs export) is NOT in the repo; only its numbers.
+
 ## Setting up a fresh session
 1. `cd .claude/skills/limiko-studio && bash scripts/setup.sh --all` (or `--check` to see what's there). Large downloads; run in the background.
 2. Check access if Telugu fails: `curl -s -o /dev/null -w '%{http_code}\n' -L https://huggingface.co/ai4bharat/indic-parler-tts/resolve/main/config.json` (200 = ok).

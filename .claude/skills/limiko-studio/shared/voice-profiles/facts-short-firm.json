@@ -1,0 +1,38 @@
+{
+  "name": "facts-short-firm",
+  "description": "Delivery targets for the firm, dominant male facts-Short narrator (measured from a user-supplied reference set of 6 Shorts, 6 min; only numbers kept, no audio).",
+  "targets": {
+    "pace_wpm_speaking": 229.2,
+    "pace_wpm_overall": 160.5,
+    "pauses_per_min": 38.9,
+    "pause_median_s": 0.34,
+    "pause_long_share": 0.49,
+    "pause_longest_s": 0.84,
+    "phrase_median_s": 0.46,
+    "pitch_median_hz": 132.4,
+    "pitch_range_st": 10.6,
+    "loudness_lufs": -18.2,
+    "dynamics_db": 11.9,
+    "attack": 6.51,
+    "brightness_hz": 1609.0,
+    "depth_low_share": 0.174,
+    "asr_confidence": 0.968
+  },
+  "structure": {
+    "seconds_per_short": 61,
+    "words_per_short": 163,
+    "outro": "Follow for more incredible facts."
+  },
+  "recipe": {
+    "engine": "chatterbox",
+    "ref": "a studio-made Kokoro am_fenrir clip (speed 0.9), 7 s",
+    "emotion": 0.65,
+    "cfg": 0.5,
+    "gap": 0.34,
+    "measured_match": "7 of 8 measures within tolerance, 95% word clarity (ant-nest-rain v2)",
+    "alternatives": [
+      "kokoro am_fenrir speed 0.82 (clearest plain voice, a little fast)",
+      "kokoro bm_george (closest overall, British)"
+    ]
+  }
+}

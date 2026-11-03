@@ -51,3 +51,6 @@ a row without motion gets redesigned.
 - [ ] The hook works with sound off
 
 Video types, styles and packaging: `README.md`, `styles.md`, `packaging.md`.
+
+## Shorts
+Vertical facts Shorts use the firm-narrator format in `shorts.md` (structure, delivery targets, voice recipe, `frames/shortkit.js`).

@@ -62,6 +62,8 @@ G5 Storyboard → G6 Sample frames → user approval → production
 | **Equations** (write-on, matching transforms, highlight) for explainers | `frames/mathfx.js`, `examples/math-demo.js` |
 | **Cinematic 3D** (environment light, depth of field, AO, bloom, grade, light shafts, lens + camera rigs) | `frames/look3d.js`, `examples/temple-3d.js` |
 | **One command per stage** (new → check → draft → approve → final) | `scripts/make.py` |
+| **Facts Short, firm-narrator format** (structure, delivery targets, voice recipe, shot and caption kit) | `formats/02-facts-science/shorts.md`, `frames/shortkit.js` |
+| **Match a reference narrator** (pace, pauses, pitch, brightness, clarity; pick and compare voices) | `scripts/voicestyle.py`, `shared/voice-profiles/` |
 | Sample frames, style frames, character sheets (2D canvas + 3D three.js) | `frames/README.md` |
 | Characters: spec schema, rig, reference sheets, rules | `shared/characters.md` |
 | Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |

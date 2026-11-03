@@ -1,8 +1,9 @@
 // What happens to an ant nest in heavy rain · facts Short (02), vertical 1080×1920, driven by the voice cues.
-// Shots: nest cross-section (strike, gap, seal, carry, flood) · flash-forward raft (promise) · ants linking ·
-// raft forming with a timer · macro hairs trapping air · raft cross-section (queen in the middle) · drifting days ·
-// landing and a new nest · outro. Every shot has camera motion; cuts get a short flash + zoom punch (facts effect level 2).
-import { drawText } from '../../.claude/skills/limiko-studio/frames/textfx.js';
+// v2 shots: nest city under a thatched mound (strike) · flash-forward raft (gap) · backup plan (promise) ·
+// pine-needle roof shedding rain · raised rim around the door · sealing the door · water draining past side rooms ·
+// eggs carried up into the mound · flood · ants linking · raft forming with a timer · hairs trapping air ·
+// raft cross-section (queen in the middle) · drifting weeks · landing · outro. Every shot has camera motion; cuts get a short flash + zoom punch (facts effect level 2).
+import * as K from '../../.claude/skills/limiko-studio/frames/shortkit.js';   // format kit: formats/02-facts-science/shorts.md
 
 const SURF = 600;                       // ground level in the nest world
 const SOIL = ['#5b3d24', '#4a3020', '#3a2518', '#2c1c12'];
@@ -17,13 +18,14 @@ export default {
     const mk = (fn) => { const c = document.createElement('canvas'); c.width = W; c.height = H; fn(c.getContext('2d')); return c; };
 
     // ---- nest layout (world = 1080×1920) -------------------------------------------------------
-    const shaft = [[540, SURF], [522, 760], [560, 900], [502, 1050], [540, 1200], [520, 1380], [560, 1560], [540, 1720]];
+    const shaft = [[540, SURF - 150], [540, SURF - 60], [540, SURF], [522, 760], [560, 900], [502, 1050], [540, 1200], [520, 1380], [560, 1560], [540, 1720]];
     const chambers = [
       { x: 770, y: 830, rx: 115, ry: 52, via: [[556, 880], [680, 835]] },
       { x: 310, y: 1010, rx: 125, ry: 56, via: [[508, 1035], [410, 1015]] },
       { x: 790, y: 1265, rx: 120, ry: 54, via: [[534, 1240], [690, 1262]] },
       { x: 320, y: 1525, rx: 150, ry: 66, via: [[548, 1505], [440, 1520]] },   // queen
       { x: 770, y: 1690, rx: 135, ry: 58, via: [[545, 1700], [650, 1694]] },   // nursery
+      { x: 600, y: SURF - 62, rx: 78, ry: 28, via: [[560, SURF - 62]] },        // warm, dry top of the mound
     ];
     const tunnelShape = (c, color, extra = 0) => {
       c.strokeStyle = color; c.fillStyle = color; c.lineCap = 'round'; c.lineJoin = 'round';
@@ -43,6 +45,13 @@ export default {
       // roots
       c.strokeStyle = L.rgba('#6b4a2a', 0.8); c.lineCap = 'round';
       for (let i = 0; i < 9; i++) { let x = 60 + r() * 960, y = SURF; c.lineWidth = 5; c.beginPath(); c.moveTo(x, y); for (let k = 0; k < 7; k++) { x += (r() - 0.5) * 60; y += 30 + r() * 40; c.lineTo(x, y); c.lineWidth *= 0.8; } c.stroke(); }
+      // thatched mound: a dome of pine needles, layered like tiles
+      c.save(); c.beginPath(); c.ellipse(540, SURF + 4, 250, 170, 0, Math.PI, 0); c.closePath(); c.clip();
+      c.fillStyle = '#7a5a34'; c.fillRect(280, SURF - 180, 520, 190);
+      for (let i = 0; i < 1400; i++) { const a = Math.PI + r() * Math.PI, rr = Math.sqrt(r()) * 250, x = 540 + Math.cos(a) * rr, y = SURF + Math.sin(a) * rr * 0.68;
+        const ang = a + Math.PI / 2 + (r() - 0.5) * 0.6; c.strokeStyle = ['#a77b45', '#8a6236', '#c4975a', '#6b4a2a'][Math.floor(r() * 4)]; c.lineWidth = 2.2;
+        c.beginPath(); c.moveTo(x, y); c.lineTo(x + Math.cos(ang) * 22, y + Math.sin(ang) * 22); c.stroke(); }
+      c.restore();
       tunnelShape(c, '#1f130b', 10); tunnelShape(c, '#2b1a10');
     });
     const mask = mk((c) => tunnelShape(c, '#ffffff', 2));
@@ -76,14 +85,15 @@ export default {
     const drift = (amt = 1) => ({ dx: Math.sin(t * 0.31) * 10 * amt, dy: Math.cos(t * 0.23) * 8 * amt, rot: Math.sin(t * 0.17) * 0.006 * amt });
 
     // ---- which shot ---------------------------------------------------------------------------------
-    const cuts = [[0, 'nest'], [c('promise') + 0.25, 'glimpse'], [c('seal') - 0.1, 'nest'], [c('link'), 'link'], [c('raft'), 'raft'],
-      [c('hairs'), 'hairs'], [c('queen'), 'section'], [c('drift'), 'drift'], [c('land'), 'land'], [c('outro'), 'outro']];
+    const cuts = [[0, 'nest'], [c('gap') + 0.1, 'glimpse'], [c('promise'), 'nest'], [c('roof'), 'roof'], [c('rim'), 'rim'], [c('plug') - 0.05, 'nest'],
+      [c('link'), 'link'], [c('raft'), 'raft'], [c('hairs'), 'hairs'], [c('queen'), 'section'], [c('drift'), 'drift'],
+      [c('drift') + 0.55 * (c('outro') - c('drift')), 'land'], [c('outro'), 'outro']];
     let shot = cuts[0][1], cutAt = 0;
     for (const [ct, nm] of cuts) if (t >= ct) { shot = nm; cutAt = ct; }
     const since = t - cutAt, punch = 1 + 0.07 * Math.exp(-since * 10);
 
     ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
-    ({ nest, glimpse, link, raft, hairs, section, drift: driftShot, land, outro })[shot === 'drift' ? 'drift' : shot](ctx, W, H, L, T, t, S, c, I, E, drift, punch, since);
+    ({ nest, glimpse, roof, rim, link, raft, hairs, section, drift: driftShot, land, outro })[shot === 'drift' ? 'drift' : shot](ctx, W, H, L, T, t, S, c, I, E, drift, punch, since);
 
     // flash on cuts (not at t=0)
     if (cutAt > 0 && since < 0.14) { ctx.fillStyle = `rgba(255,255,255,${0.55 * (1 - since / 0.14)})`; ctx.fillRect(0, 0, W, H); }
@@ -119,84 +129,147 @@ function rain(ctx, W, L, t, S, top, bottom, alpha = 1) {
 
 function sky(ctx, W, top, bottom, a = '#1d2633', b = '#3b4a5c') { const g = ctx.createLinearGradient(0, top, 0, bottom); g.addColorStop(0, a); g.addColorStop(1, b); ctx.fillStyle = g; ctx.fillRect(-200, top, W + 400, bottom - top); }
 
-function label(ctx, text, x, y, t, start, size = 58, color = '#ffd23f', hold = 99) {
-  drawText(ctx, text, { x, y, t, start, preset: 'popBounce', size, font: 'Inter, sans-serif', weight: 900, color, stroke: '#000', strokeW: 10, unit: 'word', stagger: 0.05, dur: 0.4, hold });
-}
+function label(ctx, text, x, y, t, start, size = 58, color = '#ffd23f', hold = 99) { K.label(ctx, text, x, y, t, start, size, color, { hold }); }
 
 // ============================================================================================ shots
 function nest(ctx, W, H, L, T, t, S, c, I, E, drift, punch) {
-  // camera path across the cross-section
+  const TOP = SURF - 150;   // door at the top of the mound
+  // camera path across the cross-section (each beat its own framing; always moving)
   const keys = [
-    [0, 540, 960, 0.98], [c('gap') - 0.2, 540, 1040, 1.12], [c('gap') + 0.4, 420, 1480, 1.55], [c('promise'), 400, 1500, 1.7],
-    [c('seal') - 0.1, 540, 650, 2.5], [c('carry') - 0.2, 540, 640, 2.75], [c('carry') + 0.3, 600, 1450, 1.2], [c('carry') + 2.6, 600, 1300, 1.2], [c('flood') - 0.3, 600, 900, 1.15],
-    [c('flood') + 0.4, 540, 1100, 1.0], [c('link'), 540, 1050, 0.92],
+    [0, 540, 900, 0.95], [c('gap') - 0.1, 540, 980, 1.08],
+    [c('promise'), 540, 760, 1.05], [c('roof') - 0.05, 540, 600, 1.35],
+    [c('plug') - 0.1, 540, TOP + 20, 2.6], [c('drain') - 0.2, 540, TOP + 40, 2.8],
+    [c('drain') + 0.3, 560, 1150, 1.0], [c('up') - 0.2, 560, 1000, 1.05],
+    [c('up') + 0.3, 600, 1500, 1.2], [c('flood') - 0.3, 580, 640, 1.45],
+    [c('flood') + 0.4, 540, 1000, 0.95], [c('link'), 540, 980, 0.9],
   ];
   const ts = keys.map((k) => k[0]);
   const o = { x: I(t, ts, keys.map((k) => k[1]), E), y: I(t, ts, keys.map((k) => k[2]), E), zoom: I(t, ts, keys.map((k) => k[3]), E) };
   cam(ctx, W, H, T, o, drift(), punch, () => {
-    sky(ctx, W, -600, SURF);
-    const flash = Math.max(0, 1 - Math.abs(t - 0.35) / 0.12) + Math.max(0, 1 - Math.abs(t - (c('flood') + 0.1)) / 0.12);
-    if (flash > 0) { ctx.fillStyle = `rgba(230,240,255,${0.7 * flash})`; ctx.fillRect(-200, -600, W + 400, SURF + 600); }
-    ctx.fillStyle = '#2c1c12'; ctx.fillRect(-600, SURF, W + 1200, H + 1200 - SURF);   // soil beyond the frame edges
+    sky(ctx, W, -700, SURF);
+    const flash = Math.max(0, 1 - Math.abs(t - 0.3) / 0.12) + Math.max(0, 1 - Math.abs(t - (c('flood') + 0.1)) / 0.12);
+    if (flash > 0) { ctx.fillStyle = `rgba(230,240,255,${0.7 * flash})`; ctx.fillRect(-300, -700, W + 600, SURF + 700); }
+    ctx.fillStyle = '#2c1c12'; ctx.fillRect(-600, SURF, W + 1200, H + 1200 - SURF);
     ctx.fillStyle = '#4a3020'; ctx.fillRect(-600, SURF, 600, H - SURF); ctx.fillRect(W, SURF, 600, H - SURF);
-    ctx.drawImage(S.soil, 0, 0);
-    // grass line
+    // grass first, then the soil + mound image over it
     ctx.strokeStyle = '#3f6b2e'; ctx.lineWidth = 5; ctx.lineCap = 'round';
-    for (const g of S.grass) { ctx.beginPath(); ctx.moveTo(g.x, SURF); ctx.quadraticCurveTo(g.x + Math.sin(t * 3 + g.ph) * 10, SURF - g.h / 2, g.x + Math.sin(t * 3 + g.ph) * 16, SURF - g.h); ctx.stroke(); }
-    ctx.fillStyle = '#4b7a34'; ctx.fillRect(0, SURF - 6, W, 10);
-    // mound around the entrance
-    ctx.fillStyle = '#6b4a2c'; ctx.beginPath(); ctx.ellipse(540, SURF, 120, 34, 0, Math.PI, 0); ctx.fill();
-    ctx.fillStyle = '#1f130b'; ctx.beginPath(); ctx.ellipse(540, SURF - 4, 22, 9, 0, 0, L.TAU); ctx.fill();
-
-    // water: rain seeping in from the top, the water table rising, then the full flood
-    const seep = I(t, [0.2, c('seal')], [SURF, 760]);
-    const rise = I(t, [c('carry'), c('carry') + 1.2, c('flood')], [H + 10, 1700, 1260], E);
-    const flood = I(t, [c('flood') + 0.3, c('link') - 0.4], [rise, SURF - 120], { ease: 'in' });
+    for (const g of S.grass) { if (Math.abs(g.x - 540) < 250) continue; ctx.beginPath(); ctx.moveTo(g.x, SURF); ctx.quadraticCurveTo(g.x + Math.sin(t * 3 + g.ph) * 10, SURF - g.h / 2, g.x + Math.sin(t * 3 + g.ph) * 16, SURF - g.h); ctx.stroke(); }
+    ctx.fillStyle = '#4b7a34'; ctx.fillRect(-600, SURF - 6, W + 1200, 10);
+    ctx.drawImage(S.soil, 0, 0);
+    // raised rim around the door
+    ctx.fillStyle = '#5b3d24'; ctx.beginPath(); ctx.ellipse(540, TOP + 6, 46, 20, 0, Math.PI, 0); ctx.fill();
+    ctx.fillStyle = '#1f130b'; ctx.beginPath(); ctx.ellipse(540, TOP + 2, 20, 8, 0, 0, L.TAU); ctx.fill();
+    // rain running off the dome (drops slide down the thatch)
+    if (t < c('flood') + 0.5) for (let i = 0; i < 26; i++) {
+      const p = ((t * 0.6 + i / 26) % 1), side = i % 2 ? 1 : -1, a = Math.PI * (1.5 + side * (0.06 + p * 0.44));
+      ctx.fillStyle = 'rgba(190,225,255,0.85)'; ctx.beginPath(); ctx.arc(540 + Math.cos(a) * 252, SURF + Math.sin(a) * 172, 5, 0, L.TAU); ctx.fill();
+    }
+    // water: drainage stream (drain beat), rising water table, then the flood
+    const rise = I(t, [c('up'), c('up') + 1.2, c('flood')], [H + 10, 1700, 1300], E);
+    const flood = I(t, [c('flood') + 0.3, c('link') - 0.4], [rise, TOP - 140], { ease: 'in' });
     const level = Math.min(rise, flood);
     const wc = S.water.getContext('2d');
-    // paint all the water, then keep only what is inside the tunnels (one mask pass)
     wc.globalCompositeOperation = 'source-over'; wc.clearRect(0, 0, W, H);
     const wg = wc.createLinearGradient(0, level, 0, H); wg.addColorStop(0, 'rgba(70,150,230,0.9)'); wg.addColorStop(1, 'rgba(20,70,150,0.95)');
     wc.fillStyle = wg; wc.fillRect(0, level, W, H - level);
-    wc.fillStyle = 'rgba(90,160,230,0.8)'; wc.fillRect(0, SURF - 10, W, seep - SURF + 10);
     wc.strokeStyle = 'rgba(210,235,255,0.9)'; wc.lineWidth = 5; wc.beginPath(); wc.moveTo(0, level); wc.lineTo(W, level); wc.stroke();
     wc.globalCompositeOperation = 'destination-in'; wc.drawImage(S.mask, 0, 0); wc.globalCompositeOperation = 'source-over';
     ctx.drawImage(S.water, 0, 0);
-    if (flood < SURF + 20) { // the surface itself goes under
-      ctx.fillStyle = 'rgba(60,130,200,0.55)'; ctx.fillRect(-200, flood, W + 400, H - flood + 200);
-      ctx.strokeStyle = 'rgba(220,240,255,0.8)'; ctx.lineWidth = 6; ctx.beginPath();
-      for (let x = -200; x <= W + 200; x += 20) ctx.lineTo(x, flood + Math.sin(x * 0.02 + t * 4) * 8); ctx.stroke();
+    if (t > c('drain') && t < c('up') + 0.4) {   // water slips down the main tunnel, past the side rooms
+      const k = Math.min(1, (t - c('drain')) / 0.6) * Math.max(0, Math.min(1, (c('up') + 0.4 - t) / 0.6));
+      for (let i = 0; i < 40; i++) { const sx = ((t - c('drain')) * 420 + i * (S.main.len / 40)) % S.main.len; const [x, y] = S.at(S.main, sx);
+        if (y > SURF - 60) { ctx.fillStyle = `rgba(110,180,245,${0.9 * k})`; ctx.beginPath(); ctx.ellipse(x, y, 9, 16, 0, 0, L.TAU); ctx.fill(); } }
+      if (t > c('drain') + 0.8 && t < c('up')) { ctx.fillStyle = `rgba(255,210,63,${k})`; ctx.font = '900 64px Inter'; ctx.textAlign = 'center'; for (const yy of [900, 1250, 1600]) ctx.fillText('↓', 470, yy + Math.sin(t * 6) * 8); }
     }
-    // the seal: soil pellets fill the entrance
-    const n = Math.floor(I(t, [c('seal') + 0.4, c('carry') - 0.3], [0, 7]));
+    if (flood < SURF + 20) {
+      ctx.fillStyle = 'rgba(60,130,200,0.55)'; ctx.fillRect(-300, flood, W + 600, H - flood + 400);
+      ctx.strokeStyle = 'rgba(220,240,255,0.8)'; ctx.lineWidth = 6; ctx.beginPath();
+      for (let x = -300; x <= W + 300; x += 20) ctx.lineTo(x, flood + Math.sin(x * 0.02 + t * 4) * 8); ctx.stroke();
+    }
+    // the seal: soil pellets fill the door
+    const n = Math.floor(I(t, [c('plug') + 0.4, c('drain') - 0.2], [0, 7]));
     const pel = [[-12, -2], [10, -3], [0, -8], [-6, 4], [8, 4], [-14, -9], [14, -9]];
     ctx.fillStyle = '#7a5434';
-    for (let i = 0; i < n; i++) { ctx.beginPath(); ctx.arc(540 + pel[i][0], SURF + pel[i][1], 7, 0, L.TAU); ctx.fill(); }
-    if (t > c('seal') && t < c('carry')) {
-      const p = ((t - c('seal')) * 0.9) % 1, y = 700 - p * 90;
-      ant(ctx, L, 535, y, 16, -Math.PI / 2, t); ctx.fillStyle = '#7a5434'; ctx.beginPath(); ctx.arc(535, y - 26, 8, 0, L.TAU); ctx.fill();
+    for (let i = 0; i < n; i++) { ctx.beginPath(); ctx.arc(540 + pel[i][0], TOP + 2 + pel[i][1], 7, 0, L.TAU); ctx.fill(); }
+    if (t > c('plug') && t < c('drain')) {
+      const p = ((t - c('plug')) * 0.9) % 1, y = TOP + 90 - p * 80;
+      ant(ctx, L, 540, y, 16, -Math.PI / 2, t); ctx.fillStyle = '#7a5434'; ctx.beginPath(); ctx.arc(540, y - 26, 8, 0, L.TAU); ctx.fill();
     }
-    // chambers: queen and the nursery
+    // chambers: the queen, the nursery, the warm top room
     const qc = S.chambers[3];
     if (level > qc.y - 20) ant(ctx, L, qc.x - 10, qc.y + 12, 24, 0.1, t * 0.3, { queen: true });
-    const nur = S.chambers[4], left = Math.round(I(t, [c('carry'), c('flood') - 0.5], [S.eggs.length, 0]));
+    const nur = S.chambers[4], top = S.chambers[5], left = Math.round(I(t, [c('up'), c('flood') - 0.4], [S.eggs.length, 0]));
     ctx.fillStyle = '#fbf6ea';
     S.eggs.slice(0, left).forEach((e) => { ctx.beginPath(); ctx.ellipse(nur.x + e.x * 0.9, nur.y + 18 + e.y * 0.5, 9, 6, e.a, 0, L.TAU); ctx.fill(); });
-    const up = S.chambers[0];
-    S.eggs.slice(left).forEach((e) => { ctx.beginPath(); ctx.ellipse(up.x + e.x * 0.8, up.y + 16 + e.y * 0.45, 8, 5.5, e.a, 0, L.TAU); ctx.fill(); });
-    // walkers, and the carriers during "carry"
-    for (const w of S.walkers) { const [x, y, a] = S.at(w.R, w.ph + t * w.sp); if (y < level - 10) ant(ctx, L, x, y, 11, a + (w.sp < 0 ? Math.PI : 0), t); }
-    if (t > c('carry') && t < c('flood') + 1) for (const k of S.carriers) {
-      const s = S.main.len - ((k.ph + (t - c('carry')) * k.sp) % S.main.len); const [x, y, a] = S.at(S.main, s);
+    S.eggs.slice(left).forEach((e) => { ctx.beginPath(); ctx.ellipse(top.x + e.x * 0.5, top.y + 10 + e.y * 0.25, 8, 5.5, e.a, 0, L.TAU); ctx.fill(); });
+    for (const w of S.walkers) { const [x, y, a] = S.at(w.R, w.ph + t * w.sp); if (y < level - 10 && y > SURF - 40) ant(ctx, L, x, y, 11, a + (w.sp < 0 ? Math.PI : 0), t); }
+    if (t > c('up') && t < c('flood') + 1) for (const k of S.carriers) {
+      const s = S.main.len - ((k.ph + (t - c('up')) * k.sp) % S.main.len); const [x, y, a] = S.at(S.main, s);
       if (y < level - 10) ant(ctx, L, x, y, 13, a + Math.PI, t, { carry: true });
     }
-    if (t < c('promise')) rain(ctx, W, L, t, S, -600, SURF);
-    else if (t > c('seal') - 0.2) rain(ctx, W, L, t, S, -600, Math.min(SURF, flood));
+    rain(ctx, W, L, t, S, -700, Math.min(SURF - 150, flood));
   });
-  // on-screen numbers for the gap
-  if (t > c('gap') && t < c('promise') + 0.2) label(ctx, '100,000 ANTS', W / 2, H * 0.3, t, c('gap') + 0.35, 92);
-  if (t > c('carry') + 0.5 && t < c('flood')) label(ctx, 'EGGS GO UP', W / 2, H * 0.3, t, c('carry') + 0.6, 76, '#ffffff');
-  if (t > c('flood') + 0.3) label(ctx, 'FLOOD', W / 2, H * 0.3, t, c('flood') + 0.4, 110, '#5cc8ff');
+  if (t < c('gap')) label(ctx, 'RAIN-PROOF CITY', W / 2, H * 0.3, t, 0.5, 84);
+  if (t > c('promise') && t < c('roof')) label(ctx, 'BACKUP PLAN?', W / 2, H * 0.3, t, c('promise') + 0.3, 92);
+  if (t > c('plug') && t < c('drain')) label(ctx, 'DOOR SEALED', W / 2, H * 0.3, t, c('plug') + 0.6, 84);
+  if (t > c('drain') && t < c('up')) label(ctx, 'WATER DRAINS PAST', W / 2, H * 0.3, t, c('drain') + 0.5, 76, '#5cc8ff');
+  if (t > c('up') && t < c('flood')) label(ctx, 'EGGS GO UP', W / 2, H * 0.3, t, c('up') + 0.5, 84, '#ffffff');
+  if (t > c('flood') + 0.3) label(ctx, 'THE RAIN WINS', W / 2, H * 0.3, t, c('flood') + 0.4, 92, '#5cc8ff');
+}
+
+function roof(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
+  const dur = c('rim') - c('roof');
+  cam(ctx, W, H, T, { x: 540, y: I(since, [0, dur], [900, 980]), zoom: I(since, [0, dur], [1.0, 1.2], E) }, drift(), punch, () => {
+    sky(ctx, W, -600, 1200, '#2a3646', '#56677c');
+    ctx.fillStyle = '#3f6b2e'; ctx.fillRect(-300, 1200, W + 600, 1400);
+    // a big dome of layered needles, drawn row by row like roof tiles
+    const R = 460;
+    ctx.save(); ctx.beginPath(); ctx.ellipse(540, 1200, R, R * 0.72, 0, Math.PI, 0); ctx.closePath(); ctx.clip();
+    ctx.fillStyle = '#6b4a2a'; ctx.fillRect(0, 700, W, 520);
+    const rr = L.rng(77);
+    for (let row = 0; row < 16; row++) for (let i = 0; i < 46; i++) {
+      const a = Math.PI + (i + (row % 2) * 0.5) / 46 * Math.PI, k = 1 - row / 16, x = 540 + Math.cos(a) * R * k, y = 1200 + Math.sin(a) * R * 0.72 * k;
+      const ang = a + Math.PI / 2 + 0.35 + (rr() - 0.5) * 0.5;
+      ctx.strokeStyle = ['#b98a50', '#9a7040', '#d4a868', '#7a5530'][Math.floor(rr() * 4)]; ctx.lineWidth = 6; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + Math.cos(ang) * 58, y + Math.sin(ang) * 58); ctx.stroke();
+    }
+    ctx.restore();
+    // drops hit the dome and run down its curve to the ground
+    for (let i = 0; i < 34; i++) {
+      const p = ((since * 0.55 + i / 34) % 1), side = i % 2 ? 1 : -1, a0 = 0.06 + (i % 7) * 0.05, a = Math.PI * (1.5 + side * (a0 + p * (0.5 - a0)));
+      const x = 540 + Math.cos(a) * (R + 6), y = 1200 + Math.sin(a) * (R * 0.72 + 6);
+      ctx.fillStyle = 'rgba(200,232,255,0.95)'; ctx.beginPath(); ctx.ellipse(x, y, 9, 12, a, 0, L.TAU); ctx.fill();
+      ctx.strokeStyle = 'rgba(200,232,255,0.35)'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(540, 1200, R + 6, a - side * 0.08, a, side < 0); ctx.stroke();
+    }
+    rain(ctx, W, L, t, S, -600, 1100);
+  });
+  label(ctx, 'PINE-NEEDLE ROOF', W / 2, H * 0.3, t, c('roof') + 0.6, 84);
+}
+
+function rim(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
+  const dur = c('plug') - c('rim');
+  cam(ctx, W, H, T, { x: I(since, [0, dur], [500, 580]), y: 1000, zoom: I(since, [0, dur], [1.15, 1.3], E) }, drift(), punch, () => {
+    sky(ctx, W, -600, 1000, '#2a3646', '#56677c');
+    ctx.fillStyle = '#5b3d24'; ctx.fillRect(-300, 1000, W + 600, 1600);
+    ctx.fillStyle = '#4b7a34'; ctx.fillRect(-300, 992, W + 600, 14);
+    // sheet of rainwater flowing along the ground from both sides
+    for (const side of [-1, 1]) for (let i = 0; i < 9; i++) {
+      const p = ((since * 0.7 + i / 9) % 1), x = 540 + side * (560 - p * 420), y = 984 - Math.max(0, 1 - Math.abs(x - 540) / 200) * 70;
+      ctx.strokeStyle = 'rgba(120,190,250,0.9)'; ctx.lineWidth = 10; ctx.lineCap = 'round';
+      const dx = -side * 40; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx, y - (Math.abs(x - 540) < 200 ? side * 0 : 0)); ctx.stroke();
+      if (Math.abs(x - 540) < 170) { ctx.strokeStyle = 'rgba(120,190,250,0.7)'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(540, 1000, 190, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke(); }
+    }
+    // the raised rim and the door in the middle
+    ctx.fillStyle = '#7a5434'; ctx.beginPath(); ctx.moveTo(380, 1000); ctx.quadraticCurveTo(440, 880, 500, 910); ctx.lineTo(500, 1000); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(700, 1000); ctx.quadraticCurveTo(640, 880, 580, 910); ctx.lineTo(580, 1000); ctx.fill();
+    ctx.fillStyle = '#1f130b'; ctx.fillRect(500, 910, 80, 600);
+    ant(ctx, L, 540, 1060 + Math.sin(t * 2) * 10, 20, -Math.PI / 2, t);
+    // arrows: water goes around, not in
+    ctx.fillStyle = '#ffd23f'; ctx.font = '900 80px Inter'; ctx.textAlign = 'center';
+    ctx.fillText('↷', 420, 850 + Math.sin(t * 5) * 6); ctx.fillText('↶', 660, 850 + Math.sin(t * 5) * 6);
+    rain(ctx, W, L, t, S, -600, 980, 0.7);
+  });
+  label(ctx, 'RAISED RIM', W / 2, H * 0.3, t, c('rim') + 0.5, 92);
 }
 
 function waterScene(ctx, W, L, t, line, top = -600) {
@@ -220,10 +293,10 @@ function raftForming(ctx, W, L, t, S, pr) {
 }
 
 function glimpse(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
-  const pr = I(since, [0, c('seal') - c('promise') - 0.4], [0.2, 1]);
+  const pr = I(since, [0, c('promise') - c('gap') - 0.3], [0.3, 1]);
   cam(ctx, W, H, T, { x: 540, y: 1000, zoom: 1.25 - 0.1 * pr }, drift(), punch, () => { waterScene(ctx, W, L, t, 1000); raftForming(ctx, W, L, t, S, pr); rain(ctx, W, L, t, S, -600, 1000, 0.6); });
   ctx.fillStyle = 'rgba(255,200,80,0.12)'; ctx.fillRect(0, 0, W, H);      // warm "flash-forward" tint
-  label(ctx, '2 MINUTES', W / 2, H * 0.3, t, c('promise') + 0.5, 100);
+  label(ctx, '100,000 ANTS', W / 2, H * 0.3, t, c('gap') + 0.4, 96);
 }
 
 function link(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
@@ -241,7 +314,7 @@ function link(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
       }
     }
   });
-  label(ctx, 'JAWS → LEGS', W / 2, H * 0.3, t, c('link') + 0.8, 84);
+  label(ctx, 'JAWS → LEGS', W / 2, H * 0.3, t, c('link') + 0.9, 84);
 }
 
 function raft(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
@@ -290,12 +363,12 @@ function section(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
     ant(ctx, L, 640, 826, 26, 0.05, t * 0.2, { queen: true });
     ctx.restore();
   });
-  label(ctx, 'QUEEN + YOUNG', W / 2, H * 0.3, t, c('queen') + 0.5, 84);
+  label(ctx, 'QUEEN', W / 2, H * 0.3, t, c('queen') + 0.4, 100);
   label(ctx, 'DRY IN THE MIDDLE', W / 2, H * 0.3 + 110, t, c('queen') + 1.0, 64, '#ffffff');
 }
 
 function driftShot(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
-  const dur = c('land') - c('drift'), p = since / dur;
+  const dur = 0.55 * (c('outro') - c('drift')), p = Math.min(1, since / dur);
   const day = 0.5 + 0.5 * Math.cos(p * Math.PI * 2 * 3);   // three day/night cycles
   cam(ctx, W, H, T, { x: 540, y: 980, zoom: I(since, [0, dur], [1.05, 0.95]) }, drift(), punch, () => {
     sky(ctx, W, -600, 1000, L.mixHex('#0b1020', '#5ea0d8', day), L.mixHex('#1a2238', '#bcd9ee', day));
@@ -307,13 +380,13 @@ function driftShot(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
     const rx = I(p, [0, 1], [120, 900]);
     ctx.fillStyle = '#3a1d10'; ctx.beginPath(); ctx.ellipse(rx, 1004 + Math.sin(t * 2) * 4, 110, 16, 0, 0, L.TAU); ctx.fill();
   });
-  const d = Math.max(1, Math.round(I(since, [0.4, dur - 0.3], [1, 14])));
+  const d = Math.max(1, Math.round(I(since, [0.4, dur - 0.3], [1, 3])));
   ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.beginPath(); ctx.roundRect(W / 2 - 200, H * 0.24, 400, 120, 30); ctx.fill();
-  ctx.fillStyle = '#ffffff'; ctx.font = '900 84px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(`DAY ${d}`, W / 2, H * 0.24 + 62);
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 84px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(`WEEK ${d}`, W / 2, H * 0.24 + 62);
 }
 
 function land(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
-  const dur = c('outro') - c('land');
+  const dur = 0.45 * (c('outro') - c('drift'));
   cam(ctx, W, H, T, { x: I(since, [0, dur], [460, 640]), y: 1060, zoom: I(since, [0, dur], [1.1, 1.3], E) }, drift(), punch, () => {
     sky(ctx, W, -600, 1000, '#5ea0d8', '#cfe6f5');
     waterScene(ctx, W, L, t, 1000, 1000);
@@ -328,7 +401,7 @@ function land(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
     for (let i = 1; i < pts.length && need > 0; i++) { const u = Math.min(1, need); ctx.lineTo(pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * u, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * u); need -= 1; }
     ctx.stroke();
   });
-  label(ctx, 'NEW CITY', W / 2, H * 0.3, t, c('land') + 0.9, 92);
+  label(ctx, 'START AGAIN', W / 2, H * 0.3, t, c('drift') + 0.55 * (c('outro') - c('drift')) + 0.5, 92);
 }
 
 function outro(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
@@ -341,24 +414,4 @@ function outro(ctx, W, H, L, T, t, S, c, I, E, drift, punch, since) {
 }
 
 // =========================================================================================== captions
-function captions(ctx, W, H, L, t, S) {
-  const caps = S.tl.captions || [];
-  const cap = caps.find((cp, i) => t >= cp.start - 0.05 && t < (caps[i + 1] ? Math.min(caps[i + 1].start - 0.05, cp.end + 0.4) : cp.end + 0.8));
-  if (!cap) return;
-  const toks = cap.words || [];
-  ctx.font = '900 70px Inter, sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
-  // up to two lines, centred, in the safe area (above the Shorts buttons and caption bar)
-  const maxW = W * 0.86, lines = [[]]; let lw = 0;
-  for (const w of toks) { const s = (w.word || w.text), wd = ctx.measureText(s).width + 24; if (lw + wd > maxW && lines[lines.length - 1].length) { lines.push([]); lw = 0; } lines[lines.length - 1].push({ ...w, s, wd }); lw += wd; }
-  const y0 = H * 0.66 - (lines.length - 1) * 42;
-  lines.forEach((ln, li) => {
-    let x = W / 2 - ln.reduce((a, b) => a + b.wd, 0) / 2;
-    for (const w of ln) {
-      const on = t >= w.start - 0.02 && t < (w.end ?? w.start + 0.3) + 0.05, pop = on ? 1.08 : 1;
-      ctx.save(); ctx.translate(x + w.wd / 2, y0 + li * 84); ctx.scale(pop, pop);
-      ctx.lineWidth = 14; ctx.strokeStyle = '#000'; ctx.lineJoin = 'round'; ctx.strokeText(w.s, -(w.wd - 24) / 2, 0);
-      ctx.fillStyle = on ? '#ffd23f' : '#ffffff'; ctx.fillText(w.s, -(w.wd - 24) / 2, 0);
-      ctx.restore(); x += w.wd;
-    }
-  });
-}
+function captions(ctx, W, H, L, t, S) { K.captions(ctx, W, H, L, t, S.tl, { lang: S.props.lang }); }
