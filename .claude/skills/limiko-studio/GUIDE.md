@@ -142,7 +142,9 @@ All paths are relative to `.claude/skills/limiko-studio/` unless they start from
 - **Run** (venv-vision): `thumbnail.py make --video raw.mp4 --t SEC --title "LINE1|LINE2" [--tag …] [--lang te] [--style sticker] [--grade leak]`. Use `variants --titles "A|B;C|D"` for A/B tests.
 
 ## M · Title, description, tags
-- **Read:** `shared/packaging.md` and the format's `packaging.md`. Deliver one packaging block: hook, title, thumbnail text, description and tags, in EN or TE as asked.
+- **Read:** `shared/packaging.md` §6 and the format's `packaging.md`.
+- **Run:** fill `films/<slug>/package.json`, then `python3 scripts/package.py build <slug>` (`make.py final` does this too). It writes `out/package.<lang>.md`.
+- **Format:** YouTube title ≤ 100 (sentence ≤ 60 + tags ≤ 40), description ≤ 5000 (text ≤ 2000 + tags ≤ 2500), tags field ≤ 500 (all tags), Instagram caption ≤ 2200 (title + description + tags). Every box is counted, and anything over a limit blocks the build.
 
 ## N · Copy a trend
 - **Read:** `shared/remake-a-trend.md`.

@@ -74,6 +74,10 @@ voice recipe, picture + sound rules), `frames/shortkit.js` (captions, labels, cu
 Kokoro am_fenrir reference clip, emotion 0.65, cfg 0.5 (8/8 measures, 95% clarity). Example film: `films/ant-nest-rain/`
 (v2: rain defences, then raft). The user's reference audio (an ElevenLabs export) is NOT in the repo; only its numbers.
 
+Packaging after every video (user's format): `scripts/package.py` (from `films/<slug>/package.json`, built by
+`make.py final`): YouTube title ≤100 (sentence ≤60 + tags ≤40), description ≤5000 (text ≤2000 + tags ≤2500; >15
+hashtags → rest as "Keywords:"), tags field ≤500 (all tags), Instagram caption ≤2200 (title + description + tags, ≤30 hashtags).
+
 ## Setting up a fresh session
 1. `cd .claude/skills/limiko-studio && bash scripts/setup.sh --all` (or `--check` to see what's there). Large downloads; run in the background.
 2. Check access if Telugu fails: `curl -s -o /dev/null -w '%{http_code}\n' -L https://huggingface.co/ai4bharat/indic-parler-tts/resolve/main/config.json` (200 = ok).

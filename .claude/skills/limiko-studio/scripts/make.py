@@ -161,6 +161,7 @@ def cmd_new(a):
     (d / "scene.js").write_text(SCENE_TPL.format(title=title, folder=folder, slug=a.slug, bg0=c0, bg1=c1, accent=acc))
     (d / "film.json").write_text(json.dumps({"slug": a.slug, "title": title, "format": a.format, "langs": langs, "lufs": lufs, "theme": theme,
                                              "created": datetime.date.today().isoformat()}, indent=2) + "\n")
+    subprocess.run([sys.executable, str(HERE / "package.py"), "template", a.slug, "--lang", ",".join(langs)], capture_output=True)
     print(f"✓ {d.relative_to(ROOT)}\n  next: fill plan/brief.md (G1, G2), write voice.{langs[0]}.md (three openings), make.py check {a.slug}")
 
 
@@ -266,6 +267,14 @@ def cmd_final(a):
         print(f"✓ {final.relative_to(ROOT)}")
     report += ["## Before publishing", f"- [ ] the format checklist (`formats/{FORMATS[f['format']][0]}/direction.md`)", "- [ ] packaging block: hook, title, thumbnail, description, tags",
                "- [ ] sources checked (facts) / tradition named (myths)" + (" · kids checklist passed" if f["format"] == "kids" else "")]
+    pk = d / "package.json"
+    if pk.exists():
+        r = subprocess.run([sys.executable, str(HERE / "package.py"), "build", a.slug], capture_output=True, text=True)
+        print(r.stdout.strip())
+        report += ["", "## Packaging", "`out/package.<lang>.md` (YouTube title / hook / descriptions / tags, Instagram caption)" if r.returncode == 0
+                   else "packaging NOT built: fix package.json (" + r.stdout.strip().splitlines()[0] + ")"]
+    else:
+        report += ["", "## Packaging", "fill `package.json` (YouTube + Instagram), then `scripts/package.py build " + a.slug + "`"]
     (d / "out" / "report.md").write_text("\n".join(report) + "\n")
     print(f"✓ films/{a.slug}/out/report.md")
 

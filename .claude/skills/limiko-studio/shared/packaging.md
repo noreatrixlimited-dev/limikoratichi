@@ -65,16 +65,35 @@ Gaming thumbnails can be made automatically from the footage: `../formats/04-gam
 2. 3–5 variations (plural, synonym, question form).
 3. 3–5 broader topic tags.
 4. 2–3 channel/series tags.
-Stay under 400 characters total. Tags help with misspellings and series grouping; the title and
-description matter more.
+Order them by importance: the tags field keeps the first ones that fit in 500 characters. The title and the
+description matter more than tags; tags help with misspellings and series grouping.
 
-## 6. Output format to give the user
+## 6. Output format to give the user (after every video), built and checked by `scripts/package.py`
+Fill `films/<slug>/package.json` (made by `make.py new`, one block per language), then
+`python3 scripts/package.py build <slug>`, which writes `out/package.<lang>.md`. `make.py final` builds it automatically.
+
+| Box | Total limit | Made of |
+|---|---|---|
+| **YouTube TITLE** | ≤ 100 characters | title **sentence ≤ 60** + title **tags (hashtags) ≤ 40** |
+| **YouTube DESCRIPTION** | ≤ 5000 characters | description **text ≤ 2000** + description **tags ≤ 2500** |
+| **YouTube TAGS field** | ≤ 500 characters | **all tags** (commas count; a tag with spaces counts 2 more) |
+| **INSTAGRAM caption** | ≤ 2200 characters | **title + description + tags** together, ≤ 30 hashtags |
+
+Rules the tool enforces:
+- YouTube ignores **all** hashtags when there are more than 15. The first 15 tags, counting the title's, become
+  #hashtags and the rest go in a plain `Keywords:` line, which still helps search.
+- Description line 1 is the hook: about the first 120 characters show before "…more". On Instagram, about the first 125.
+- Placeholders left in the text, or any box over its limit, block the build.
+- Telugu: write each language's block natively (not translated); characters are counted the way the platforms count them.
+
+What the user receives:
 ```
-HOOK (on screen): …
-HOOK (voice): …
-TITLE: …            (alt: …)
-THUMBNAIL TEXT: …
-DESCRIPTION: …
-TAGS: a, b, c, …
-HASHTAGS: #a #b #c
+YouTube
+  TITLE        <sentence> <#tag #tag #tag>                          (n / 100 · sentence n / 60 · tags n / 40)
+  DESCRIPTION  <hook line> … <sources, credits> … <#hashtags> Keywords: …   (n / 5000 · text n / 2000 · tags n / 2500)
+  TAGS         tag, tag, tag, …                                     (n / 500)
+Instagram
+  CAPTION      <title line> <description> <#hashtags>               (n / 2200 · hashtags n / 30)
 ```
+Also give the thumbnail text (0–4 words, `scripts/thumbnail.py`) and the on-screen hook. Example:
+`films/ant-nest-rain/out/package.en.md`.

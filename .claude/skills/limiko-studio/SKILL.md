@@ -88,8 +88,9 @@ unlicensed models, and add anything adopted to REFERENCES.txt.
 storyboard order, checking `plan/continuity.md` before each → mix to the format's loudness →
 run the format's checklist and `scripts/analyze.py` on the render (pacing vs the profile) → package.
 
-Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the packaging block
-(hook, title, thumbnail text, description, tags).
+Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the **packaging block** (`scripts/package.py`):
+YouTube title ≤ 100 (sentence ≤ 60 + tags ≤ 40), description ≤ 5000 (text ≤ 2000 + tags ≤ 2500), tags field ≤ 500 (all tags),
+Instagram caption ≤ 2200 (title + description + tags), plus thumbnail text (`shared/packaging.md` §6).
 
 ## Rules
 - **First 10 seconds = curiosity.** Every script opens with the O-10 format (strike → gap → stakes → promise + open
