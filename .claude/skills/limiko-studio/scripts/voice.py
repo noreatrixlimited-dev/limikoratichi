@@ -29,6 +29,8 @@ Engines:
     parler   AI4Bharat Indic Parler-TTS (Apache-2.0): native Telugu (and English), runs locally on CPU (slow) or GPU.
              voice = speaker name (Telugu: Lalitha, Prakash, Kiran …); style= tone words. Needs HF_TOKEN with the
              model's terms accepted, and scripts/voice-setup.sh --telugu once.
+    indicf5  AI4Bharat IndicF5 (MIT): Telugu in the voice of a reference clip. ref=clip.wav (+ clip.txt transcript,
+             or reftext="…"). Only voices you have the right to use. Needs HF_TOKEN + voice-setup.sh --telugu.
     espeak   espeak-ng, robotic. Timing drafts and animatics only, never for publishing.
     recorded Lines from files (`file=` per line): human voice artists, the user's own voice.
 """
@@ -49,6 +51,7 @@ except ImportError:
 SR = 24000
 
 TELUGU_VOICES = {
+    "indicf5": ["any voice from a 5–12 s reference clip you have rights to (ref=clip.wav, transcript in clip.txt)"],
     "parler": ["Lalitha (female, recommended)", "Prakash (male, recommended)", "Kiran (male)", "+ style=warm|calm|expressive|deep|cheerful"],
     "google": ["te-IN-Standard-A (female)", "te-IN-Standard-B (male)", "te-IN-Chirp3-HD-* (if enabled in your project)"],
     "azure": ["te-IN-ShrutiNeural (female)", "te-IN-MohanNeural (male)"],
@@ -247,6 +250,37 @@ def parler_prefetch(jobs, work):
         _parler_cache[j["key"]] = resample(a, sr)
 
 
+_f5_cache = {}
+
+
+def indicf5_prefetch(jobs, work):
+    if not jobs:
+        return
+    if not VENV_TE.exists():
+        sys.exit("indicf5 engine not installed: run scripts/voice-setup.sh --telugu")
+    if not (os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")):
+        sys.exit("indicf5 engine: set HF_TOKEN (account must accept ai4bharat/IndicF5 terms)")
+    work.mkdir(parents=True, exist_ok=True)
+    jf = work / "jobs.json"
+    jf.write_text(json.dumps([{k: v for k, v in j.items() if k != "key"} for j in jobs], ensure_ascii=False), encoding="utf-8")
+    subprocess.run([str(VENV_TE), str(Path(__file__).with_name("voice_indicf5.py")), str(jf), str(work)], check=True)
+    for j in jobs:
+        a, sr = sf.read(work / f"{j['id']}.wav", dtype="float32")
+        _f5_cache[j["key"]] = resample(a, sr)
+
+
+def ref_for(script_dir, ref, reftext):
+    rp = (Path(script_dir) / ref).resolve()
+    if not rp.exists():
+        sys.exit(f"indicf5: reference clip not found: {rp}")
+    if not reftext:
+        tp = rp.with_suffix(".txt")
+        if not tp.exists():
+            sys.exit(f"indicf5: give reftext=\"…\" or put the clip's transcript in {tp.name}")
+        reftext = tp.read_text(encoding="utf-8").strip()
+    return str(rp), reftext
+
+
 def eng_parler(text, voice, speed, lang, style=None):
     key = (text, voice, float(speed), style)
     if key not in _parler_cache:
@@ -321,6 +355,24 @@ def render(script, out_dir):
                     jid = hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12]
                     jobs.append({"id": jid, "key": key, "text": sg["spoken"], "description": parler_description(voice, speed, style, lang)})
     parler_prefetch([{k: v for k, v in j.items()} for j in jobs], out / ".parler-cache")
+    f5jobs, f5seen = [], set()
+    for L in lines:
+        cast = meta["cast"].get(L["who"], {})
+        if L["opts"].get("engine", cast.get("engine", meta["engine"])) != "indicf5" or "file" in L["opts"]:
+            continue
+        ref = L["opts"].get("ref", cast.get("ref", meta.get("ref")))
+        if not ref:
+            sys.exit(f"line {L['n']}: indicf5 needs ref=clip.wav (a reference voice you have rights to)")
+        refp, reft = ref_for(Path(script).parent, ref, L["opts"].get("reftext", cast.get("reftext", meta.get("reftext"))))
+        for sg in L["segments"]:
+            if sg.get("spoken"):
+                key = ("f5", sg["spoken"], refp)
+                if key not in f5seen:
+                    f5seen.add(key)
+                    import hashlib
+                    f5jobs.append({"id": hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12], "key": key,
+                                   "text": sg["spoken"], "ref": refp, "ref_text": reft})
+    indicf5_prefetch(f5jobs, out / ".indicf5-cache")
     for li, L in enumerate(lines):
         cast = meta["cast"].get(L["who"], {})
         engine = L["opts"].get("engine", cast.get("engine", meta["engine"]))
@@ -343,11 +395,15 @@ def render(script, out_dir):
                     for c in sgm["cues"]:
                         timeline["cues"][c["name"]] = round(t, 3)
                     continue
-                if engine not in ENGINES:
+                if engine not in ENGINES and engine != "indicf5":
                     sys.exit(f"line {L['n']}: unknown engine {engine}")
                 if engine == "kokoro" and lang == "te":
                     sys.exit(f"line {L['n']}: kokoro can't speak Telugu; set engine google/azure/recorded (espeak for drafts)")
-                if engine == "parler":
+                if engine == "indicf5":
+                    ref = L["opts"].get("ref", cast.get("ref", meta.get("ref")))
+                    key = ("f5", sgm["spoken"], str((Path(script).parent / ref).resolve()))
+                    a = trim(_f5_cache[key])
+                elif engine == "parler":
                     a = trim(eng_parler(sgm["spoken"], voice, speed, lang, L["opts"].get("style", cast.get("style", meta.get("style")))))
                 else:
                     a = trim(ENGINES[engine](sgm["spoken"], voice, speed, lang))

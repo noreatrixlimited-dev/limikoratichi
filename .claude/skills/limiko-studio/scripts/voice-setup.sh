@@ -45,10 +45,15 @@ if [ "${1:-}" = "--telugu" ]; then
     venv-te/bin/pip -q install torch soundfile
     venv-te/bin/pip -q install "git+https://github.com/huggingface/parler-tts.git"
   fi
+  # IndicF5 (voice from a reference clip): its Python package, from AI4Bharat's GitHub
+  venv-te/bin/python -c "import f5_tts" 2>/dev/null || venv-te/bin/pip -q install "git+https://github.com/ai4bharat/IndicF5.git" || echo "· IndicF5 package failed to install (parler still works)"
   if [ -n "${HF_TOKEN:-}" ]; then
     echo "↓ model ai4bharat/indic-parler-tts (first time ~3.8 GB)"
+    echo "  (needs huggingface.co and *.hf.co allowed in the environment's network access)"
     venv-te/bin/python -c "from huggingface_hub import snapshot_download as s; import os; s('ai4bharat/indic-parler-tts', token=os.environ['HF_TOKEN'])" \
       && echo "✓ native Telugu voice ready (engine: parler)"
+    venv-te/bin/python -c "from huggingface_hub import snapshot_download as s; import os; s('ai4bharat/IndicF5', token=os.environ['HF_TOKEN'])" \
+      && echo "✓ Telugu voice from a reference clip ready (engine: indicf5)"
   else
     echo "· set HF_TOKEN, then run this again to download the model"
   fi

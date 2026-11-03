@@ -13,6 +13,7 @@ Working example in both languages: `../voice-examples/rain.en.md`, `../voice-exa
 | | English | Telugu |
 |---|---|---|
 | **Default** | `kokoro`: local, offline, Apache-2.0; native US (`af_`, `am_`) and UK (`bf_`, `bm_`) voices | `parler`: AI4Bharat Indic Parler-TTS, local, Apache-2.0; speakers **Lalitha** (F), **Prakash** (M), Kiran (M), tone set with `style=` |
+| Channel signature voice | | `indicf5`: AI4Bharat IndicF5, local, MIT; speaks in the voice of a 5–12 s reference clip (`ref=clip.wav` + `clip.txt` transcript) |
 | Best quality | | `recorded` (native voice artist or the user) |
 | Cloud | `google` (en-US / en-GB Neural2, Chirp HD), `azure` (en-US / en-GB Neural) | `google` te-IN (Standard A/B, Chirp HD if enabled), `azure` te-IN-ShrutiNeural (F), te-IN-MohanNeural (M) |
 | Draft only | n/a | `espeak`: robotic, for timing and animatics. **Never publish** |
@@ -33,6 +34,21 @@ Setup notes
 Choosing for Telugu: `parler` is the free, commercial-safe default. For a channel's main narrator, **a native Telugu
 voice artist (or the user) recording the script** still sounds best and builds a recognisable channel voice. Cloud
 voices are the fast option when a project or key is available.
+
+### Telugu setup runbook (do this in order)
+1. On huggingface.co, signed in: accept the terms of **ai4bharat/indic-parler-tts** and **ai4bharat/IndicF5** (automatic).
+2. Environment settings → Network access → Allowed domains: **`huggingface.co`** and **`*.hf.co`** (model files are served
+   from `*.hf.co`, e.g. `us.aws.cdn.hf.co`, `cas-bridge.xethub.hf.co`). Keep "Allow package managers" ticked.
+3. Environment settings → Network secrets (or environment variables): **`HF_TOKEN`** = a read token. Never paste it in chat.
+4. Start a **new session** (settings apply to new sessions), then:
+   `bash .claude/skills/limiko-studio/scripts/voice-setup.sh && bash .claude/skills/limiko-studio/scripts/voice-setup.sh --telugu`
+   (≈ 3 GB runtime + ≈ 5 GB models; takes a while on first run).
+5. Test: `python3 scripts/voice.py render voice-examples/rain.te.md --out voice-examples/out/rain-te`, listen, then
+   render `frames/examples/rain-te.js`.
+
+Making a signature voice with `indicf5`: pick the voice (your own recording, a consenting artist, or a Parler line you
+like), cut a clean 5–12 s clip, save it as `films/_voices/<name>.wav` with its exact Telugu transcript in
+`films/_voices/<name>.txt`, then use `ref=../_voices/<name>.wav` (path relative to the script) in `cast` lines.
 
 ## 2. Casting
 

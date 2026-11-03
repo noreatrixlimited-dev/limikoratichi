@@ -194,7 +194,12 @@ Used by scripts/voice.py and scripts/voice-setup.sh. See shared/voiceover.md.
 [V-kokoro-js] hexgrad/kokoro | voice | Apache-2.0 | yes | assets | npm kokoro-js: ships the 54 voice style files (converted to voices.npz)
 [V-indicparler] huggingface/parler-tts | voice | Apache-2.0 code; model card ai4bharat/indic-parler-tts | check | model | open Telugu (and English) TTS with voice description prompts; needs Hugging Face access + GPU/Colab
      use: render Telugu lines on a machine with access, then feed the files to voice.py with file=
+[V-indicf5] AI4Bharat/IndicF5 | voice | MIT (model card ai4bharat/IndicF5, gated: accept terms) | yes | model | Telugu speech in the voice of a reference clip; signature channel voices (consent required)
+     install: voice-setup.sh --telugu (pip git+https://github.com/ai4bharat/IndicF5.git + model download with HF_TOKEN)
 [V-indictts] AI4Bharat/Indic-TTS | voice | MIT code; check model licence | check | model | FastPitch + HiFi-GAN voices for Indian languages incl. Telugu
+Checked and NOT for this channel: facebook/mms-tts-tel (Telugu, CC-BY-NC-4.0, non-commercial),
+     facebook/mms-tts-kff-script_telugu (Koya language in Telugu script, CC-BY-NC-4.0),
+     anuragshas/wav2vec2-large-xlsr-53-telugu (Apache-2.0, speech RECOGNITION not TTS; WER 45%: alignment use only)
 [V-espeak] espeak-ng/espeak-ng | voice | GPL-3.0 (output unrestricted) | yes | tool | robotic Telugu/English: drafts and animatics only, never published
 [V-noto-te] notofonts/telugu | font | OFL-1.1 | yes | assets | Noto Sans / Serif Telugu for captions (bundled in frames/fonts via @fontsource)
 
