@@ -283,7 +283,7 @@ Measured by analyze.py. Lines marked ✍️ are filled by looking at shots.jpg a
 - ✍️ loop / rewatch trick (ending flows into the start?):
 
 ## Rebuild plan (our content, same grammar)
-- ✍️ style id from styles/README.md (or "real footage"):
+- ✍️ style id from the category's styles.md (or "real footage"):
 - ✍️ shot list with the same lengths as the shot_list in analysis.json:
 - ✍️ what we keep: pacing, caption treatment, transition types, sound-effect pattern
 - ✍️ what we never take: their footage, music, voice, exact words, logos

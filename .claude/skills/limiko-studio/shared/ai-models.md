@@ -20,7 +20,7 @@ These need a GPU (12–24 GB VRAM) or a hosted runner; they don't run in this co
 2. One prompt per shot: subject · action · setting · camera (lens, move) · light · style · duration.
 3. Generate 3–4 takes per shot at low res, pick, then upscale the winner.
 4. Generated clips are 3–6 s: plan the edit as many short shots, not one long take.
-5. Add voice, music and captions in the edit (`guides/editing.md`); generated audio is rarely usable.
+5. Add voice, music and captions in the edit (`editing.md`); generated audio is rarely usable.
 6. Keep the prompt, seed and model version in `films/<slug>/prompts.md` for re-renders.
 
 ## Rules

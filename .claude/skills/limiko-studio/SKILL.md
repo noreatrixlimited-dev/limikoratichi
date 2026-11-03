@@ -1,105 +1,87 @@
 ---
 name: limiko-studio
-description: One studio for every video job on the facts, kids, gaming, music and cinematic channels. Picks the right workflow (code-drawn film, AI-generated clip, edit of real footage, 3D scene, lyric video), the right look from the style library, the right voice/music/sound route, free commercial assets, and writes the hook, title, description and tags. Use for any request to make, edit, style, voice, score, package or plan a video, Short or Reel, or to find a tool, model or asset for one.
+description: Video studio for four channel categories — 1 Kids videos, 2 Games editing, 3 Facts and interesting things, 4 History and mythology. For any request to make, edit, style, voice, score or package a video, Short or Reel in one of these categories; to copy how a trending video is edited; to write hooks, titles, descriptions and tags; or to find a tool, model or free commercial asset for one.
 ---
 
 # Limiko Studio
 
-A router and production guide. It does not hold other people's code: it decides
-**what to make, how, and with which engine**, then loads only the engine that job
-needs. Engine ids (like `E-film`) are explained, with links and licences, in
-`REFERENCES.txt` next to this file. That file is the only place sources are listed.
+Four categories, one shared toolbox. Engine ids (like `E-film`, `A-kokoro`) are explained, with links,
+licences and install steps, in `REFERENCES.txt`. That notepad is the only place outside sources are listed.
 
-## 0. Before anything
+## Step 1 · Pick the category
 
-1. Read the request. If the channel, length, orientation or language is missing and
-   it changes the result, ask once, with a recommended default:
-   - length 30–60 s · vertical 1080×1920 for Shorts/Reels, 1920×1080 for long-form
-   - English, warm neutral narrator
-2. Pick the **playbook** for the channel (section 2). It names the route, styles,
-   sound and packaging.
-3. Load engines **only when needed**: `python3 .claude/skills/limiko-studio/scripts/studio.py fetch <id>`.
-   Never fetch everything "just in case": each clone costs disk and time.
+| # | Category | Folder | Typical requests |
+|---|---|---|---|
+| 1 | **Kids videos** | `categories/1-kids/` | bedtime story, rhyme or song, learn colours / numbers / ABC, animal video, moral story |
+| 2 | **Games editing** | `categories/2-games/` | edit my gameplay, montage, funny moments, clutch Short, tier list, game lore |
+| 3 | **Facts / interesting things** | `categories/3-facts/` | "did you know", N facts, what if, how it works, myth vs fact, size comparison |
+| 4 | **History / mythology** | `categories/4-history-mythology/` | epic retelling, god or hero story, empire, battle, ancient mystery, biography |
 
-## 1. Choose the route
+If a request fits two, pick the one the audience belongs to (a myth for toddlers is **Kids**;
+a historical fact Short is **History**). If it fits none, ask which channel it's for.
 
-| The request is… | Route | Start with |
-|---|---|---|
-| An explainer, story, kids tale, fact video, with no footage | **A · Code-drawn film**: every frame rendered from HTML/canvas/WebGL | `styles/` + `E-film` or `E-html` |
-| "Make it look real / cinematic shot of…" | **B · AI-generated clip**: diffusion video model | `guides/ai-models.md` |
-| The user has footage, a recording, a vlog | **C · Edit**: cut, caption, reframe, mix | `guides/editing.md` |
-| A song (e.g. a Suno track) needs a video | **D · Lyric / music video**: beat-synced, Route A look | `playbooks/music-video.md` |
-| A 3D character, object or world | **E · 3D**: Blender or Three.js, or image-to-3D models | `guides/3d.md` |
-| Only the title, hook, tags or thumbnail | **F · Packaging** | `guides/packaging.md` |
-| Find free art, models, music, sound | **G · Assets** | `guides/assets.md` |
-| "Make it like this trending video" / "edit in the same style" | **H · Remake a trend**: measure its edit, rebuild with our content | `guides/remake-a-trend.md` + `scripts/analyze.py` |
+Then open the category's `README.md` (playbook). It points to its `styles.md` and `packaging.md`
+(and `edits.md` for games, `storytelling.md` for history and mythology).
 
-Prefer Route A whenever it can do the job: it needs no GPU, it's fully
-editable, and every pixel is ours to license.
+## Step 2 · Fill the brief (ask once if missing, offering the category defaults)
+```
+category · topic · format (Short / long) · length · size · language · style id · voice · deadline
+```
+Save as `films/<slug>/brief.md`.
 
-## 2. Playbooks
+## Step 3 · Make it, with the shared toolbox
 
-| Channel | File |
+| Need | File |
 |---|---|
-| Facts / explainers | `playbooks/facts.md` |
-| Kids | `playbooks/kids.md` |
-| Gaming | `playbooks/gaming.md` |
-| Music / lyric videos | `playbooks/music-video.md` |
-| Cinematic shorts | `playbooks/cinematic.md` |
+| Code-drawn animation: `renderFrame(t)`, render loop, encode, mix, effect toolbox | `shared/building.md` |
+| Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |
+| **Copy a trending video's editing style** with our own content | `shared/remake-a-trend.md` + `scripts/analyze.py` |
+| Hooks, titles, thumbnail text, descriptions, tags (general method) | `shared/packaging.md` |
+| Lyric or song videos (kids songs, the user's own tracks) | `shared/music-video.md` |
+| AI-generated photoreal clips | `shared/ai-models.md` |
+| 3D characters, worlds, Blender | `shared/3d.md` |
+| Free commercial assets and credits | `shared/assets.md` |
 
-## 3. The production loop (Routes A and D)
+### Production loop (all categories)
+1. **Brief** → 2. **Research** (facts and history: sources; myths: named texts) →
+3. **Script** (hook in the first 2 s; ~2.5 words per second) → 4. **Shot list** (`shots.json`) →
+5. **Voice first**, time shots to it → 6. **Style frame**: render one still, check it →
+7. **Build and render** → 8. **Mix** (category loudness) → 9. **Check**: the category's checklist,
+plus `scripts/analyze.py` on the render → 10. **Package**: the category's `packaging.md`.
 
-1. **Brief** (5 lines): audience, single takeaway, length, orientation, style id.
-2. **Script**: hook (first 2 s) → 3–5 beats → payoff → soft CTA. ~2.5 words per second of narration.
-3. **Shot list**: one line per shot: time, picture, motion, sound. Shots 1.5–4 s for Shorts.
-4. **Voice first**: render narration, then time every shot to the voice, not the other way round.
-5. **Style frame**: render one still in the chosen style, check it, then build the rest.
-6. **Build**: frame-by-frame render at the target fps (24 film, 30 social), then encode with ffmpeg
-   (H.264, yuv420p, AAC 192k, `-movflags +faststart`).
-7. **Mix**: music −18 to −22 LUFS under voice, ducked; final −14 LUFS integrated for YouTube.
-8. **Self-check**: watch the first 3 s cold. Is the hook visible with the sound off? Captions safe
-   from the UI (keep 15% clear at the bottom, 10% at the sides on vertical)?
-9. **Package**: `guides/packaging.md`.
+Deliver: `films/<slug>/out/film.mp4`, the vertical cut if asked, and the packaging block
+(hook, title, thumbnail text, description, tags).
 
-## 4. Rules
+## Rules
+- **Licences.** Engines and assets rated `yes` in REFERENCES.txt are fine for paid channels;
+  `check` means read the licence first; `no` means tests only. Music must be our own or properly licensed.
+- **Copy grammar, never material.** From trending videos take pacing, structure, caption style and
+  effects, never their footage, music, voice, words or characters.
+- **Truth.** Facts and history need sources; myths are told as stories from a named tradition, respectfully.
+- **Kids safety.** The kids checklist must pass before anything is published.
+- **Third-party code is untrusted.** After `fetch`, read a repo's skill or setup script before running or enabling it.
+- **No engine branding in our videos.** Credits only where a licence requires them (REFERENCES.txt, "Credit needed").
+- **Work goes in** `films/<slug>/`; reference videos in `films/_refs/` (git-ignored); characters in `films/_characters/`.
 
-- **Licences.** Use only engines and assets rated `yes` in REFERENCES.txt for paid work without
-  checking. `check` means read the licence first; `no` means personal or test use only.
-  Never ship a voice that imitates a real person without their consent.
-- **Third-party code is untrusted.** After `fetch`, read a repo's skill or setup script
-  before running it or enabling it. `enable` only after reading.
-- **No mark of the engines in the output.** Films, titles and descriptions are the channel's own.
-  Credits are kept where a licence requires them (see REFERENCES.txt, "Credit needed").
-- **Keep work in** `films/<slug>/` (source, renders, `brief.md`, `credits.txt`).
-
-## 5. Files
-
+## Tools
 ```
-SKILL.md                 this router
-REFERENCES.txt           notepad: every source repo, link, licence, install (the only place sources appear)
-styles/README.md         47 code-drawn styles by channel
-styles/building.md       renderFrame(t) technique, render loop, encode, mix, effect toolbox
-playbooks/               facts · kids · gaming · music-video · cinematic
-guides/remake-a-trend.md analyse a trending video's edit and rebuild it with our content
-guides/packaging.md      hooks, titles, thumbnail text, description, tags
-guides/editing.md        real footage: cut, reframe, caption, mix, export
-guides/ai-models.md      AI video models: which, how, rules
-guides/3d.md             Three.js / Blender / image-to-3D / rigging
-guides/assets.md         free commercial assets and credits
-scripts/analyze.py       measure a video's edit → analysis.json, shots.jpg, hook.jpg, recipe.md
-scripts/studio.py        catalog browser and on-demand loader
+python3 .claude/skills/limiko-studio/scripts/analyze.py <video>    # measure an edit (reference or our render)
+python3 .claude/skills/limiko-studio/scripts/studio.py list [category]
+python3 .claude/skills/limiko-studio/scripts/studio.py search <words>
+python3 .claude/skills/limiko-studio/scripts/studio.py show <id>
+python3 .claude/skills/limiko-studio/scripts/studio.py fetch <id…>  # clone into vendor/ only when a job needs it
+python3 .claude/skills/limiko-studio/scripts/studio.py enable <id>  # link its skills (after reading them)
+python3 .claude/skills/limiko-studio/scripts/studio.py status
 ```
+`analyze.py` needs ffmpeg, numpy and Pillow.
 
-Measure any video (a reference or our own render):
-`python3 .claude/skills/limiko-studio/scripts/analyze.py <video>` (needs ffmpeg, numpy, Pillow).
-
-## 6. Loader cheatsheet
-
+## Map
 ```
-studio.py list [category]        # what's in the catalog
-studio.py search kids voice       # rank engines by keywords
-studio.py show E-film             # one entry in full
-studio.py fetch E-film E-voice    # shallow clone into vendor/ (git-ignored)
-studio.py enable E-film           # link its skill folders into .claude/skills/ (after reading them)
-studio.py status                  # what's fetched and enabled
+SKILL.md · REFERENCES.txt
+categories/1-kids/               README · styles · packaging
+categories/2-games/              README · edits · styles · packaging
+categories/3-facts/              README · styles · packaging
+categories/4-history-mythology/  README · storytelling · styles · packaging
+shared/                          building · editing · remake-a-trend · packaging · music-video · ai-models · 3d · assets
+scripts/                         analyze.py · studio.py
 ```

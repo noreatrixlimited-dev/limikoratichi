@@ -12,6 +12,7 @@ commercial | kind | use'). Clones go to vendor/<id>/ at the repo root (git-ignor
     studio.py enable <id>          # link its skill folders into .claude/skills/x-<id>-<name>
     studio.py disable <id>
     studio.py status
+    studio.py for <kids|games|facts|history>   # engines a category recommends
 """
 import os, re, signal, subprocess, sys
 
@@ -187,8 +188,27 @@ def cmd_status(cat, args):
         print(f"vendor size: {size}")
 
 
-CMDS = dict(list=cmd_list, search=cmd_search, show=cmd_show, fetch=cmd_fetch, skills=cmd_skills,
+CATS = {"1": "1-kids", "kids": "1-kids", "2": "2-games", "games": "2-games", "gaming": "2-games",
+        "3": "3-facts", "facts": "3-facts", "4": "4-history-mythology", "history": "4-history-mythology",
+        "mythology": "4-history-mythology", "myth": "4-history-mythology"}
+
+
+def cmd_for(cat, args):
+    key = (args[0].lower() if args else "")
+    if key not in CATS:
+        sys.exit("for <kids|games|facts|history>")
+    folder = SKILL / "categories" / CATS[key]
+    text = " ".join(f.read_text() for f in folder.glob("*.md"))
+    ids = sorted(set(re.findall(r"`([A-Z]-[\w-]+)`", text)) & set(cat))
+    print(f"{CATS[key]}: {len(ids)} recommended engine(s)\n")
+    for i in ids:
+        print(row(cat[i]))
+
+
+CMDS = dict(for_=cmd_for, list=cmd_list, search=cmd_search, show=cmd_show, fetch=cmd_fetch, skills=cmd_skills,
             enable=cmd_enable, disable=cmd_disable, status=cmd_status)
+
+CMDS["for"] = CMDS.pop("for_")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] not in CMDS:

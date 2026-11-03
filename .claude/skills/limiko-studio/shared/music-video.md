@@ -1,12 +1,12 @@
 # Music and lyric video playbook (Route D)
 
-For our own songs (for example Suno tracks made under a plan that grants commercial rights).
+For kids songs and rhymes (category 1) and the user's own tracks. Styles: `kinetic-type` (facts), `ink-river` / `wave-print` / `stained-window` (history and mythology), any kids style.
 
 | Setting | Default |
 |---|---|
 | Length | full song; a 15–30 s hook clip for Shorts |
 | Size | 1920×1080 full · 1080×1920 hook clip |
-| Styles | `kinetic-swiss` (hype, rap, EDM), `anime-cel-80s` (love, nostalgia), `ink-river`, `wave-print`, `stained-window`, `one-stroke`, `riso-zine`, `deco-gold` |
+| Styles | kids: any `categories/1-kids/styles.md` style · hype: `kinetic-type`, `neon-arcade`, `anime-impact` · epic or devotional: `ink-river`, `wave-print`, `stained-window`, `kalamkari-scroll`, `temple-relief` |
 
 ## Procedure
 1. **Inputs**: the final audio and the lyrics as text.

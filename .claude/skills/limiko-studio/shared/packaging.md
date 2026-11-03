@@ -1,6 +1,6 @@
 # Packaging: hook, title, thumbnail, description, tags
 
-Write packaging **before** the edit is final. The hook decides the first shot.
+Write packaging **before** the edit is final. Each category has its own `packaging.md` with hooks, title shapes and tag sets; this page is the shared method. The hook decides the first shot.
 The account skills `yt-package`, `yt-seo` and `yt-shorts` can lint the result; this guide is the method.
 
 ## 1. Hook (first 1–2 seconds)
@@ -55,7 +55,7 @@ Rules: one idea, under 10 words on screen, no logo or intro before it, motion in
 #<maintag> #<secondtag> #<shorts if Short>
 ```
 - First 150 characters show in search: make them count.
-- Kids channel: mark "Made for kids" in YouTube Studio; no external links to non-kid pages.
+- Category pages add specific patterns: `../categories/<n>/packaging.md`.
 
 ## 5. Tags
 1. 1 exact main phrase (what someone types).

@@ -70,15 +70,15 @@ Why it works: <one or two lines>
 
 ## Step 5 · Rebuild with our content
 
-1. Pick our topic and channel playbook (`playbooks/`).
+1. Pick our topic and category playbook (`../categories/<n>/README.md`).
 2. Pick the look:
-   - The trend is real footage → use our own footage or AI clips (`guides/ai-models.md`) and edit with `guides/editing.md`.
-   - The trend is animated or graphic → closest style in `styles/README.md`.
+   - The trend is real footage → use our own footage or AI clips (`ai-models.md`) and edit with `editing.md`.
+   - The trend is animated or graphic → closest style in the category's `styles.md`.
 3. Write our script on the trend card's structure: same beat count, same timings ±10%.
 4. Make the shot list using the **reference shot lengths** from `analysis.json` (`shot_list[].len`),
    stretched or trimmed to our voice track.
 5. Apply the caption spec, motion pattern, transition set and sound-effect pattern from the card.
-6. Build with `styles/building.md` (code-drawn) or the editing guide (footage).
+6. Build with `building.md` (code-drawn) or the editing guide (footage).
 7. Run `analyze.py` on **our** render and compare with the reference:
 
 | Check | Target |
@@ -94,5 +94,5 @@ Fix the biggest gap, re-render once, and report the comparison table to the user
 
 ## Step 6 · Package
 
-Use `guides/packaging.md`: the hook line, title, thumbnail text and tags follow the trend's
+Use `packaging.md`: and the category's `packaging.md`: the hook line, title, thumbnail text and tags follow the trend's
 *pattern* in our own words.
