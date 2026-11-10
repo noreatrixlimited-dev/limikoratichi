@@ -19,7 +19,6 @@ gap: 0.35
 [narrator] {cue mango}అత్యధిక మామిడి పండ్ల ఉత్పత్తి!
 [narrator] {cue ginger}అత్యధిక అల్లం ఉత్పత్తి!
 [narrator] {cue turmeric}అత్యధిక పసుపు ఉత్పత్తి!
-[narrator] {cue coconut}అత్యధిక కొబ్బరికాయల ఉత్పత్తి!
 [narrator] {cue spices}అత్యధిక మసాలా దినుసుల ఉత్పత్తి!
 [narrator] {cue diamond}ప్రపంచంలోనే అతిపెద్ద డైమండ్ కటింగ్ అండ్ పాలిషింగ్ పరిశ్రమ!
 [narrator] {cue bikes}ప్రపంచంలోనే అతిపెద్ద టూ వీలర్ మార్కెట్లలో ఒకటి!
