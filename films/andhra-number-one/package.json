@@ -1,0 +1,27 @@
+{
+  "te": {
+    "youtube": {
+      "title_sentence": "<≤60: the curiosity sentence, main search phrase first>",
+      "title_tags": [
+        "#<main>",
+        "#<second>"
+      ],
+      "description_text": "<≤2000: line 1 = the hook (shows before …more); then what they'll learn; sources; credits>",
+      "description_tags": [
+        "<most important tag first>",
+        "<…up to 2500 characters>"
+      ],
+      "tags": [
+        "<all tags for the YouTube Studio tags field, most important first; ≤500 total>"
+      ]
+    },
+    "instagram": {
+      "title": "<first line, ≤125 shows before more>",
+      "description": "<caption body>",
+      "tags": [
+        "#<tag>",
+        "#<…up to 30>"
+      ]
+    }
+  }
+}
