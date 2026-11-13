@@ -49,3 +49,16 @@ victims treated with respect, no gore.
 - [ ] Every reveal prepared by sound or a partial view first
 - [ ] Real cases: sources listed, speculation labelled, respectful
 - [ ] Not too dark to read on a phone (check lifted shadows at 10–15% brightness)
+
+## Horror narration and sound (`scripts/horrormix.py`)
+- **Voice:** Telugu `parler` Prakash with `style: "low, slow, suspenseful and mysterious"`, `speed: 0.9`, `gap: 0.55`,
+  and `{pause 1.2}` before each section. Use a calm, sincere cast for closing messages and helplines (`style: "calm, warm and sincere"`).
+  English: `chatterbox` with `emotion: 0.4`, `cfg: 0.35` (slow, low).
+- **Cues in the script** decide where the effects go: `{cue sNN}` section swell · `{cue hitN}` low impact on a reveal ·
+  `{cue beatN}` … `{cue beatendN}` heartbeat under the tension · `{cue creakN}` door creak · `{cue calmN}` all effects fade out.
+- **Mix:** `python3 scripts/horrormix.py out/voice-te --out out/film.horror.m4a --lufs -16 [--level 0.8]`. It synthesises
+  everything (drone, wind, swells, hits, heartbeat, creak, so there are no licence issues), adds a light room echo to the
+  voice, ducks the bed under speech, and normalises the loudness.
+- **Real tragedies:** keep `--level` at 0.7–1.0, never mock the victims, label rumours as rumours, and end calm with help
+  information where relevant. Make a **normal version** too (`style: "calm, clear and serious"`, no effects) for
+  viewers and platforms that prefer documentary tone. Example: `films/kundanbagh-house/`.
