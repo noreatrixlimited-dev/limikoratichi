@@ -62,3 +62,15 @@ Beat sheet (5–8 beats) with, per beat: date or text reference, location sheet,
 - [ ] Respect rules in `storytelling.md` passed
 
 Video types, styles and packaging: `README.md`, `styles.md`, `packaging.md`, `storytelling.md`.
+
+## Devotional / temple narration and music (`scripts/devotionalmix.py`)
+For temple stories, festivals and bhakti narration.
+- **Voice:** a warm, calm, reverent and devotional style, speed about 0.93, gap 0.5, and `{pause 1.0}{cue sNN}` at each section start. Telugu uses parler (Prakash or Lalitha).
+- **Music:** everything is synthesised by the script, with no samples, so it is free for commercial use. It has these layers:
+  - a tanpura (Pa · Sa' · Sa' · Sa with jawari buzz) and a quiet Sa–Pa pad, which duck under speech
+  - a deep temple bell in the pause before each `sNN` section
+  - a pooja hand-bell on `{cue bell…}` and after any line that mentions గంట
+  - a short bansuri phrase (S R g P D) before the first word and after the last line, followed by three closing bell strikes
+- **Command:** `devotionalmix.py out/voice --out out/<slug>.te.m4a --lufs -16 [--level 0.8–1.3] [--sa 138.6 male / 155.6 female] [--no-flute]`
+- The voice starts 7 s into the mix, so shift picture cues by that amount (the script prints the offset).
+- **Taste:** the music supports the prayer and never covers words. Never use real recorded chants or film or devotional songs unless the licence is checked and listed in REFERENCES.txt.

@@ -65,6 +65,7 @@ G5 Storyboard → G6 Sample frames → user approval → production
 | **Facts Short, firm-narrator format** (structure, delivery targets, voice recipe, shot and caption kit) | `formats/02-facts-science/shorts.md`, `frames/shortkit.js` |
 | **Match a reference narrator** (pace, pauses, pitch, brightness, clarity; pick and compare voices) | `scripts/voicestyle.py`, `shared/voice-profiles/` |
 | **Horror / mystery narration + sound design** (drone, wind, swells, hits, heartbeat, creak placed by voice cues) | `formats/05-horror-mystery/direction.md`, `scripts/horrormix.py` |
+| **Devotional / temple narration + music** (tanpura drone, pad, temple bells, pooja hand-bell, bansuri phrases; all synthesised, free for commercial use) | `formats/03-history-mythology/direction.md`, `scripts/devotionalmix.py` |
 | Sample frames, style frames, character sheets (2D canvas + 3D three.js) | `frames/README.md` |
 | Characters: spec schema, rig, reference sheets, rules | `shared/characters.md` |
 | Edit real footage: cut, reframe, captions, effects, export | `shared/editing.md` |
