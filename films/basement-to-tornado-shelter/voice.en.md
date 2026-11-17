@@ -14,8 +14,7 @@ gap: 0.34
 [narrator] So your shelter goes underground, with thick concrete walls and a concrete roof.
 [narrator] {cue b03}Next problem: the wind can rip a shelter apart.
 [narrator] So every wall and the roof are tied together with steel bars, and the whole box is anchored into the ground.
-[narrator] {cue b04}Then the door.
-[narrator] If debris piles up on top, a door that opens outward can trap you inside.
+[narrator] {cue b04}Then the door. If debris piles up on top, a door that opens outward can trap you inside.
 # check: So the door opens inward, with heavy steel bolts to keep it shut in the wind.
 [narrator] So the door opens inward, with heavy steel bolts to keep it shut in the wind.
 [narrator] {cue b05}But a sealed room runs out of fresh air.
