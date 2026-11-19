@@ -9,8 +9,7 @@ gap: 0.34
 # 02 Facts · Short · madeit2D · "How a X Becomes Y" batch 2 #6: How the Sea Becomes an Airport · user's script, voiced as written
 # lines after a '# check' comment carry a figure to verify against a source before publishing
 # very short sentences are joined to the next one (the engine can repeat a 2–4 word line on its own)
-[narrator] {cue b01}Your city needs a giant new airport, but there's no flat land left.
-[narrator] Only the sea.
+[narrator] {cue b01}Your city needs a giant new airport, but there's no flat land left. Only the sea.
 [narrator] {cue b02}First problem: so you build an island.
 # check: Ships dump millions of tonnes of rock and soil into the bay, until a brand-new island rises out of the water.
 [narrator] Ships dump millions of tonnes of rock and soil into the bay, until a brand-new island rises out of the water.
